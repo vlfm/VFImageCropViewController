@@ -162,7 +162,6 @@ static CGFloat kToolbarHeight = 49;
     if (self.onImageCropped) {
         CGRect cropRect = [self calculateCropRect];
         UIImage *cropped = [ImageCropViewController cropImage:self.image withRect:cropRect];
-        UIImageWriteToSavedPhotosAlbum(cropped, nil, nil, nil);
         self.onImageCropped(cropped, cropRect);
     }
 }
