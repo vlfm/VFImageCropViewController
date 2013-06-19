@@ -126,7 +126,7 @@ static CGFloat kToolbarHeight = 49;
 {
     [super viewWillAppear:animated];
     
-    float minimumZoomScale = self.scrollView.frame.size.width / self.imageView.frame.size.width;
+    float minimumZoomScale = (self.cropAreaView.frame.size.width) / self.imageView.frame.size.width;
     float maximumZoomScale = 2.0;
     
     self.scrollView.contentSize = self.imageView.frame.size;
@@ -141,8 +141,11 @@ static CGFloat kToolbarHeight = 49;
     
     CGRect cropRect;
     
-	cropRect.origin.x = [self.scrollView contentOffset].x * zoomScale;
-    cropRect.origin.y = [self.scrollView contentOffset].y * zoomScale;
+    CGFloat dx = (self.scrollView.frame.size.width  - self.cropAreaView.frame.size.width) / 2.0;
+    CGFloat dy = (self.scrollView.frame.size.height - self.cropAreaView.frame.size.height) / 2.0;
+    
+	cropRect.origin.x = ([self.scrollView contentOffset].x + dx) * zoomScale;
+    cropRect.origin.y = ([self.scrollView contentOffset].y + dy) * zoomScale;
     
     cropRect.size.width = self.cropAreaView.frame.size.width * zoomScale;
     cropRect.size.height = self.cropAreaView.frame.size.height * zoomScale;
@@ -183,6 +186,18 @@ static CGFloat kToolbarHeight = 49;
 - (UIView *) viewForZoomingInScrollView: (UIScrollView *)scrollView
 {
 	return self.imageView;
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    CGFloat offsetX = (self.cropAreaView.bounds.size.width > scrollView.contentSize.width)?
+    (self.cropAreaView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
+    
+    CGFloat offsetY = (self.cropAreaView.bounds.size.height > scrollView.contentSize.height)?
+    (self.cropAreaView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
+    
+    self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
+                                        scrollView.contentSize.height * 0.5 + offsetY);
 }
 
 @end
