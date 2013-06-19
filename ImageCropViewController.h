@@ -5,6 +5,8 @@ typedef void (^ OnCancelled) ();
 
 @interface ImageCropViewController : UIViewController
 
+@property (nonatomic) CGFloat cropFramePadding;
+
 @property (nonatomic, copy) OnImageCropped onImageCropped;
 @property (nonatomic, copy) OnCancelled onCancelled;
 

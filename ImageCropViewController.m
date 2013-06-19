@@ -99,10 +99,10 @@ static CGFloat kToolbarHeight = 49;
         CGFloat areaH = 0;
         
         if (self.widthFactor >= self.heightFactor) {
-            areaW = self.view.frame.size.width;
+            areaW = self.view.frame.size.width - self.cropFramePadding;
             areaH = (areaW / self.widthFactor) * self.heightFactor;
         } else {
-            areaH = self.view.frame.size.height - kToolbarHeight;
+            areaH = self.view.frame.size.height - kToolbarHeight - self.cropFramePadding;
             areaW = (areaH / self.heightFactor) * self.widthFactor;
         }
         
