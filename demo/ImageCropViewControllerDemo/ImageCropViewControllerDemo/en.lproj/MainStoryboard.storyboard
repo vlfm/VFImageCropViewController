@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="fA1-Fz-zpC">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="5">
+            <objects>
+                <viewController id="2" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="IaP-XR-nev">
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="160" id="2Mk-pk-Vpb"/>
+                                    <constraint firstAttribute="height" constant="245" id="O4p-xr-pdf"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eq1-vI-4y4">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Photo album">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="photoAlbumButtonTap:" destination="2" eventType="touchUpInside" id="egx-R4-rFv"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OEL-TS-r3w">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Camera">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cameraButtonTap:" destination="2" eventType="touchUpInside" id="p6l-I5-m4g"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="OEL-TS-r3w" firstAttribute="leading" secondItem="Eq1-vI-4y4" secondAttribute="leading" type="default" id="0tb-Hi-Y8F"/>
+                            <constraint firstItem="Eq1-vI-4y4" firstAttribute="top" secondItem="IaP-XR-nev" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Duc-Ir-huj"/>
+                            <constraint firstItem="Eq1-vI-4y4" firstAttribute="leading" secondItem="IaP-XR-nev" secondAttribute="leading" type="default" id="WEW-4T-gJl"/>
+                            <constraint firstItem="Eq1-vI-4y4" firstAttribute="trailing" secondItem="IaP-XR-nev" secondAttribute="trailing" type="default" id="lvc-Kn-Qbo"/>
+                            <constraint firstItem="OEL-TS-r3w" firstAttribute="top" secondItem="Eq1-vI-4y4" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="mpf-KZ-dI2"/>
+                            <constraint firstItem="IaP-XR-nev" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="op1-cG-CmO"/>
+                            <constraint firstItem="Eq1-vI-4y4" firstAttribute="trailing" secondItem="OEL-TS-r3w" secondAttribute="trailing" type="default" id="w8Y-OW-pqQ"/>
+                            <constraint firstItem="IaP-XR-nev" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="xUz-6l-IcC"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="pCD-2U-Wb7"/>
+                    <connections>
+                        <outlet property="imageView" destination="IaP-XR-nev" id="abn-tB-JFF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="647" y="158"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kI6-xh-izl">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="fA1-Fz-zpC" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dEr-wD-YHF">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="2" kind="relationship" relationship="rootViewController" id="RVC-gh-UCF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y4i-hq-sw8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="181" y="158"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

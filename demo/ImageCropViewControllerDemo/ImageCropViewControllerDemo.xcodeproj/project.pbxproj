@@ -1,0 +1,324 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		76FC678617AA55E3000160AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678517AA55E3000160AE /* UIKit.framework */; };
+		76FC678817AA55E3000160AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678717AA55E3000160AE /* Foundation.framework */; };
+		76FC678A17AA55E3000160AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678917AA55E3000160AE /* CoreGraphics.framework */; };
+		76FC679017AA55E3000160AE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76FC678E17AA55E3000160AE /* InfoPlist.strings */; };
+		76FC679217AA55E3000160AE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC679117AA55E3000160AE /* main.m */; };
+		76FC679617AA55E3000160AE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC679517AA55E3000160AE /* AppDelegate.m */; };
+		76FC679817AA55E3000160AE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 76FC679717AA55E3000160AE /* Default.png */; };
+		76FC679A17AA55E3000160AE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 76FC679917AA55E3000160AE /* Default@2x.png */; };
+		76FC679C17AA55E3000160AE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 76FC679B17AA55E3000160AE /* Default-568h@2x.png */; };
+		76FC679F17AA55E3000160AE /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76FC679D17AA55E3000160AE /* MainStoryboard.storyboard */; };
+		76FC67A217AA55E3000160AE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC67A117AA55E3000160AE /* ViewController.m */; };
+		76FC67AB17AA56D2000160AE /* ImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC67AA17AA56D2000160AE /* ImageCropViewController.m */; };
+		76FC67AD17AA5E34000160AE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC67AC17AA5E34000160AE /* MobileCoreServices.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		76FC678217AA55E3000160AE /* ImageCropViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageCropViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		76FC678517AA55E3000160AE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		76FC678717AA55E3000160AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		76FC678917AA55E3000160AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		76FC678D17AA55E3000160AE /* ImageCropViewControllerDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ImageCropViewControllerDemo-Info.plist"; sourceTree = "<group>"; };
+		76FC678F17AA55E3000160AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		76FC679117AA55E3000160AE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		76FC679317AA55E3000160AE /* ImageCropViewControllerDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageCropViewControllerDemo-Prefix.pch"; sourceTree = "<group>"; };
+		76FC679417AA55E3000160AE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		76FC679517AA55E3000160AE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		76FC679717AA55E3000160AE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		76FC679917AA55E3000160AE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		76FC679B17AA55E3000160AE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		76FC679E17AA55E3000160AE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		76FC67A017AA55E3000160AE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		76FC67A117AA55E3000160AE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		76FC67A917AA56D2000160AE /* ImageCropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCropViewController.h; sourceTree = "<group>"; };
+		76FC67AA17AA56D2000160AE /* ImageCropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCropViewController.m; sourceTree = "<group>"; };
+		76FC67AC17AA5E34000160AE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		76FC677F17AA55E3000160AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76FC67AD17AA5E34000160AE /* MobileCoreServices.framework in Frameworks */,
+				76FC678617AA55E3000160AE /* UIKit.framework in Frameworks */,
+				76FC678817AA55E3000160AE /* Foundation.framework in Frameworks */,
+				76FC678A17AA55E3000160AE /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		76FC677917AA55E3000160AE = {
+			isa = PBXGroup;
+			children = (
+				76FC678B17AA55E3000160AE /* ImageCropViewControllerDemo */,
+				76FC678417AA55E3000160AE /* Frameworks */,
+				76FC678317AA55E3000160AE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		76FC678317AA55E3000160AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				76FC678217AA55E3000160AE /* ImageCropViewControllerDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		76FC678417AA55E3000160AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				76FC67AC17AA5E34000160AE /* MobileCoreServices.framework */,
+				76FC678517AA55E3000160AE /* UIKit.framework */,
+				76FC678717AA55E3000160AE /* Foundation.framework */,
+				76FC678917AA55E3000160AE /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		76FC678B17AA55E3000160AE /* ImageCropViewControllerDemo */ = {
+			isa = PBXGroup;
+			children = (
+				76FC679417AA55E3000160AE /* AppDelegate.h */,
+				76FC679517AA55E3000160AE /* AppDelegate.m */,
+				76FC679D17AA55E3000160AE /* MainStoryboard.storyboard */,
+				76FC67A817AA56D2000160AE /* src */,
+				76FC678C17AA55E3000160AE /* Supporting Files */,
+				76FC67A017AA55E3000160AE /* ViewController.h */,
+				76FC67A117AA55E3000160AE /* ViewController.m */,
+			);
+			path = ImageCropViewControllerDemo;
+			sourceTree = "<group>";
+		};
+		76FC678C17AA55E3000160AE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				76FC678D17AA55E3000160AE /* ImageCropViewControllerDemo-Info.plist */,
+				76FC678E17AA55E3000160AE /* InfoPlist.strings */,
+				76FC679117AA55E3000160AE /* main.m */,
+				76FC679317AA55E3000160AE /* ImageCropViewControllerDemo-Prefix.pch */,
+				76FC679717AA55E3000160AE /* Default.png */,
+				76FC679917AA55E3000160AE /* Default@2x.png */,
+				76FC679B17AA55E3000160AE /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		76FC67A817AA56D2000160AE /* src */ = {
+			isa = PBXGroup;
+			children = (
+				76FC67A917AA56D2000160AE /* ImageCropViewController.h */,
+				76FC67AA17AA56D2000160AE /* ImageCropViewController.m */,
+			);
+			name = src;
+			path = ../../../src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		76FC678117AA55E3000160AE /* ImageCropViewControllerDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76FC67A517AA55E3000160AE /* Build configuration list for PBXNativeTarget "ImageCropViewControllerDemo" */;
+			buildPhases = (
+				76FC677E17AA55E3000160AE /* Sources */,
+				76FC677F17AA55E3000160AE /* Frameworks */,
+				76FC678017AA55E3000160AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ImageCropViewControllerDemo;
+			productName = ImageCropViewControllerDemo;
+			productReference = 76FC678217AA55E3000160AE /* ImageCropViewControllerDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		76FC677A17AA55E3000160AE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Valery Fomenko";
+			};
+			buildConfigurationList = 76FC677D17AA55E3000160AE /* Build configuration list for PBXProject "ImageCropViewControllerDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 76FC677917AA55E3000160AE;
+			productRefGroup = 76FC678317AA55E3000160AE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				76FC678117AA55E3000160AE /* ImageCropViewControllerDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		76FC678017AA55E3000160AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76FC679017AA55E3000160AE /* InfoPlist.strings in Resources */,
+				76FC679817AA55E3000160AE /* Default.png in Resources */,
+				76FC679A17AA55E3000160AE /* Default@2x.png in Resources */,
+				76FC679C17AA55E3000160AE /* Default-568h@2x.png in Resources */,
+				76FC679F17AA55E3000160AE /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		76FC677E17AA55E3000160AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76FC679217AA55E3000160AE /* main.m in Sources */,
+				76FC679617AA55E3000160AE /* AppDelegate.m in Sources */,
+				76FC67A217AA55E3000160AE /* ViewController.m in Sources */,
+				76FC67AB17AA56D2000160AE /* ImageCropViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		76FC678E17AA55E3000160AE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76FC678F17AA55E3000160AE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		76FC679D17AA55E3000160AE /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76FC679E17AA55E3000160AE /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		76FC67A317AA55E3000160AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		76FC67A417AA55E3000160AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		76FC67A617AA55E3000160AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ImageCropViewControllerDemo/ImageCropViewControllerDemo-Prefix.pch";
+				INFOPLIST_FILE = "ImageCropViewControllerDemo/ImageCropViewControllerDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		76FC67A717AA55E3000160AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ImageCropViewControllerDemo/ImageCropViewControllerDemo-Prefix.pch";
+				INFOPLIST_FILE = "ImageCropViewControllerDemo/ImageCropViewControllerDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		76FC677D17AA55E3000160AE /* Build configuration list for PBXProject "ImageCropViewControllerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76FC67A317AA55E3000160AE /* Debug */,
+				76FC67A417AA55E3000160AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76FC67A517AA55E3000160AE /* Build configuration list for PBXNativeTarget "ImageCropViewControllerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76FC67A617AA55E3000160AE /* Debug */,
+				76FC67A717AA55E3000160AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 76FC677A17AA55E3000160AE /* Project object */;
+}
