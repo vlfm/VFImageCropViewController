@@ -47,20 +47,10 @@ static CGFloat kToolbarHeight = 49;
         _toolbar.barStyle = UIBarStyleBlackTranslucent;
         _toolbar.backgroundColor = [UIColor clearColor];
         
-        UILabel *label = [[UILabel alloc] init];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor whiteColor];
-        label.text = @"Move and scale";
-        label.font = [UIFont boldSystemFontOfSize:20.0];
-        [label sizeToFit];
-        UIBarButtonItem *titleBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:label];
-        
         _toolbar.items = @[
                            
                            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)],
                            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                           titleBarButtonItem,
                            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)]
                            
@@ -150,7 +140,7 @@ static CGFloat kToolbarHeight = 49;
     return cropRect;
 }
 
-#pragma mark - Actions
+#pragma mark Actions
 
 - (void) cancel {
     if (self.onCancelled) {self.onCancelled();}
@@ -164,7 +154,7 @@ static CGFloat kToolbarHeight = 49;
     }
 }
 
-#pragma mark - Disable rotation
+#pragma mark Disable rotation
 
 - (BOOL) shouldAutorotate {
     return NO;
@@ -174,7 +164,7 @@ static CGFloat kToolbarHeight = 49;
     return NO;
 }
 
-#pragma mark - UIScrollViewDelegate
+#pragma mark UIScrollViewDelegate
 
 - (UIView *) viewForZoomingInScrollView: (UIScrollView *)scrollView {
 	return _imageView;
@@ -189,6 +179,12 @@ static CGFloat kToolbarHeight = 49;
     
     _imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                     scrollView.contentSize.height * 0.5 + offsetY);
+}
+
+#pragma mark Status bar
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end
