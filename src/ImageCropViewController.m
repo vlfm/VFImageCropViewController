@@ -5,28 +5,25 @@ static CGFloat kToolbarHeight = 49;
 
 @interface CropRectTransform : NSObject
 
-+ (CGRect) transformRect: (CGRect)rect forImage: (UIImage *)image;
++ (CGRect)transformRect:(CGRect)rect forImage:(UIImage *)image;
 
 @end
 
 @interface ImageCropViewController () <UIScrollViewDelegate>
-
-@property (nonatomic, weak) UIScrollView *scrollView;
-@property (nonatomic, weak) UIImageView *imageView;
-@property (nonatomic, weak) UIView *cropAreaView;
-
-@property (nonatomic, strong) UIImage *image;
-@property (nonatomic) NSInteger widthFactor;
-@property (nonatomic) NSInteger heightFactor;
-
-- (CGRect) calculateCropRect;
-
 @end
 
-@implementation ImageCropViewController
+@implementation ImageCropViewController {
+    UIScrollView *_scrollView;
+    UIImageView *_imageView;
+    UIView *_cropAreaView;
+    UIToolbar *_toolbar;
+    
+    UIImage *_image;
+    NSInteger _widthFactor;
+    NSInteger _heightFactor;
+}
 
-+ (UIImage *) cropImage: (UIImage *)image withRect: (CGRect)cropRect
-{
++ (UIImage *)cropImage:(UIImage *)image withRect:(CGRect)cropRect {
     CGRect cropRectTransformed = [CropRectTransform transformRect:cropRect forImage:image];
 	CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRectTransformed);
 	UIImage *cropped = [UIImage imageWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
@@ -34,26 +31,24 @@ static CGFloat kToolbarHeight = 49;
 	return cropped;
 }
 
-- (id) initWithImage: (UIImage *)image widthFactor: (NSInteger)widthFactor heightFactor: (NSInteger)heightFactor;
-{
+- (id)initWithImage:(UIImage *)image widthFactor:(NSInteger)widthFactor heightFactor:(NSInteger)heightFactor {
     self = [super init];
-    self.image = image;
-    self.widthFactor = widthFactor;
-    self.heightFactor = heightFactor;
+    _image = image;
+    _widthFactor = widthFactor;
+    _heightFactor = heightFactor;
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     {
-        UIToolbar *toolbar = [UIToolbar new];
-        toolbar.barStyle = UIBarStyleBlackTranslucent;
-        toolbar.backgroundColor = [UIColor clearColor];
+        _toolbar = [UIToolbar new];
+        _toolbar.barStyle = UIBarStyleBlackTranslucent;
+        _toolbar.backgroundColor = [UIColor clearColor];
         
         UILabel *label = [[UILabel alloc] init];
-        label.textAlignment = UITextAlignmentCenter;
+        label.textAlignment = NSTextAlignmentCenter;
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor whiteColor];
         label.text = @"Move and scale";
@@ -61,151 +56,146 @@ static CGFloat kToolbarHeight = 49;
         [label sizeToFit];
         UIBarButtonItem *titleBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:label];
         
-        toolbar.items = [NSArray arrayWithObjects:
-                         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)],
-                         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                         titleBarButtonItem,
-                         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)],
-                         nil];
+        _toolbar.items = @[
+                           
+                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)],
+                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                           titleBarButtonItem,
+                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)]
+                           
+                           ];
         
-        toolbar.frame = CGRectMake(0,
-                                   self.view.frame.size.height - kToolbarHeight,
-                                   self.view.frame.size.width,
-                                   kToolbarHeight);
-        [self.view addSubview:toolbar];
+        [self.view addSubview:_toolbar];
     }
     
     {
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:self.image];
-        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,
-                                                                                  0,
-                                                                                  self.view.frame.size.width,
-                                                                                  self.view.frame.size.height - kToolbarHeight)];
-        scrollView.delegate = self;
-        scrollView.showsHorizontalScrollIndicator = NO;
-        scrollView.showsVerticalScrollIndicator = NO;
+        _imageView = [[UIImageView alloc] initWithImage:_image];
+        _scrollView = [[UIScrollView alloc] init];
+        _scrollView.delegate = self;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
         
-        [scrollView addSubview:imageView];
-        [self.view addSubview:scrollView];
-        
-        self.scrollView = scrollView;
-        self.imageView = imageView;
-        
+        [_scrollView addSubview:_imageView];
+        [self.view addSubview:_scrollView];
     }
     
     {
         CGFloat areaW = 0;
         CGFloat areaH = 0;
         
-        if (self.widthFactor >= self.heightFactor) {
-            areaW = self.view.frame.size.width - self.cropFramePadding;
-            areaH = (areaW / self.widthFactor) * self.heightFactor;
+        if (_widthFactor >= _heightFactor) {
+            areaW = self.view.frame.size.width - _cropFramePadding;
+            areaH = (areaW / _widthFactor) * _heightFactor;
         } else {
             areaH = self.view.frame.size.height - kToolbarHeight - self.cropFramePadding;
-            areaW = (areaH / self.heightFactor) * self.widthFactor;
+            areaW = (areaH / _heightFactor) * _widthFactor;
         }
         
-        UIView *cropAreaView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, areaW, areaH)];
-        cropAreaView.center = CGPointMake(self.view.frame.size.width / 2.0, (self.view.frame.size.height - kToolbarHeight) / 2.0);
-        cropAreaView.userInteractionEnabled = NO;
+        _cropAreaView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, areaW, areaH)];
+        _cropAreaView.center = CGPointMake(self.view.frame.size.width / 2.0, (self.view.frame.size.height - kToolbarHeight) / 2.0);
+        _cropAreaView.userInteractionEnabled = NO;
         
-        cropAreaView.layer.borderColor = [UIColor whiteColor].CGColor;
-        cropAreaView.layer.borderWidth = 1;
+        _cropAreaView.layer.borderColor = [UIColor whiteColor].CGColor;
+        _cropAreaView.layer.borderWidth = 1;
         
         CGFloat leftRight = (self.view.frame.size.width - areaW) / 2.0;
         CGFloat topBottom = (self.view.frame.size.height - kToolbarHeight - areaH) / 2.0;
-        self.scrollView.contentInset = UIEdgeInsetsMake(topBottom, leftRight, topBottom, leftRight);
+        _scrollView.contentInset = UIEdgeInsetsMake(topBottom, leftRight, topBottom, leftRight);
         
-        [self.view addSubview:cropAreaView];
-        self.cropAreaView = cropAreaView;
+        [self.view addSubview:_cropAreaView];
     }
 }
 
-- (void) viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    float minimumZoomScale = (self.cropAreaView.frame.size.width) / self.imageView.frame.size.width;
+    float minimumZoomScale = CGRectGetWidth(_cropAreaView.frame) / CGRectGetWidth(_imageView.frame);
     float maximumZoomScale = 2.0;
     
-    self.scrollView.contentSize = self.imageView.frame.size;
-    self.scrollView.maximumZoomScale = maximumZoomScale;
-    self.scrollView.minimumZoomScale = minimumZoomScale;
-    self.scrollView.zoomScale = minimumZoomScale;
+    _scrollView.contentSize = _imageView.frame.size;
+    _scrollView.maximumZoomScale = maximumZoomScale;
+    _scrollView.minimumZoomScale = minimumZoomScale;
+    _scrollView.zoomScale = minimumZoomScale;
 }
 
-- (CGRect) calculateCropRect
-{
-    float zoomScale = 1.0 / [self.scrollView zoomScale];
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    _scrollView.frame = CGRectMake(0,
+                                   0,
+                                   CGRectGetWidth(self.view.frame),
+                                   CGRectGetHeight(self.view.frame) - kToolbarHeight);
+    
+    _toolbar.frame = CGRectMake(0,
+                                CGRectGetHeight(self.view.frame) - kToolbarHeight,
+                                CGRectGetWidth(self.view.frame),
+                                kToolbarHeight);
+}
+
+- (CGRect)calculateCropRect {
+    float zoomScale = 1.0 / [_scrollView zoomScale];
     
     CGRect cropRect;
     
-    CGFloat dx = (self.scrollView.frame.size.width  - self.cropAreaView.frame.size.width) / 2.0;
-    CGFloat dy = (self.scrollView.frame.size.height - self.cropAreaView.frame.size.height) / 2.0;
+    CGFloat dx = (CGRectGetWidth(_scrollView.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0;
+    CGFloat dy = (CGRectGetHeight(_scrollView.frame) - CGRectGetHeight(_cropAreaView.frame)) / 2.0;
     
-	cropRect.origin.x = ([self.scrollView contentOffset].x + dx) * zoomScale;
-    cropRect.origin.y = ([self.scrollView contentOffset].y + dy) * zoomScale;
+	cropRect.origin.x = ([_scrollView contentOffset].x + dx) * zoomScale;
+    cropRect.origin.y = ([_scrollView contentOffset].y + dy) * zoomScale;
     
-    cropRect.size.width = self.cropAreaView.frame.size.width * zoomScale;
-    cropRect.size.height = self.cropAreaView.frame.size.height * zoomScale;
+    cropRect.size.width = CGRectGetWidth(_cropAreaView.frame) * zoomScale;
+    cropRect.size.height = CGRectGetHeight(_cropAreaView.frame) * zoomScale;
     
     return cropRect;
 }
 
 #pragma mark - Actions
 
-- (void) cancel
-{
+- (void) cancel {
     if (self.onCancelled) {self.onCancelled();}
 }
 
-- (void) done
-{
+- (void) done {
     if (self.onImageCropped) {
         CGRect cropRect = [self calculateCropRect];
-        UIImage *cropped = [ImageCropViewController cropImage:self.image withRect:cropRect];
+        UIImage *cropped = [ImageCropViewController cropImage:_image withRect:cropRect];
         self.onImageCropped(cropped, cropRect);
     }
 }
 
 #pragma mark - Disable rotation
 
-- (BOOL) shouldAutorotate
-{
+- (BOOL) shouldAutorotate {
     return NO;
 }
 
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return NO;
 }
 
 #pragma mark - UIScrollViewDelegate
 
-- (UIView *) viewForZoomingInScrollView: (UIScrollView *)scrollView
-{
-	return self.imageView;
+- (UIView *) viewForZoomingInScrollView: (UIScrollView *)scrollView {
+	return _imageView;
 }
 
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView
-{
-    CGFloat offsetX = (self.cropAreaView.bounds.size.width > scrollView.contentSize.width)?
-    (self.cropAreaView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    CGFloat offsetX = (_cropAreaView.bounds.size.width > scrollView.contentSize.width)?
+    (_cropAreaView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
     
-    CGFloat offsetY = (self.cropAreaView.bounds.size.height > scrollView.contentSize.height)?
-    (self.cropAreaView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
+    CGFloat offsetY = (_cropAreaView.bounds.size.height > scrollView.contentSize.height)?
+    (_cropAreaView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
     
-    self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                        scrollView.contentSize.height * 0.5 + offsetY);
+    _imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
+                                    scrollView.contentSize.height * 0.5 + offsetY);
 }
 
 @end
 
 @implementation CropRectTransform
 
-+ (CGRect) transformRect: (CGRect)rect forImage: (UIImage *)image
-{
++ (CGRect)transformRect:(CGRect)rect forImage:(UIImage *)image {
     CGRect new = rect;
     UIImageOrientation imageOrientation = image.imageOrientation;
     CGSize imageSize = image.size;

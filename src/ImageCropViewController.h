@@ -10,10 +10,10 @@ typedef void (^ OnCancelled) ();
 @property (nonatomic, copy) OnImageCropped onImageCropped;
 @property (nonatomic, copy) OnCancelled onCancelled;
 
-- (id) initWithImage: (UIImage *)image
-         widthFactor: (NSInteger)widthFactor
-        heightFactor: (NSInteger)heightFactor;
+- (id)initWithImage:(UIImage *)image
+        widthFactor:(NSInteger)widthFactor
+       heightFactor:(NSInteger)heightFactor;
 
-+ (UIImage *) cropImage: (UIImage *)image withRect: (CGRect)cropRect;
++ (UIImage *)cropImage:(UIImage *)image withRect:(CGRect)cropRect;
 
 @end
