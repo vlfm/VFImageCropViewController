@@ -37,17 +37,11 @@
     cropVC.cropFramePadding = 60;
     
     cropVC.onCancelled = ^ {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         [picker dismissViewControllerAnimated:YES completion:nil];
     };
     
     cropVC.onImageCropped = ^ (UIImage *image, CGRect rect) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-        
         imageView.image = image;
-        
         [self dismissViewControllerAnimated:YES completion:nil];
     };
     
