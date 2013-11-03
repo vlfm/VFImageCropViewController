@@ -3,6 +3,7 @@
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
+static CGFloat kStatusBarHeight = 20;
 static CGFloat kToolbarHeight = 49;
 
 @interface CropRectTransform : NSObject
@@ -42,12 +43,16 @@ static CGFloat kToolbarHeight = 49;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.wantsFullScreenLayout = YES;
+    [self.navigationController setNavigationBarHidden:YES];
+    
     {
         _imageView = [[UIImageView alloc] initWithImage:_image];
-        _scrollView = [[UIScrollView alloc] init];
+        _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
         _scrollView.delegate = self;
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.showsVerticalScrollIndicator = NO;
+        _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
         [_scrollView addSubview:_imageView];
         [self.view addSubview:_scrollView];
@@ -104,16 +109,17 @@ static CGFloat kToolbarHeight = 49;
     _scrollView.maximumZoomScale = maximumZoomScale;
     _scrollView.minimumZoomScale = minimumZoomScale;
     _scrollView.zoomScale = minimumZoomScale;
+    
+    [self applyNewStatusBarStyle];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self restorePreviousStatusBarStyle];
 }
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    
-    _scrollView.frame = CGRectMake(0,
-                                   0,
-                                   CGRectGetWidth(self.view.frame),
-                                   CGRectGetHeight(self.view.frame));
-    
     
     CGRect cropAvailableRect = [self availableFrameToPlaceCropArea];
     _cropAreaView.center = CGPointMake(CGRectGetMidX(cropAvailableRect), CGRectGetMidY(cropAvailableRect));
@@ -129,13 +135,17 @@ static CGFloat kToolbarHeight = 49;
     _scrollView.contentInset = UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
 }
 
+- (BOOL)automaticallyAdjustsScrollViewInsets {
+    return NO;
+}
+
 - (CGRect)calculateCropRect {
     float zoomScale = 1.0 / [_scrollView zoomScale];
     
     CGRect cropRect;
     
-    CGFloat dx = (CGRectGetWidth(_scrollView.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0;
-    CGFloat dy = (CGRectGetHeight(_scrollView.frame) - kToolbarHeight - CGRectGetHeight(_cropAreaView.frame)) / 2.0;
+    CGFloat dx = CGRectGetMinX(_cropAreaView.frame);
+    CGFloat dy = CGRectGetMinY(_cropAreaView.frame);
     
 	cropRect.origin.x = ([_scrollView contentOffset].x + dx) * zoomScale;
     cropRect.origin.y = ([_scrollView contentOffset].y + dy) * zoomScale;
@@ -163,16 +173,10 @@ static CGFloat kToolbarHeight = 49;
 #pragma mark Crop area available frame
 
 - (CGRect)availableFrameToPlaceCropArea {
-    CGFloat statusBarHeightInView = 0;
-    
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        statusBarHeightInView = 20;
-    }
-    
     return CGRectMake(0,
-                      statusBarHeightInView,
+                      kStatusBarHeight,
                       CGRectGetWidth(self.view.frame),
-                      CGRectGetHeight(self.view.frame) - kToolbarHeight - statusBarHeightInView);
+                      CGRectGetHeight(self.view.frame) - kToolbarHeight - kStatusBarHeight);
 }
 
 #pragma mark Disable rotation
@@ -208,8 +212,20 @@ static CGFloat kToolbarHeight = 49;
     return UIStatusBarStyleLightContent;
 }
 
-- (BOOL)automaticallyAdjustsScrollViewInsets {
-    return NO;
+- (void)applyNewStatusBarStyle {
+    if (_restoreStatusBarStyle == nil) {
+        _restoreStatusBarStyle = @([UIApplication sharedApplication].statusBarStyle);
+    }
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    } else {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+    }
+}
+
+- (void)restorePreviousStatusBarStyle {
+    [UIApplication sharedApplication].statusBarStyle = [_restoreStatusBarStyle integerValue];
 }
 
 @end

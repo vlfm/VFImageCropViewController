@@ -45,7 +45,8 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     };
     
-    [picker presentViewController:cropVC animated:YES completion:nil];
+    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:cropVC];
+    [picker presentViewController:navigationVC animated:YES completion:nil];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
