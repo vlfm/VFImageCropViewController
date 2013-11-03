@@ -20,7 +20,8 @@ ImageCropViewController *cropVC = [[ImageCropViewController alloc] initWithImage
         [myViewController dismissViewControllerAnimated:YES completion:nil];
     };
     
-[myViewController presentViewController:cropVC animated:YES completion:nil];
+UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:cropVC];
+[myViewController presentViewController:navigationVC animated:YES completion:nil];
 ```
 
 ![Screenshot](https://raw.github.com/vlfm/ImageCropViewController/master/screenshots/s1.png "screenshot")
