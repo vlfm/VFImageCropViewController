@@ -86,6 +86,10 @@ static CGFloat kToolbarHeight = 49;
         _toolbar.barStyle = UIBarStyleBlackTranslucent;
         _toolbar.backgroundColor = [UIColor clearColor];
         
+        if (_toolBarTintColor) {
+            _toolbar.tintColor = _toolBarTintColor;
+        }
+        
         _toolbar.items = @[
                            
                            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)],
@@ -226,6 +230,15 @@ static CGFloat kToolbarHeight = 49;
 
 - (void)restorePreviousStatusBarStyle {
     [UIApplication sharedApplication].statusBarStyle = [_restoreStatusBarStyle integerValue];
+}
+
+#pragma mark iOS 7 toolBar tintColor
+
+- (void)setToolBarTintColor:(UIColor *)toolBarTintColor {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        _toolBarTintColor = toolBarTintColor;
+        _toolbar.tintColor = toolBarTintColor;
+    }
 }
 
 @end

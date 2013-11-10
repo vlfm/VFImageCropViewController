@@ -5,6 +5,12 @@ typedef void (^ OnCancelled) ();
 
 @interface ImageCropViewController : UIViewController
 
+/**
+ * Toolbar tintColor for iOS7.
+ * Has no effect on iOS 6.
+*/
+@property (nonatomic) UIColor *toolBarTintColor;
+
 @property (nonatomic) CGFloat cropFramePadding;
 @property (nonatomic) NSNumber *restoreStatusBarStyle;
 
