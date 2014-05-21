@@ -1,11 +1,6 @@
 #import "ImageCropViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-
-static CGFloat kStatusBarHeight = 20;
-static CGFloat kToolbarHeight = 49;
-
 @interface CropRectTransform : NSObject
 + (CGRect)transformRect:(CGRect)rect forImage:(UIImage *)image;
 @end
@@ -43,8 +38,14 @@ static CGFloat kToolbarHeight = 49;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.wantsFullScreenLayout = YES;
-    [self.navigationController setNavigationBarHidden:YES];
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                                 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                 target:self action:@selector(cancel)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                  target:self action:@selector(done)];
+    }
     
     {
         _imageView = [[UIImageView alloc] initWithImage:_image];
@@ -59,20 +60,7 @@ static CGFloat kToolbarHeight = 49;
     }
     
     {
-        CGFloat areaW = 0;
-        CGFloat areaH = 0;
-        
-        CGSize cropAvailableSize = [self availableFrameToPlaceCropArea].size;
-        
-        if (_widthFactor >= _heightFactor) {
-            areaW = cropAvailableSize.width - _cropFramePadding;
-            areaH = (areaW / _widthFactor) * _heightFactor;
-        } else {
-            areaH = cropAvailableSize.height - self.cropFramePadding;
-            areaW = (areaH / _heightFactor) * _widthFactor;
-        }
-        
-        _cropAreaView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, areaW, areaH)];
+        _cropAreaView = [[UIView alloc] init];
         _cropAreaView.userInteractionEnabled = NO;
         
         _cropAreaView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -90,30 +78,15 @@ static CGFloat kToolbarHeight = 49;
             _toolbar.tintColor = _toolBarTintColor;
         }
         
-        _toolbar.items = @[
-                           
-                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)],
-                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)]
-                           
-                           ];
-        
         [self.view addSubview:_toolbar];
+        
+        self.view.backgroundColor = [UIColor blackColor];
     }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    float minimumZoomScale = CGRectGetWidth(_cropAreaView.frame) / CGRectGetWidth(_imageView.frame);
-    float maximumZoomScale = 2.0;
-    
-    _scrollView.contentSize = _imageView.frame.size;
-    _scrollView.maximumZoomScale = maximumZoomScale;
-    _scrollView.minimumZoomScale = minimumZoomScale;
-    _scrollView.zoomScale = minimumZoomScale;
-    
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     [self applyNewStatusBarStyle];
 }
 
@@ -125,18 +98,50 @@ static CGFloat kToolbarHeight = 49;
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
+    {
+        [_toolbar sizeToFit];
+        _toolbar.frame = CGRectMake(CGRectGetMinX(_toolbar.frame),
+                                    self.view.bounds.size.height - CGRectGetHeight(_toolbar.frame),
+                                    CGRectGetWidth(_toolbar.frame),
+                                    CGRectGetHeight(_toolbar.frame));
+    }
+    
     CGRect cropAvailableRect = [self availableFrameToPlaceCropArea];
-    _cropAreaView.center = CGPointMake(CGRectGetMidX(cropAvailableRect), CGRectGetMidY(cropAvailableRect));
     
-    _toolbar.frame = CGRectMake(0,
-                                CGRectGetHeight(self.view.frame) - kToolbarHeight,
-                                CGRectGetWidth(self.view.frame),
-                                kToolbarHeight);
+    {
+        CGFloat areaW = 0;
+        CGFloat areaH = 0;
+        
+        CGSize cropAvailableSize = cropAvailableRect.size;
+        
+        if (_widthFactor >= _heightFactor) {
+            areaW = cropAvailableSize.width - _cropFramePadding;
+            areaH = (areaW / _widthFactor) * _heightFactor;
+        } else {
+            areaH = cropAvailableSize.height - self.cropFramePadding;
+            areaW = (areaH / _heightFactor) * _widthFactor;
+        }
+        
+        _cropAreaView.frame = CGRectMake(0, 0, areaW, areaH);
+        _cropAreaView.center = CGPointMake(CGRectGetMidX(cropAvailableRect), CGRectGetMidY(cropAvailableRect));
+    }
     
-    CGFloat top = CGRectGetMinY(_cropAreaView.frame);
-    CGFloat leftRight = (CGRectGetWidth(self.view.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0;
-    CGFloat bottom = CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_cropAreaView.frame);
-    _scrollView.contentInset = UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
+    {
+        float minimumZoomScale = CGRectGetWidth(_cropAreaView.frame) / _image.size.width;
+        float maximumZoomScale = 2.0;
+        
+        _scrollView.contentSize = _imageView.frame.size;
+        _scrollView.maximumZoomScale = maximumZoomScale;
+        _scrollView.minimumZoomScale = minimumZoomScale;
+        _scrollView.zoomScale = minimumZoomScale;
+    }
+    
+    {
+        CGFloat top = CGRectGetMinY(_cropAreaView.frame);
+        CGFloat leftRight = (CGRectGetWidth(self.view.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0;
+        CGFloat bottom = CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_cropAreaView.frame);
+        _scrollView.contentInset = UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
+    }
 }
 
 - (BOOL)automaticallyAdjustsScrollViewInsets {
@@ -178,19 +183,9 @@ static CGFloat kToolbarHeight = 49;
 
 - (CGRect)availableFrameToPlaceCropArea {
     return CGRectMake(0,
-                      kStatusBarHeight,
+                      self.topLayoutGuide.length,
                       CGRectGetWidth(self.view.frame),
-                      CGRectGetHeight(self.view.frame) - kToolbarHeight - kStatusBarHeight);
-}
-
-#pragma mark Disable rotation
-
-- (BOOL) shouldAutorotate {
-    return NO;
-}
-
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return NO;
+                      CGRectGetHeight(self.view.frame) - self.topLayoutGuide.length - _toolbar.frame.size.height);
 }
 
 #pragma mark UIScrollViewDelegate
@@ -221,24 +216,18 @@ static CGFloat kToolbarHeight = 49;
         _restoreStatusBarStyle = @([UIApplication sharedApplication].statusBarStyle);
     }
     
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    } else {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
-    }
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)restorePreviousStatusBarStyle {
     [UIApplication sharedApplication].statusBarStyle = [_restoreStatusBarStyle integerValue];
 }
 
-#pragma mark iOS 7 toolBar tintColor
+#pragma mark ToolBar tintColor
 
 - (void)setToolBarTintColor:(UIColor *)toolBarTintColor {
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        _toolBarTintColor = toolBarTintColor;
-        _toolbar.tintColor = toolBarTintColor;
-    }
+    _toolBarTintColor = toolBarTintColor;
+    _toolbar.tintColor = toolBarTintColor;
 }
 
 @end
