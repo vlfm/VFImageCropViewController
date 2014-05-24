@@ -37,7 +37,6 @@
     
     // set crop vc properties
     cropVC.cropFramePadding = 60;
-    cropVC.toolBarTintColor = [UIColor whiteColor];
     
     cropVC.onCancelled = ^ {
         [picker dismissViewControllerAnimated:YES completion:nil];
