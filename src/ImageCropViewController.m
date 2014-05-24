@@ -1,10 +1,6 @@
 #import "ImageCropViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface CropRectTransform : NSObject
-+ (CGRect)transformRect:(CGRect)rect forImage:(UIImage *)image;
-@end
-
 @interface ImageCropViewController () <UIScrollViewDelegate>
 @end
 
@@ -20,7 +16,7 @@
 }
 
 + (UIImage *)cropImage:(UIImage *)image withRect:(CGRect)cropRect {
-    CGRect cropRectTransformed = [CropRectTransform transformRect:cropRect forImage:image];
+    CGRect cropRectTransformed = [self transformRect:cropRect forImage:image];
 	CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRectTransformed);
 	UIImage *cropped = [UIImage imageWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
 	CGImageRelease(imageRef);
@@ -230,9 +226,7 @@
     _toolbar.tintColor = toolBarTintColor;
 }
 
-@end
-
-@implementation CropRectTransform
+#pragma mark Crop Rect Transform
 
 + (CGRect)transformRect:(CGRect)rect forImage:(UIImage *)image {
     CGRect new = rect;
