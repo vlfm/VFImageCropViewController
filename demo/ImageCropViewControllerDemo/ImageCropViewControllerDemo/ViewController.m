@@ -1,5 +1,5 @@
 #import "ViewController.h"
-#import "ImageCropViewController.h"
+#import "VFImageCropViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
 @interface ViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
@@ -33,7 +33,7 @@
     NSInteger widthFactor = CGRectGetWidth(imageView.frame);
     NSInteger heightFactor = CGRectGetHeight(imageView.frame);
     
-    ImageCropViewController *cropVC = [[ImageCropViewController alloc] initWithImage:image widthFactor:widthFactor heightFactor:heightFactor];
+    VFImageCropViewController *cropVC = [[VFImageCropViewController alloc] initWithImage:image widthFactor:widthFactor heightFactor:heightFactor];
     
     // set crop vc properties
     cropVC.cropFramePadding = 60;

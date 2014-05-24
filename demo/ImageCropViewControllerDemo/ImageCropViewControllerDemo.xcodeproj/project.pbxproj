@@ -18,7 +18,7 @@
 		76FC679C17AA55E3000160AE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 76FC679B17AA55E3000160AE /* Default-568h@2x.png */; };
 		76FC679F17AA55E3000160AE /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76FC679D17AA55E3000160AE /* MainStoryboard.storyboard */; };
 		76FC67A217AA55E3000160AE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC67A117AA55E3000160AE /* ViewController.m */; };
-		76FC67AB17AA56D2000160AE /* ImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC67AA17AA56D2000160AE /* ImageCropViewController.m */; };
+		76FC67AB17AA56D2000160AE /* VFImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC67AA17AA56D2000160AE /* VFImageCropViewController.m */; };
 		76FC67AD17AA5E34000160AE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC67AC17AA5E34000160AE /* MobileCoreServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,8 +39,8 @@
 		76FC679E17AA55E3000160AE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		76FC67A017AA55E3000160AE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		76FC67A117AA55E3000160AE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		76FC67A917AA56D2000160AE /* ImageCropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCropViewController.h; sourceTree = "<group>"; };
-		76FC67AA17AA56D2000160AE /* ImageCropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCropViewController.m; sourceTree = "<group>"; };
+		76FC67A917AA56D2000160AE /* VFImageCropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFImageCropViewController.h; sourceTree = "<group>"; };
+		76FC67AA17AA56D2000160AE /* VFImageCropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFImageCropViewController.m; sourceTree = "<group>"; };
 		76FC67AC17AA5E34000160AE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -118,8 +118,8 @@
 		76FC67A817AA56D2000160AE /* src */ = {
 			isa = PBXGroup;
 			children = (
-				76FC67A917AA56D2000160AE /* ImageCropViewController.h */,
-				76FC67AA17AA56D2000160AE /* ImageCropViewController.m */,
+				76FC67A917AA56D2000160AE /* VFImageCropViewController.h */,
+				76FC67AA17AA56D2000160AE /* VFImageCropViewController.m */,
 			);
 			name = src;
 			path = ../../../src;
@@ -194,7 +194,7 @@
 				76FC679217AA55E3000160AE /* main.m in Sources */,
 				76FC679617AA55E3000160AE /* AppDelegate.m in Sources */,
 				76FC67A217AA55E3000160AE /* ViewController.m in Sources */,
-				76FC67AB17AA56D2000160AE /* ImageCropViewController.m in Sources */,
+				76FC67AB17AA56D2000160AE /* VFImageCropViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +317,7 @@
 				76FC67A717AA55E3000160AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

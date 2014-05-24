@@ -1,4 +1,4 @@
-#import "ImageCropViewController.h"
+#import "VFImageCropViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface VFImageCropView : UIView <UIScrollViewDelegate>
@@ -17,10 +17,10 @@
 
 @end
 
-@interface ImageCropViewController () <UIScrollViewDelegate>
+@interface VFImageCropViewController () <UIScrollViewDelegate>
 @end
 
-@implementation ImageCropViewController {
+@implementation VFImageCropViewController {
     VFImageCropView *_view;
     NSNumber *_savedStatusBarStyle;
 }
@@ -97,7 +97,7 @@
 - (void)done {
     if (self.onImageCropped) {
         CGRect cropRect = _view.cropRect;
-        UIImage *cropped = [ImageCropViewController cropImage:_view.image withRect:cropRect];
+        UIImage *cropped = [VFImageCropViewController cropImage:_view.image withRect:cropRect];
         self.onImageCropped(cropped, cropRect);
     }
 }
