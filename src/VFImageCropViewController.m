@@ -161,7 +161,6 @@
     UIScrollView *_scrollView;
     UIImageView *_imageView;
     UIView *_cropAreaView;
-    UIToolbar *_toolbar;
     
     NSInteger _widthFactor;
     NSInteger _heightFactor;
@@ -223,15 +222,7 @@
         [self addSubview:_cropAreaView];
     }
     
-    {
-        _toolbar = [UIToolbar new];
-        _toolbar.barStyle = UIBarStyleBlackTranslucent;
-        _toolbar.backgroundColor = [UIColor clearColor];
-        
-        [self addSubview:_toolbar];
-        
-        self.backgroundColor = [UIColor blackColor];
-    }
+    self.backgroundColor = [UIColor blackColor];
 }
 
 #pragma mark Layout
@@ -241,14 +232,6 @@
     
     {
         _scrollView.frame = self.bounds;
-    }
-    
-    {
-        [_toolbar sizeToFit];
-        _toolbar.frame = CGRectMake(CGRectGetMinX(_toolbar.frame),
-                                    self.bounds.size.height - CGRectGetHeight(_toolbar.frame),
-                                    CGRectGetWidth(_toolbar.frame),
-                                    CGRectGetHeight(_toolbar.frame));
     }
     
     [self layoutCropAreaView];
@@ -295,7 +278,7 @@
     return CGRectMake(0,
                       _topLayoutGuideLength,
                       CGRectGetWidth(self.frame),
-                      CGRectGetHeight(self.frame) - _topLayoutGuideLength - _toolbar.frame.size.height);
+                      CGRectGetHeight(self.frame) - _topLayoutGuideLength);
 }
 
 #pragma mark UIScrollViewDelegate
