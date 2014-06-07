@@ -56,6 +56,11 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                               initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                               target:self action:@selector(done)];
+    
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:(246.0 / 255.0)
+                                                                       green:(205.0 / 255.0)
+                                                                        blue:(11.0 / 255.0)
+                                                                       alpha:1.0];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
