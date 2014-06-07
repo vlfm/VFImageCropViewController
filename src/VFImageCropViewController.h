@@ -10,6 +10,8 @@ typedef void (^ vf_OnCancelled) ();
 @property (nonatomic, copy) vf_OnImageCropped onImageCropped;
 @property (nonatomic, copy) vf_OnCancelled onCancelled;
 
+@property (nonatomic, copy) NSNumber *restoreStatusBarStyle;
+
 - (id)initWithImage:(UIImage *)image
         widthFactor:(NSInteger)widthFactor
        heightFactor:(NSInteger)heightFactor;
