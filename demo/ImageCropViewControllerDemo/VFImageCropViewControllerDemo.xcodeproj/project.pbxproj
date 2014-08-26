@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		76E85BD519ACD5DB000F376A /* VFImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E85BD419ACD5DB000F376A /* VFImageCropView.m */; };
+		76E85BD819ACDB39000F376A /* VFAspectRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E85BD719ACDB39000F376A /* VFAspectRatio.m */; };
 		76FC678617AA55E3000160AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678517AA55E3000160AE /* UIKit.framework */; };
 		76FC678817AA55E3000160AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678717AA55E3000160AE /* Foundation.framework */; };
 		76FC678A17AA55E3000160AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678917AA55E3000160AE /* CoreGraphics.framework */; };
@@ -26,6 +27,8 @@
 /* Begin PBXFileReference section */
 		76E85BD319ACD5DB000F376A /* VFImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFImageCropView.h; sourceTree = "<group>"; };
 		76E85BD419ACD5DB000F376A /* VFImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFImageCropView.m; sourceTree = "<group>"; };
+		76E85BD619ACDB39000F376A /* VFAspectRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFAspectRatio.h; sourceTree = "<group>"; };
+		76E85BD719ACDB39000F376A /* VFAspectRatio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatio.m; sourceTree = "<group>"; };
 		76FC678217AA55E3000160AE /* VFImageCropViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFImageCropViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76FC678517AA55E3000160AE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		76FC678717AA55E3000160AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -122,6 +125,8 @@
 		76FC67A817AA56D2000160AE /* src */ = {
 			isa = PBXGroup;
 			children = (
+				76E85BD619ACDB39000F376A /* VFAspectRatio.h */,
+				76E85BD719ACDB39000F376A /* VFAspectRatio.m */,
 				76E85BD319ACD5DB000F376A /* VFImageCropView.h */,
 				76E85BD419ACD5DB000F376A /* VFImageCropView.m */,
 				76FC67A917AA56D2000160AE /* VFImageCropViewController.h */,
@@ -198,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76E85BD519ACD5DB000F376A /* VFImageCropView.m in Sources */,
+				76E85BD819ACDB39000F376A /* VFAspectRatio.m in Sources */,
 				76FC679217AA55E3000160AE /* main.m in Sources */,
 				76FC679617AA55E3000160AE /* AppDelegate.m in Sources */,
 				76FC67A217AA55E3000160AE /* ViewController.m in Sources */,

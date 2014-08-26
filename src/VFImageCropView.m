@@ -1,12 +1,12 @@
 #import "VFImageCropView.h"
+#import "VFAspectRatio.h"
 
 @implementation VFImageCropView {
     UIScrollView *_scrollView;
     UIImageView *_imageView;
     UIView *_cropAreaView;
     
-    NSInteger _widthFactor;
-    NSInteger _heightFactor;
+    VFAspectRatio *_aspectRatio;
 }
 
 - (instancetype)initWithImage:(UIImage *)image
@@ -14,8 +14,7 @@
                  heightFactor:(NSInteger)heightFactor {
     self = [super init];
     _image = image;
-    _widthFactor = widthFactor;
-    _heightFactor = heightFactor;
+    _aspectRatio = [[VFAspectRatio alloc] initWithWidth:widthFactor height:heightFactor];
     return self;
 }
 
@@ -103,12 +102,12 @@
     
     CGRect cropAvailableRect = [self availableFrameToPlaceCropArea];
     
-    if (_widthFactor >= _heightFactor) {
+    if (_aspectRatio.width >= _aspectRatio.height) {
         areaW = cropAvailableRect.size.width - _cropFramePadding;
-        areaH = (areaW / _widthFactor) * _heightFactor;
+        areaH = (areaW / _aspectRatio.width) * _aspectRatio.height;
     } else {
         areaH = cropAvailableRect.size.height - self.cropFramePadding;
-        areaW = (areaH / _heightFactor) * _widthFactor;
+        areaW = (areaH / _aspectRatio.height) * _aspectRatio.width;
     }
     
     _cropAreaView.frame = CGRectMake(0, 0, areaW, areaH);
