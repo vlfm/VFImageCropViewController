@@ -97,20 +97,12 @@
 }
 
 - (void)layoutCropAreaView {
-    CGFloat areaW = 0;
-    CGFloat areaH = 0;
-    
     CGRect cropAvailableRect = [self availableFrameToPlaceCropArea];
     
-    if (_aspectRatio.width >= _aspectRatio.height) {
-        areaW = cropAvailableRect.size.width - _cropFramePadding;
-        areaH = (areaW / _aspectRatio.width) * _aspectRatio.height;
-    } else {
-        areaH = cropAvailableRect.size.height - self.cropFramePadding;
-        areaW = (areaH / _aspectRatio.height) * _aspectRatio.width;
-    }
+    CGSize areaSize = [_aspectRatio aspectSizeThatFits:cropAvailableRect.size
+                                               padding:_cropFramePadding];
     
-    _cropAreaView.frame = CGRectMake(0, 0, areaW, areaH);
+    _cropAreaView.frame = CGRectMake(0, 0, areaSize.width, areaSize.height);
     _cropAreaView.center = CGPointMake(CGRectGetMidX(cropAvailableRect), CGRectGetMidY(cropAvailableRect));
 }
 

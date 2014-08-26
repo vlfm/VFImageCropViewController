@@ -9,4 +9,19 @@
     return self;
 }
 
+- (CGSize)aspectSizeThatFits:(CGSize)size padding:(CGFloat)padding {
+    CGFloat w = 0;
+    CGFloat h = 0;
+    
+    if (_width >= _height) {
+        w = size.width - padding;
+        h = (w / _width) * _height;
+    } else {
+        h = size.height - padding;
+        w = (h / _height) * _width;
+    }
+    
+    return CGSizeMake(w, h);
+}
+
 @end

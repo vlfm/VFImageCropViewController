@@ -7,4 +7,7 @@
 
 - (instancetype)initWithWidth:(NSInteger)width height:(NSInteger)height;
 
+/* internal */
+- (CGSize)aspectSizeThatFits:(CGSize)size padding:(CGFloat)padding;
+
 @end
