@@ -24,4 +24,8 @@
     return CGSizeMake(w, h);
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%d:%d", _width, _height];
+}
+
 @end
