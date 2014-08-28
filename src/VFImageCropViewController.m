@@ -1,6 +1,7 @@
 #import "VFImageCropViewController.h"
 #import "VFImageCropView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "VFAspectRatio.h"
 
 @interface VFImageCropViewController () <UIScrollViewDelegate>
 @end
@@ -18,11 +19,17 @@
 	return cropped;
 }
 
-- (id)initWithImage:(UIImage *)image widthFactor:(NSInteger)widthFactor heightFactor:(NSInteger)heightFactor {
+- (instancetype)initWithImage:(UIImage *)image
+                  widthFactor:(NSInteger)widthFactor
+                 heightFactor:(NSInteger)heightFactor {
+    
+    return [self initWithImage:image aspectRatio:[[VFAspectRatio alloc] initWithWidth:widthFactor
+                                                                               height:heightFactor]];
+}
+
+- (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
     self = [super init];
-    _view = [[VFImageCropView alloc] initWithImage:image
-                                       widthFactor:widthFactor
-                                      heightFactor:heightFactor];
+    _view = [[VFImageCropView alloc] initWithImage:image aspectRatio:aspectRatio];
     return self;
 }
 

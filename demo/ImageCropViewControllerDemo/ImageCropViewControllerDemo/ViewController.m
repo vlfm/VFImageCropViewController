@@ -1,4 +1,5 @@
 #import "ViewController.h"
+#import "VFAspectRatio.h"
 #import "VFImageCropViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
@@ -30,10 +31,9 @@
 }
 
 - (void)cropAndDisplayImage:(UIImage *)image picker:(UIImagePickerController *)picker {
-    NSInteger widthFactor = CGRectGetWidth(imageView.frame);
-    NSInteger heightFactor = CGRectGetHeight(imageView.frame);
-    
-    VFImageCropViewController *cropVC = [[VFImageCropViewController alloc] initWithImage:image widthFactor:widthFactor heightFactor:heightFactor];
+    VFAspectRatio *aspectRatio = [[VFAspectRatio alloc] initWithWidth:CGRectGetWidth(imageView.frame)
+                                                               height:CGRectGetHeight(imageView.frame)];
+    VFImageCropViewController *cropVC = [[VFImageCropViewController alloc] initWithImage:image aspectRatio:aspectRatio];
     
     // set crop vc properties
     cropVC.cropFramePadding = 60;

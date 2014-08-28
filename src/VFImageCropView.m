@@ -10,12 +10,10 @@
     VFAspectRatio *_aspectRatio;
 }
 
-- (instancetype)initWithImage:(UIImage *)image
-                  widthFactor:(NSInteger)widthFactor
-                 heightFactor:(NSInteger)heightFactor {
+- (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
     self = [super init];
     _image = image;
-    _aspectRatio = [[VFAspectRatio alloc] initWithWidth:widthFactor height:heightFactor];
+    _aspectRatio = aspectRatio;
     return self;
 }
 

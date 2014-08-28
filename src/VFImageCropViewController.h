@@ -3,6 +3,8 @@
 typedef void (^ vf_OnImageCropped) (UIImage *image, CGRect cropRect);
 typedef void (^ vf_OnCancelled) ();
 
+@class VFAspectRatio;
+
 @interface VFImageCropViewController : UIViewController
 
 @property (nonatomic) CGFloat cropFramePadding;
@@ -12,9 +14,11 @@ typedef void (^ vf_OnCancelled) ();
 
 @property (nonatomic, copy) NSNumber *restoreStatusBarStyle;
 
-- (id)initWithImage:(UIImage *)image
-        widthFactor:(NSInteger)widthFactor
-       heightFactor:(NSInteger)heightFactor;
+- (instancetype)initWithImage:(UIImage *)image
+                  widthFactor:(NSInteger)widthFactor
+                 heightFactor:(NSInteger)heightFactor DEPRECATED_ATTRIBUTE ;
+
+- (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio;
 
 + (UIImage *)cropImage:(UIImage *)image withRect:(CGRect)cropRect;
 
