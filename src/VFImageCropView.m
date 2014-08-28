@@ -69,6 +69,16 @@
         _toolbar = [UIToolbar new];
         _toolbar.barStyle = UIBarStyleBlack;
         
+        _toolbar.items = @[
+                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                           
+                           [[UIBarButtonItem alloc] initWithTitle:_aspectRatio.description
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:nil action:nil],
+                           
+                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
+                           ];
+        
         [self addSubview:_toolbar];
     }
     
