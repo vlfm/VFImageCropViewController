@@ -5,6 +5,7 @@
     UIScrollView *_scrollView;
     UIImageView *_imageView;
     UIView *_cropAreaView;
+    UIToolbar *_toolbar;
     
     VFAspectRatio *_aspectRatio;
 }
@@ -55,13 +56,20 @@
     }
     
     {
-        _cropAreaView = [[UIView alloc] init];
+        _cropAreaView = [UIView new];
         _cropAreaView.userInteractionEnabled = NO;
         
         _cropAreaView.layer.borderColor = [UIColor whiteColor].CGColor;
         _cropAreaView.layer.borderWidth = 1;
         
         [self addSubview:_cropAreaView];
+    }
+    
+    {
+        _toolbar = [UIToolbar new];
+        _toolbar.barStyle = UIBarStyleBlack;
+        
+        [self addSubview:_toolbar];
     }
     
     self.backgroundColor = [UIColor blackColor];
@@ -74,6 +82,14 @@
     
     {
         _scrollView.frame = self.bounds;
+    }
+    
+    {
+        [_toolbar sizeToFit];
+        
+        CGRect frame = _toolbar.frame;
+        frame.origin.y = CGRectGetHeight(self.bounds) - CGRectGetHeight(frame);
+        _toolbar.frame = frame;
     }
     
     [self layoutCropAreaView];
@@ -112,7 +128,7 @@
     return CGRectMake(0,
                       _topLayoutGuideLength,
                       CGRectGetWidth(self.frame),
-                      CGRectGetHeight(self.frame) - _topLayoutGuideLength);
+                      CGRectGetHeight(self.frame) - _topLayoutGuideLength - CGRectGetHeight(_toolbar.frame));
 }
 
 #pragma mark UIScrollViewDelegate
