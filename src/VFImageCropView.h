@@ -10,7 +10,9 @@
 @property (nonatomic) CGFloat cropFramePadding;
 @property (nonatomic) CGFloat topLayoutGuideLength;
 
-- (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio;
+@property (nonatomic) VFAspectRatio *aspectRatio;
+
+- (instancetype)initWithImage:(UIImage *)image;
 
 - (void)loadView;
 

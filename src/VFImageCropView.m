@@ -6,14 +6,11 @@
     UIImageView *_imageView;
     UIView *_cropAreaView;
     UIToolbar *_toolbar;
-    
-    VFAspectRatio *_aspectRatio;
 }
 
-- (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
+- (instancetype)initWithImage:(UIImage *)image {
     self = [super init];
     _image = image;
-    _aspectRatio = aspectRatio;
     return self;
 }
 
@@ -37,6 +34,28 @@
     cropRect.size.height = CGRectGetHeight(_cropAreaView.frame) * zoomScale;
     
     return cropRect;
+}
+
+- (void)setAspectRatio:(VFAspectRatio *)aspectRatio {
+    _aspectRatio = aspectRatio;
+    
+    BOOL isLoaded = (_toolbar != nil);
+    
+    if (isLoaded) {
+        
+        _toolbar.items = @[
+                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                           
+                           [[UIBarButtonItem alloc] initWithTitle:_aspectRatio.description
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:nil action:nil],
+                           
+                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
+                           ];
+        
+        [self setNeedsLayout];
+        
+    }
 }
 
 - (void)loadView {

@@ -29,7 +29,8 @@
 
 - (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
     self = [super init];
-    _view = [[VFImageCropView alloc] initWithImage:image aspectRatio:aspectRatio];
+    _view = [[VFImageCropView alloc] initWithImage:image];
+    _view.aspectRatio = aspectRatio;
     return self;
 }
 
