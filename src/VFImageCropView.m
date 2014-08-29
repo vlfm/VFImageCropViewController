@@ -8,9 +8,10 @@
     UIToolbar *_toolbar;
 }
 
-- (instancetype)initWithImage:(UIImage *)image {
+- (instancetype)initWithImage:(UIImage *)image delegate:(id<VFImageCropViewDelegate>)delegate {
     self = [super init];
     _image = image;
+    _delegate = delegate;
     return self;
 }
 
@@ -42,17 +43,7 @@
     BOOL isLoaded = (_toolbar != nil);
     
     if (isLoaded) {
-        
-        _toolbar.items = @[
-                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                           
-                           [[UIBarButtonItem alloc] initWithTitle:_aspectRatio.description
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:nil action:nil],
-                           
-                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
-                           ];
-        
+        _toolbar.items = [self toolbarApectRatioItems];
         [self setNeedsLayout];
         
     }
@@ -85,21 +76,24 @@
     {
         _toolbar = [UIToolbar new];
         _toolbar.barStyle = UIBarStyleBlack;
-        
-        _toolbar.items = @[
-                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                           
-                           [[UIBarButtonItem alloc] initWithTitle:_aspectRatio.description
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:nil action:nil],
-                           
-                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
-                           ];
+        _toolbar.items = [self toolbarApectRatioItems];
         
         [self addSubview:_toolbar];
     }
     
     self.backgroundColor = [UIColor blackColor];
+}
+
+- (NSArray *)toolbarApectRatioItems {
+    return @[
+             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+             
+             [[UIBarButtonItem alloc] initWithTitle:_aspectRatio.description
+                                              style:UIBarButtonItemStylePlain
+                                             target:self action:@selector(tapAspectRatioOption:)],
+             
+             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
+             ];
 }
 
 #pragma mark Layout
@@ -173,6 +167,12 @@
     
     _imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                     scrollView.contentSize.height * 0.5 + offsetY);
+}
+
+#pragma mark tap aspect ratio
+
+- (void)tapAspectRatioOption:(id)sender {
+    [_delegate imageCropViewDidTapAspectRatioChangeOption:self];
 }
 
 @end

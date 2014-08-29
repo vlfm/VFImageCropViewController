@@ -3,7 +3,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "VFAspectRatio.h"
 
-@interface VFImageCropViewController () <UIScrollViewDelegate>
+@interface VFImageCropViewController () <VFImageCropViewDelegate>
 @end
 
 @implementation VFImageCropViewController {
@@ -29,7 +29,7 @@
 
 - (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
     self = [super init];
-    _view = [[VFImageCropView alloc] initWithImage:image];
+    _view = [[VFImageCropView alloc] initWithImage:image delegate:self];
     _view.aspectRatio = aspectRatio;
     return self;
 }
@@ -113,6 +113,12 @@
 
 - (void)restorePreviousStatusBarStyle {
     [UIApplication sharedApplication].statusBarStyle = [_savedStatusBarStyle integerValue];
+}
+
+#pragma mark VFImageCropViewDelegate
+
+- (void)imageCropViewDidTapAspectRatioChangeOption:(VFImageCropView *)imageCropView {
+    NSLog(@"aspect ratio tap");
 }
 
 #pragma mark Crop Rect Transform
