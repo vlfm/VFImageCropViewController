@@ -31,8 +31,7 @@
 }
 
 - (void)cropAndDisplayImage:(UIImage *)image picker:(UIImagePickerController *)picker {
-    VFAspectRatio *aspectRatio = [[VFAspectRatio alloc] initWithWidth:CGRectGetWidth(imageView.frame)
-                                                               height:CGRectGetHeight(imageView.frame)];
+    VFAspectRatio *aspectRatio = VFAspectRatioMake(CGRectGetWidth(imageView.frame), CGRectGetHeight(imageView.frame));
     VFImageCropViewController *cropVC = [[VFImageCropViewController alloc] initWithImage:image aspectRatio:aspectRatio];
     
     // set crop vc properties

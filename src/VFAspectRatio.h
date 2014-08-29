@@ -11,3 +11,5 @@
 - (CGSize)aspectSizeThatFits:(CGSize)size padding:(CGFloat)padding;
 
 @end
+
+VFAspectRatio * VFAspectRatioMake(NSInteger width, NSInteger height);

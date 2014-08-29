@@ -29,3 +29,7 @@
 }
 
 @end
+
+VFAspectRatio * VFAspectRatioMake(NSInteger width, NSInteger height) {
+    return [[VFAspectRatio alloc] initWithWidth:width height:height];
+}
