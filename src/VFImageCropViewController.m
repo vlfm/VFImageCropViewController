@@ -3,10 +3,13 @@
 #import <QuartzCore/QuartzCore.h>
 #import "VFAspectRatio.h"
 
-@interface VFImageCropViewController () <VFImageCropViewDelegate>
+#define UIKitLocalizedString(key) [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:key value:@"" table:nil]
+
+@interface VFImageCropViewController () <VFImageCropViewDelegate, UIActionSheetDelegate>
 @end
 
 @implementation VFImageCropViewController {
+    NSArray *_aspectRatioList;
     VFImageCropView *_view;
     NSNumber *_savedStatusBarStyle;
 }
@@ -29,6 +32,7 @@
 
 - (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
     self = [super init];
+    _aspectRatioList = [[self class] aspectRatioListWithImageSize:image.size firstApectRatio:aspectRatio];
     _view = [[VFImageCropView alloc] initWithImage:image delegate:self];
     _view.aspectRatio = aspectRatio;
     return self;
@@ -118,7 +122,28 @@
 #pragma mark VFImageCropViewDelegate
 
 - (void)imageCropViewDidTapAspectRatioChangeOption:(VFImageCropView *)imageCropView {
-    NSLog(@"aspect ratio tap");
+    UIActionSheet *actioSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                   cancelButtonTitle:nil
+                                              destructiveButtonTitle:nil otherButtonTitles:nil];
+    
+    for (VFAspectRatio *aspectRatio in _aspectRatioList) {
+        [actioSheet addButtonWithTitle:aspectRatio.description];
+    }
+    
+    actioSheet.cancelButtonIndex = [actioSheet addButtonWithTitle:UIKitLocalizedString(@"Cancel")];
+    
+    [actioSheet showInView:_view];
+}
+
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        return;
+    }
+    
+    VFAspectRatio *aspectRatio = _aspectRatioList[buttonIndex];
+    _view.aspectRatio = aspectRatio;
 }
 
 #pragma mark Crop Rect Transform
@@ -149,6 +174,36 @@
     }
     
     return new;
+}
+
++ (NSArray *)aspectRatioListWithImageSize:(CGSize)imageSize firstApectRatio:(VFAspectRatio *)firstAspectRatio {
+    if (imageSize.width >= imageSize.height) {
+        
+        return @[
+                 firstAspectRatio,
+                 VFAspectRatioMake(1, 1),
+                 VFAspectRatioMake(3, 2),
+                 VFAspectRatioMake(5, 3),
+                 VFAspectRatioMake(4, 3),
+                 VFAspectRatioMake(5, 4),
+                 VFAspectRatioMake(7, 5),
+                 VFAspectRatioMake(16, 9),
+                 ];
+        
+    } else {
+        
+        return @[
+                 firstAspectRatio,
+                 VFAspectRatioMake(1, 1),
+                 VFAspectRatioMake(2, 3),
+                 VFAspectRatioMake(3, 5),
+                 VFAspectRatioMake(3, 4),
+                 VFAspectRatioMake(4, 5),
+                 VFAspectRatioMake(5, 7),
+                 VFAspectRatioMake(9, 16),
+                 ];
+        
+    }
 }
 
 @end
