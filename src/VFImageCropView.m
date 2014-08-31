@@ -58,6 +58,7 @@
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _scrollView.maximumZoomScale = 2.0;
         
         [_scrollView addSubview:_imageView];
         [self addSubview:_scrollView];
@@ -116,11 +117,9 @@
     [self layoutCropAreaView];
     
     {
-        float minimumZoomScale = CGRectGetWidth(_cropAreaView.frame) / _image.size.width;
-        float maximumZoomScale = 2.0;
+        CGFloat minimumZoomScale = CGRectGetWidth(_cropAreaView.frame) / _image.size.width;
         
         _scrollView.contentSize = _imageView.frame.size;
-        _scrollView.maximumZoomScale = maximumZoomScale;
         _scrollView.minimumZoomScale = minimumZoomScale;
         _scrollView.zoomScale = minimumZoomScale;
     }
