@@ -158,14 +158,21 @@
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    CGFloat offsetX = (_cropAreaView.bounds.size.width > scrollView.contentSize.width)?
-    (_cropAreaView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
+    CGFloat offsetX = 0;
+    CGFloat offsetY = 0;
     
-    CGFloat offsetY = (_cropAreaView.bounds.size.height > scrollView.contentSize.height)?
-    (_cropAreaView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
+    if (scrollView.zoomScale < scrollView.minimumZoomScale) {
+        offsetX = MAX(0, (_cropAreaView.bounds.size.width - scrollView.contentSize.width) / 2);
+        offsetY = MAX(0, (_cropAreaView.bounds.size.height - scrollView.contentSize.height) / 2);
+    }
     
-    _imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                    scrollView.contentSize.height * 0.5 + offsetY);
+    if (scrollView.zoomScale == scrollView.minimumZoomScale) {
+        offsetX = ABS((scrollView.contentSize.width - _cropAreaView.bounds.size.width) / 2);
+        offsetY = ABS((scrollView.contentSize.height - _cropAreaView.bounds.size.height) / 2);
+    }
+    
+    _imageView.center = CGPointMake(scrollView.contentSize.width / 2 + offsetX,
+                                    scrollView.contentSize.height / 2 + offsetY);
 }
 
 #pragma mark tap aspect ratio
