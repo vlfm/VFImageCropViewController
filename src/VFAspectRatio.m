@@ -13,7 +13,10 @@
     CGFloat w = 0;
     CGFloat h = 0;
     
-    if (_width >= _height) {
+    if (_width == _height) {
+        w = MIN(size.width, size.height) - padding;
+        h = w;
+    } else if (_width > _height) {
         w = size.width - padding;
         h = (w / _width) * _height;
     } else {
