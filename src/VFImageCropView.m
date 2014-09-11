@@ -122,13 +122,7 @@
         _scrollView.contentSize = _imageView.frame.size;
         _scrollView.minimumZoomScale = minimumZoomScale;
         _scrollView.zoomScale = minimumZoomScale;
-    }
-    
-    {
-        CGFloat top = CGRectGetMinY(_cropAreaView.frame);
-        CGFloat leftRight = (CGRectGetWidth(self.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0;
-        CGFloat bottom = CGRectGetHeight(self.frame) - CGRectGetMaxY(_cropAreaView.frame);
-        _scrollView.contentInset = UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
+        _scrollView.contentInset = [self calculateContentInset];
     }
 }
 
@@ -158,21 +152,20 @@
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    CGFloat offsetX = 0;
-    CGFloat offsetY = 0;
+    _imageView.center = CGPointMake(scrollView.contentSize.width / 2,
+                                    scrollView.contentSize.height / 2);
+    _scrollView.contentInset = [self calculateContentInset];
+}
+
+- (UIEdgeInsets)calculateContentInset {
+    CGFloat w = MAX(0, (CGRectGetWidth(_cropAreaView.frame) - _scrollView.contentSize.width) / 2);
+    CGFloat h = MAX(0, (CGRectGetHeight(_cropAreaView.frame) - _scrollView.contentSize.height) / 2);
     
-    if (scrollView.zoomScale < scrollView.minimumZoomScale) {
-        offsetX = MAX(0, (_cropAreaView.bounds.size.width - scrollView.contentSize.width) / 2);
-        offsetY = MAX(0, (_cropAreaView.bounds.size.height - scrollView.contentSize.height) / 2);
-    }
+    CGFloat top = CGRectGetMinY(_cropAreaView.frame) + h;
+    CGFloat leftRight = (CGRectGetWidth(self.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0 + w;
+    CGFloat bottom = CGRectGetHeight(self.frame) - CGRectGetMaxY(_cropAreaView.frame) + h;
     
-    if (scrollView.zoomScale == scrollView.minimumZoomScale) {
-        offsetX = ABS((scrollView.contentSize.width - _cropAreaView.bounds.size.width) / 2);
-        offsetY = ABS((scrollView.contentSize.height - _cropAreaView.bounds.size.height) / 2);
-    }
-    
-    _imageView.center = CGPointMake(scrollView.contentSize.width / 2 + offsetX,
-                                    scrollView.contentSize.height / 2 + offsetY);
+    return UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
 }
 
 #pragma mark tap aspect ratio
