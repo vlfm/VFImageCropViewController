@@ -14,6 +14,8 @@ typedef void (^ vf_OnCancelled) ();
 
 @property (nonatomic, copy) NSNumber *restoreStatusBarStyle;
 
+@property (nonatomic) BOOL standardAspectRatiosAvailable;
+
 - (instancetype)initWithImage:(UIImage *)image
                   widthFactor:(NSInteger)widthFactor
                  heightFactor:(NSInteger)heightFactor DEPRECATED_ATTRIBUTE ;

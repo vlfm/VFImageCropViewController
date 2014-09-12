@@ -35,6 +35,7 @@
     _aspectRatioList = [[self class] aspectRatioListWithImageSize:image.size firstApectRatio:aspectRatio];
     _view = [[VFImageCropView alloc] initWithImage:image delegate:self];
     _view.aspectRatio = aspectRatio;
+    _standardAspectRatiosAvailable = YES;
     return self;
 }
 
@@ -122,6 +123,10 @@
 #pragma mark VFImageCropViewDelegate
 
 - (void)imageCropViewDidTapAspectRatioChangeOption:(VFImageCropView *)imageCropView {
+    if (_standardAspectRatiosAvailable == NO) {
+        return;
+    }
+    
     UIActionSheet *actioSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
                                                    cancelButtonTitle:nil
                                               destructiveButtonTitle:nil otherButtonTitles:nil];
