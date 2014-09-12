@@ -28,7 +28,7 @@ UINavigationController *navigationVC = [[UINavigationController alloc] initWithR
 
 Aspects (new in 2.1.0)
 ==
-Choose crop aspect ratio from list with standars values. Initial (user provided) aspect ratio is on top.
+Choose crop aspect ratio from list with standard values. Initial (user provided) aspect ratio is on top.
 Available by default, can be disabled:
 ```objective-c
 cropVC.standardAspectRatiosAvailable = NO;
