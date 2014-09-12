@@ -6,6 +6,8 @@
     UIImageView *_imageView;
     UIView *_cropAreaView;
     UIToolbar *_toolbar;
+    
+    BOOL _needsUpdateZoomScaleNextLayout;
 }
 
 - (instancetype)initWithImage:(UIImage *)image delegate:(id<VFImageCropViewDelegate>)delegate {
@@ -17,7 +19,7 @@
 
 - (void)setCropFramePadding:(CGFloat)cropFramePadding {
     _cropFramePadding = cropFramePadding;
-    [self layoutCropAreaView];
+    [self setNeedsLayout];
 }
 
 - (CGRect)cropRect {
@@ -44,8 +46,12 @@
     
     if (isLoaded) {
         _toolbar.items = [self toolbarApectRatioItems];
+        
         [self setNeedsLayout];
         
+        [UIView animateWithDuration:0.2 animations:^{
+            [self layoutIfNeeded];
+        }];
     }
 }
 
@@ -83,6 +89,8 @@
     }
     
     self.backgroundColor = [UIColor blackColor];
+    
+    _needsUpdateZoomScaleNextLayout = YES;
 }
 
 - (NSArray *)toolbarApectRatioItems {
@@ -114,26 +122,44 @@
         _toolbar.frame = frame;
     }
     
-    [self layoutCropAreaView];
-    
     {
+        CGRect cropAvailableRect = [self availableFrameToPlaceCropArea];
+        
+        CGSize areaSize = [_aspectRatio aspectSizeThatFits:cropAvailableRect.size
+                                                   padding:_cropFramePadding];
+        
+        
+        _cropAreaView.frame = CGRectMake((CGRectGetWidth(cropAvailableRect) - areaSize.width) / 2,
+                                         _topLayoutGuideLength + (CGRectGetHeight(cropAvailableRect) - areaSize.height) / 2,
+                                         areaSize.width,
+                                         areaSize.height);
+        
         CGFloat minimumZoomScale = CGRectGetWidth(_cropAreaView.frame) / _image.size.width;
         
         _scrollView.contentSize = _imageView.frame.size;
         _scrollView.minimumZoomScale = minimumZoomScale;
-        _scrollView.zoomScale = minimumZoomScale;
         _scrollView.contentInset = [self calculateContentInset];
+        
+        if (_needsUpdateZoomScaleNextLayout) {
+            _scrollView.zoomScale = minimumZoomScale;
+            _needsUpdateZoomScaleNextLayout = NO;
+        }
+        
+        if (_scrollView.zoomScale < minimumZoomScale) {
+            _scrollView.zoomScale = minimumZoomScale;
+        }
     }
 }
 
-- (void)layoutCropAreaView {
-    CGRect cropAvailableRect = [self availableFrameToPlaceCropArea];
+- (UIEdgeInsets)calculateContentInset {
+    CGFloat w = MAX(0, (CGRectGetWidth(_cropAreaView.frame) - _scrollView.contentSize.width) / 2);
+    CGFloat h = MAX(0, (CGRectGetHeight(_cropAreaView.frame) - _scrollView.contentSize.height) / 2);
     
-    CGSize areaSize = [_aspectRatio aspectSizeThatFits:cropAvailableRect.size
-                                               padding:_cropFramePadding];
+    CGFloat top = CGRectGetMinY(_cropAreaView.frame) + h;
+    CGFloat leftRight = (CGRectGetWidth(self.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0 + w;
+    CGFloat bottom = CGRectGetHeight(self.frame) - CGRectGetMaxY(_cropAreaView.frame) + h;
     
-    _cropAreaView.frame = CGRectMake(0, 0, areaSize.width, areaSize.height);
-    _cropAreaView.center = CGPointMake(CGRectGetMidX(cropAvailableRect), CGRectGetMidY(cropAvailableRect));
+    return UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
 }
 
 #pragma mark Crop area available frame
@@ -155,17 +181,6 @@
     _imageView.center = CGPointMake(scrollView.contentSize.width / 2,
                                     scrollView.contentSize.height / 2);
     _scrollView.contentInset = [self calculateContentInset];
-}
-
-- (UIEdgeInsets)calculateContentInset {
-    CGFloat w = MAX(0, (CGRectGetWidth(_cropAreaView.frame) - _scrollView.contentSize.width) / 2);
-    CGFloat h = MAX(0, (CGRectGetHeight(_cropAreaView.frame) - _scrollView.contentSize.height) / 2);
-    
-    CGFloat top = CGRectGetMinY(_cropAreaView.frame) + h;
-    CGFloat leftRight = (CGRectGetWidth(self.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0 + w;
-    CGFloat bottom = CGRectGetHeight(self.frame) - CGRectGetMaxY(_cropAreaView.frame) + h;
-    
-    return UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
 }
 
 #pragma mark tap aspect ratio
