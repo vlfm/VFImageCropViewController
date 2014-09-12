@@ -1,26 +1,33 @@
+/*
+ 
+ Copyright 2014 Valery Fomenko
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ 
+ */
+
 #import "VFImageCropViewController.h"
+#import "VFImageCropView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "VFAspectRatio.h"
 
-@interface VFImageCropView : UIView <UIScrollViewDelegate>
+#define UIKitLocalizedString(key) [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:key value:@"" table:nil]
 
-@property (nonatomic, readonly) UIImage *image;
-@property (nonatomic, readonly) CGRect cropRect;
-
-@property (nonatomic) CGFloat cropFramePadding;
-@property (nonatomic) CGFloat topLayoutGuideLength;
-
-- (instancetype)initWithImage:(UIImage *)image
-                  widthFactor:(NSInteger)widthFactor
-                 heightFactor:(NSInteger)heightFactor;
-
-- (void)loadView;
-
-@end
-
-@interface VFImageCropViewController () <UIScrollViewDelegate>
+@interface VFImageCropViewController () <VFImageCropViewDelegate, UIActionSheetDelegate>
 @end
 
 @implementation VFImageCropViewController {
+    NSArray *_aspectRatioList;
     VFImageCropView *_view;
     NSNumber *_savedStatusBarStyle;
 }
@@ -33,11 +40,20 @@
 	return cropped;
 }
 
-- (id)initWithImage:(UIImage *)image widthFactor:(NSInteger)widthFactor heightFactor:(NSInteger)heightFactor {
+- (instancetype)initWithImage:(UIImage *)image
+                  widthFactor:(NSInteger)widthFactor
+                 heightFactor:(NSInteger)heightFactor {
+    
+    return [self initWithImage:image aspectRatio:[[VFAspectRatio alloc] initWithWidth:widthFactor
+                                                                               height:heightFactor]];
+}
+
+- (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
     self = [super init];
-    _view = [[VFImageCropView alloc] initWithImage:image
-                                       widthFactor:widthFactor
-                                      heightFactor:heightFactor];
+    _aspectRatioList = [[self class] aspectRatioListWithImageSize:image.size firstApectRatio:aspectRatio];
+    _view = [[VFImageCropView alloc] initWithImage:image delegate:self];
+    _view.aspectRatio = aspectRatio;
+    _standardAspectRatiosAvailable = YES;
     return self;
 }
 
@@ -122,6 +138,37 @@
     [UIApplication sharedApplication].statusBarStyle = [_savedStatusBarStyle integerValue];
 }
 
+#pragma mark VFImageCropViewDelegate
+
+- (void)imageCropViewDidTapAspectRatioChangeOption:(VFImageCropView *)imageCropView {
+    if (_standardAspectRatiosAvailable == NO) {
+        return;
+    }
+    
+    UIActionSheet *actioSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                   cancelButtonTitle:nil
+                                              destructiveButtonTitle:nil otherButtonTitles:nil];
+    
+    for (VFAspectRatio *aspectRatio in _aspectRatioList) {
+        [actioSheet addButtonWithTitle:aspectRatio.description];
+    }
+    
+    actioSheet.cancelButtonIndex = [actioSheet addButtonWithTitle:UIKitLocalizedString(@"Cancel")];
+    
+    [actioSheet showInView:_view];
+}
+
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        return;
+    }
+    
+    VFAspectRatio *aspectRatio = _aspectRatioList[buttonIndex];
+    _view.aspectRatio = aspectRatio;
+}
+
 #pragma mark Crop Rect Transform
 
 + (CGRect)transformRect:(CGRect)rect forImage:(UIImage *)image {
@@ -152,147 +199,34 @@
     return new;
 }
 
-@end
-
-@implementation VFImageCropView {
-    UIScrollView *_scrollView;
-    UIImageView *_imageView;
-    UIView *_cropAreaView;
-    
-    NSInteger _widthFactor;
-    NSInteger _heightFactor;
-}
-
-- (instancetype)initWithImage:(UIImage *)image
-                  widthFactor:(NSInteger)widthFactor
-                 heightFactor:(NSInteger)heightFactor {
-    self = [super init];
-    _image = image;
-    _widthFactor = widthFactor;
-    _heightFactor = heightFactor;
-    return self;
-}
-
-- (void)setCropFramePadding:(CGFloat)cropFramePadding {
-    _cropFramePadding = cropFramePadding;
-    [self layoutCropAreaView];
-}
-
-- (CGRect)cropRect {
-    float zoomScale = 1.0 / [_scrollView zoomScale];
-    
-    CGRect cropRect;
-    
-    CGFloat dx = CGRectGetMinX(_cropAreaView.frame);
-    CGFloat dy = CGRectGetMinY(_cropAreaView.frame);
-    
-	cropRect.origin.x = ([_scrollView contentOffset].x + dx) * zoomScale;
-    cropRect.origin.y = ([_scrollView contentOffset].y + dy) * zoomScale;
-    
-    cropRect.size.width = CGRectGetWidth(_cropAreaView.frame) * zoomScale;
-    cropRect.size.height = CGRectGetHeight(_cropAreaView.frame) * zoomScale;
-    
-    return cropRect;
-}
-
-- (void)loadView {
-    
-    {
-        _imageView = [[UIImageView alloc] initWithImage:_image];
-        _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        _scrollView.delegate = self;
-        _scrollView.showsHorizontalScrollIndicator = NO;
-        _scrollView.showsVerticalScrollIndicator = NO;
-        _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
++ (NSArray *)aspectRatioListWithImageSize:(CGSize)imageSize firstApectRatio:(VFAspectRatio *)firstAspectRatio {
+    if (imageSize.width >= imageSize.height) {
         
-        [_scrollView addSubview:_imageView];
-        [self addSubview:_scrollView];
-    }
-    
-    {
-        _cropAreaView = [[UIView alloc] init];
-        _cropAreaView.userInteractionEnabled = NO;
+        return @[
+                 firstAspectRatio,
+                 VFAspectRatioMake(1, 1),
+                 VFAspectRatioMake(3, 2),
+                 VFAspectRatioMake(5, 3),
+                 VFAspectRatioMake(4, 3),
+                 VFAspectRatioMake(5, 4),
+                 VFAspectRatioMake(7, 5),
+                 VFAspectRatioMake(16, 9),
+                 ];
         
-        _cropAreaView.layer.borderColor = [UIColor whiteColor].CGColor;
-        _cropAreaView.layer.borderWidth = 1;
-        
-        [self addSubview:_cropAreaView];
-    }
-    
-    self.backgroundColor = [UIColor blackColor];
-}
-
-#pragma mark Layout
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    {
-        _scrollView.frame = self.bounds;
-    }
-    
-    [self layoutCropAreaView];
-    
-    {
-        float minimumZoomScale = CGRectGetWidth(_cropAreaView.frame) / _image.size.width;
-        float maximumZoomScale = 2.0;
-        
-        _scrollView.contentSize = _imageView.frame.size;
-        _scrollView.maximumZoomScale = maximumZoomScale;
-        _scrollView.minimumZoomScale = minimumZoomScale;
-        _scrollView.zoomScale = minimumZoomScale;
-    }
-    
-    {
-        CGFloat top = CGRectGetMinY(_cropAreaView.frame);
-        CGFloat leftRight = (CGRectGetWidth(self.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0;
-        CGFloat bottom = CGRectGetHeight(self.frame) - CGRectGetMaxY(_cropAreaView.frame);
-        _scrollView.contentInset = UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
-    }
-}
-
-- (void)layoutCropAreaView {
-    CGFloat areaW = 0;
-    CGFloat areaH = 0;
-    
-    CGRect cropAvailableRect = [self availableFrameToPlaceCropArea];
-    
-    if (_widthFactor >= _heightFactor) {
-        areaW = cropAvailableRect.size.width - _cropFramePadding;
-        areaH = (areaW / _widthFactor) * _heightFactor;
     } else {
-        areaH = cropAvailableRect.size.height - self.cropFramePadding;
-        areaW = (areaH / _heightFactor) * _widthFactor;
-    }
         
-    _cropAreaView.frame = CGRectMake(0, 0, areaW, areaH);
-    _cropAreaView.center = CGPointMake(CGRectGetMidX(cropAvailableRect), CGRectGetMidY(cropAvailableRect));
-}
-
-#pragma mark Crop area available frame
-
-- (CGRect)availableFrameToPlaceCropArea {
-    return CGRectMake(0,
-                      _topLayoutGuideLength,
-                      CGRectGetWidth(self.frame),
-                      CGRectGetHeight(self.frame) - _topLayoutGuideLength);
-}
-
-#pragma mark UIScrollViewDelegate
-
-- (UIView *) viewForZoomingInScrollView: (UIScrollView *)scrollView {
-	return _imageView;
-}
-
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    CGFloat offsetX = (_cropAreaView.bounds.size.width > scrollView.contentSize.width)?
-    (_cropAreaView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
-    
-    CGFloat offsetY = (_cropAreaView.bounds.size.height > scrollView.contentSize.height)?
-    (_cropAreaView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
-    
-    _imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                    scrollView.contentSize.height * 0.5 + offsetY);
+        return @[
+                 firstAspectRatio,
+                 VFAspectRatioMake(1, 1),
+                 VFAspectRatioMake(2, 3),
+                 VFAspectRatioMake(3, 5),
+                 VFAspectRatioMake(3, 4),
+                 VFAspectRatioMake(4, 5),
+                 VFAspectRatioMake(5, 7),
+                 VFAspectRatioMake(9, 16),
+                 ];
+        
+    }
 }
 
 @end
