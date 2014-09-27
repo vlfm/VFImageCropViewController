@@ -28,21 +28,32 @@
 }
 
 - (CGSize)aspectSizeThatFits:(CGSize)size padding:(CGFloat)padding {
+    CGFloat cut = padding * 2;
+    CGSize paddedSize = CGSizeMake(size.width - cut, size.height - cut);
+    return [self aspectSizeThatFits:paddedSize];
+}
+
+- (CGSize)aspectSizeThatFits:(CGSize)size {
     CGFloat w = 0;
     CGFloat h = 0;
     
     if (_width == _height) {
-        w = MIN(size.width, size.height) - padding;
+        w = MIN(size.width, size.height);
         h = w;
     } else if (_width > _height) {
-        w = size.width - padding;
+        w = size.width;
         h = (w / _width) * _height;
     } else {
-        h = size.height - padding;
+        h = size.height;
         w = (h / _height) * _width;
     }
     
-    return CGSizeMake(w, h);
+    CGFloat wOverhead = MAX(1, w / size.width);
+    CGFloat hOverhead = MAX(1, h / size.height);
+    
+    CGFloat overhead = MAX(wOverhead, hOverhead);
+    
+    return CGSizeMake(w / overhead, h / overhead);
 }
 
 - (NSString *)description {
