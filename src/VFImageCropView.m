@@ -166,6 +166,8 @@
         if (_scrollView.zoomScale < minimumZoomScale) {
             _scrollView.zoomScale = minimumZoomScale;
         }
+        
+        _scrollView.contentOffset = [self calculateCenterContentOffsetWithContentInset:_scrollView.contentInset];
     }
 }
 
@@ -178,6 +180,13 @@
     CGFloat bottom = CGRectGetHeight(self.frame) - CGRectGetMaxY(_cropAreaView.frame) + h;
     
     return UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
+}
+
+- (CGPoint)calculateCenterContentOffsetWithContentInset:(UIEdgeInsets)contentInset {
+    CGFloat w = MAX(0, (_scrollView.contentSize.width - CGRectGetWidth(_cropAreaView.frame)) / 2);
+    CGFloat h = MAX(0, (_scrollView.contentSize.height - CGRectGetHeight(_cropAreaView.frame)) / 2);
+    
+    return CGPointMake(-contentInset.left + w, -contentInset.top + h);
 }
 
 #pragma mark Crop area available frame
