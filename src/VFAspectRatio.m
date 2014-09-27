@@ -42,7 +42,12 @@
         w = (h / _height) * _width;
     }
     
-    return CGSizeMake(w, h);
+    CGFloat wOverhead = MAX(1, w / size.width);
+    CGFloat hOverhead = MAX(1, h / size.height);
+    
+    CGFloat overhead = MAX(wOverhead, hOverhead);
+    
+    return CGSizeMake(w / overhead, h / overhead);
 }
 
 - (NSString *)description {
