@@ -1,4 +1,6 @@
 #import "VFCropOverlayView.h"
+
+#import "VFAspectRatio.h"
 #import "VFCropAreaView.h"
 
 @implementation VFCropOverlayView {
@@ -16,6 +18,16 @@
     return  self;
 }
 
+- (void)setAspectRatio:(VFAspectRatio *)aspectRatio {
+    _aspectRatio = aspectRatio;
+    [self setNeedsLayout];
+}
+
+- (void)setCropFramePadding:(CGFloat)cropFramePadding {
+    _cropFramePadding = cropFramePadding;
+    [self setNeedsLayout];
+}
+
 - (UIEdgeInsets)contentInsetsForImageScrollView:(UIScrollView *)scrollView {
     CGFloat w = MAX(0, (CGRectGetWidth([self cropAreaRect]) - scrollView.contentSize.width) / 2);
     CGFloat h = MAX(0, (CGRectGetHeight([self cropAreaRect]) - scrollView.contentSize.height) / 2);
@@ -24,7 +36,7 @@
     CGFloat leftRight = (CGRectGetWidth(scrollView.frame) - CGRectGetWidth([self cropAreaRect])) / 2.0 + w;
     CGFloat bottom = CGRectGetHeight(scrollView.frame) - CGRectGetMaxY([self cropAreaRect]) + h;
     
-    return UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
+    return UIEdgeInsetsMake(_topLayoutGuideLength + top, leftRight, bottom - _topLayoutGuideLength, leftRight);
 }
 
 - (CGPoint)centerContentOffsetForImageScrollView:(UIScrollView *)scrollView {
@@ -59,13 +71,20 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _cropAreaView.frame = self.bounds;
+    _cropAreaView.frame = [self cropAreaRect];
 }
 
 # pragma mark private
 
 - (CGRect)cropAreaRect {
-    return self.frame;
+    CGSize areaSize = [_aspectRatio aspectSizeThatFits:self.bounds.size
+                                               padding:_cropFramePadding];
+    
+    
+    return CGRectMake((CGRectGetWidth(self.bounds) - areaSize.width) / 2,
+                      (CGRectGetHeight(self.bounds) - areaSize.height) / 2,
+                      areaSize.width,
+                      areaSize.height);
 }
 
 @end

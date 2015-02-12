@@ -38,7 +38,13 @@
 
 - (void)setCropFramePadding:(CGFloat)cropFramePadding {
     _cropFramePadding = cropFramePadding;
+    _cropOverlayView.cropFramePadding = cropFramePadding;
     [self setNeedsLayout];
+}
+
+- (void)setTopLayoutGuideLength:(CGFloat)topLayoutGuideLength {
+    _topLayoutGuideLength = topLayoutGuideLength;
+    _cropOverlayView.topLayoutGuideLength = topLayoutGuideLength;
 }
 
 - (CGRect)cropRect {
@@ -47,6 +53,7 @@
 
 - (void)setAspectRatio:(VFAspectRatio *)aspectRatio {
     _aspectRatio = aspectRatio;
+    _cropOverlayView.aspectRatio = aspectRatio;
     
     BOOL isLoaded = (_toolbar != nil);
     
@@ -78,6 +85,9 @@
     
     {
         _cropOverlayView = [VFCropOverlayView new];
+        _cropOverlayView.aspectRatio = _aspectRatio;
+        _cropOverlayView.cropFramePadding = _cropFramePadding;
+        _cropOverlayView.topLayoutGuideLength = _topLayoutGuideLength;
         [self addSubview:_cropOverlayView];
     }
     
@@ -124,16 +134,7 @@
     }
     
     {
-        CGRect cropAvailableRect = [self availableFrameToPlaceCropArea];
-        
-        CGSize areaSize = [_aspectRatio aspectSizeThatFits:cropAvailableRect.size
-                                                   padding:_cropFramePadding];
-        
-        
-        _cropOverlayView.frame = CGRectMake((CGRectGetWidth(cropAvailableRect) - areaSize.width) / 2,
-                                            _topLayoutGuideLength + (CGRectGetHeight(cropAvailableRect) - areaSize.height) / 2,
-                                            areaSize.width,
-                                            areaSize.height);
+        _cropOverlayView.frame = [self cropOverlayAvailableRect];
         
         CGFloat minimumZoomScale = [_cropOverlayView minimumZoomScaleWithImage:_image];
         
@@ -156,7 +157,7 @@
 
 #pragma mark Crop area available frame
 
-- (CGRect)availableFrameToPlaceCropArea {
+- (CGRect)cropOverlayAvailableRect {
     return CGRectMake(0,
                       _topLayoutGuideLength,
                       CGRectGetWidth(self.frame),

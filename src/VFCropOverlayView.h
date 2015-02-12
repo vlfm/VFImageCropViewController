@@ -1,6 +1,12 @@
 #import <UIKit/UIKit.h>
 
+@class VFAspectRatio;
+
 @interface VFCropOverlayView : UIView
+
+@property (nonatomic) VFAspectRatio *aspectRatio;
+@property (nonatomic) CGFloat cropFramePadding;
+@property (nonatomic) CGFloat topLayoutGuideLength;
 
 - (UIEdgeInsets)contentInsetsForImageScrollView:(UIScrollView *)scrollView;
 - (CGPoint)centerContentOffsetForImageScrollView:(UIScrollView *)scrollView;
