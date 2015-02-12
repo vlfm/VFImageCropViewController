@@ -1,14 +1,13 @@
-#import "VFCropAreaView.h"
+#import "VFCropOverlayView.h"
 
-@implementation VFCropAreaView
+@implementation VFCropOverlayView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
+    self.backgroundColor = UIColor.clearColor;
+    self.contentMode = UIViewContentModeRedraw;
     self.userInteractionEnabled = NO;
-    
-    self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.layer.borderWidth = 1;
     
     return  self;
 }
@@ -43,6 +42,18 @@
 
 - (CGFloat)minimumZoomScaleWithImage:(UIImage *)image {
     return CGRectGetWidth([self cropAreaRect]) / image.size.width;
+}
+
+#pragma mark draw
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetStrokeColorWithColor(context, UIColor.whiteColor.CGColor);
+    CGContextSetLineWidth(context, 2.0);
+    CGContextStrokeRect(context, self.bounds);
 }
 
 # pragma mark private

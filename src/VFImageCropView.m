@@ -16,14 +16,14 @@
  
  */
 
-#import "VFCropAreaView.h"
+#import "VFCropOverlayView.h"
 #import "VFImageCropView.h"
 #import "VFAspectRatio.h"
 
 @implementation VFImageCropView {
     UIScrollView *_scrollView;
     UIImageView *_imageView;
-    VFCropAreaView *_cropAreaView;
+    VFCropOverlayView *_cropOverlayView;
     UIToolbar *_toolbar;
     
     BOOL _needsUpdateZoomScaleNextLayout;
@@ -42,7 +42,7 @@
 }
 
 - (CGRect)cropRect {
-    return [_cropAreaView cropRectWithImageScrollView:_scrollView];
+    return [_cropOverlayView cropRectWithImageScrollView:_scrollView];
 }
 
 - (void)setAspectRatio:(VFAspectRatio *)aspectRatio {
@@ -77,8 +77,8 @@
     }
     
     {
-        _cropAreaView = [VFCropAreaView new];
-        [self addSubview:_cropAreaView];
+        _cropOverlayView = [VFCropOverlayView new];
+        [self addSubview:_cropOverlayView];
     }
     
     {
@@ -130,16 +130,16 @@
                                                    padding:_cropFramePadding];
         
         
-        _cropAreaView.frame = CGRectMake((CGRectGetWidth(cropAvailableRect) - areaSize.width) / 2,
-                                         _topLayoutGuideLength + (CGRectGetHeight(cropAvailableRect) - areaSize.height) / 2,
-                                         areaSize.width,
-                                         areaSize.height);
+        _cropOverlayView.frame = CGRectMake((CGRectGetWidth(cropAvailableRect) - areaSize.width) / 2,
+                                            _topLayoutGuideLength + (CGRectGetHeight(cropAvailableRect) - areaSize.height) / 2,
+                                            areaSize.width,
+                                            areaSize.height);
         
-        CGFloat minimumZoomScale = [_cropAreaView minimumZoomScaleWithImage:_image];
+        CGFloat minimumZoomScale = [_cropOverlayView minimumZoomScaleWithImage:_image];
         
         _scrollView.contentSize = _imageView.frame.size;
         _scrollView.minimumZoomScale = minimumZoomScale;
-        _scrollView.contentInset = [_cropAreaView contentInsetsForImageScrollView:_scrollView];
+        _scrollView.contentInset = [_cropOverlayView contentInsetsForImageScrollView:_scrollView];
         
         if (_needsUpdateZoomScaleNextLayout) {
             _scrollView.zoomScale = minimumZoomScale;
@@ -155,8 +155,8 @@
 }
 
 - (CGPoint)calculateCenterContentOffsetWithContentInset:(UIEdgeInsets)contentInset {
-    CGFloat w = MAX(0, (_scrollView.contentSize.width - CGRectGetWidth(_cropAreaView.frame)) / 2);
-    CGFloat h = MAX(0, (_scrollView.contentSize.height - CGRectGetHeight(_cropAreaView.frame)) / 2);
+    CGFloat w = MAX(0, (_scrollView.contentSize.width - CGRectGetWidth(_cropOverlayView.frame)) / 2);
+    CGFloat h = MAX(0, (_scrollView.contentSize.height - CGRectGetHeight(_cropOverlayView.frame)) / 2);
     
     return CGPointMake(-contentInset.left + w, -contentInset.top + h);
 }
@@ -179,7 +179,7 @@
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     _imageView.center = CGPointMake(scrollView.contentSize.width / 2,
                                     scrollView.contentSize.height / 2);
-    _scrollView.contentInset = [_cropAreaView contentInsetsForImageScrollView:scrollView];
+    _scrollView.contentInset = [_cropOverlayView contentInsetsForImageScrollView:scrollView];
 }
 
 #pragma mark tap aspect ratio

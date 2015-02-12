@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface VFCropAreaView : UIView
+@interface VFCropOverlayView : UIView
 
 - (UIEdgeInsets)contentInsetsForImageScrollView:(UIScrollView *)scrollView;
 - (CGRect)cropRectWithImageScrollView:(UIScrollView *)scrollView;
