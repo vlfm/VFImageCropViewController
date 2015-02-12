@@ -23,6 +23,13 @@
     return UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
 }
 
+- (CGPoint)centerContentOffsetForImageScrollView:(UIScrollView *)scrollView {
+    CGFloat w = MAX(0, (scrollView.contentSize.width - CGRectGetWidth([self cropAreaRect])) / 2);
+    CGFloat h = MAX(0, (scrollView.contentSize.height - CGRectGetHeight([self cropAreaRect])) / 2);
+    
+    return CGPointMake(-scrollView.contentInset.left + w, -scrollView.contentInset.top + h);
+}
+
 - (CGRect)cropRectWithImageScrollView:(UIScrollView *)scrollView {
     CGFloat zoomScale = scrollView.zoomScale;
     
