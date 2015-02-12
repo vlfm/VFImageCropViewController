@@ -31,7 +31,7 @@
     CGFloat leftRight = (CGRectGetWidth(scrollView.frame) - CGRectGetWidth([self cropAreaRect])) / 2.0 + w;
     CGFloat bottom = CGRectGetHeight(scrollView.frame) - CGRectGetMaxY([self cropAreaRect]) + h;
     
-    return UIEdgeInsetsMake(_topLayoutGuideLength + top, leftRight, bottom - _topLayoutGuideLength, leftRight);
+    return UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
 }
 
 - (CGPoint)centerContentOffsetForImageScrollView:(UIScrollView *)scrollView {

@@ -85,11 +85,6 @@
     [self restorePreviousStatusBarStyle];
 }
 
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    _view.topLayoutGuideLength = self.topLayoutGuide.length;
-}
-
 - (BOOL)automaticallyAdjustsScrollViewInsets {
     return NO;
 }

@@ -36,11 +36,6 @@
     return self;
 }
 
-- (void)setTopLayoutGuideLength:(CGFloat)topLayoutGuideLength {
-    _topLayoutGuideLength = topLayoutGuideLength;
-    _cropOverlayView.topLayoutGuideLength = topLayoutGuideLength;
-}
-
 - (CGRect)cropRect {
     return [_cropOverlayView cropRectWithImageScrollView:_scrollView];
 }
@@ -80,7 +75,6 @@
     {
         _cropOverlayView = [VFCropOverlayView new];
         _cropOverlayView.aspectRatio = _aspectRatio;
-        _cropOverlayView.topLayoutGuideLength = _topLayoutGuideLength;
         [self addSubview:_cropOverlayView];
     }
     
@@ -152,9 +146,9 @@
 
 - (CGRect)cropOverlayAvailableRect {
     return CGRectMake(0,
-                      _topLayoutGuideLength,
+                      0,
                       CGRectGetWidth(self.frame),
-                      CGRectGetHeight(self.frame) - _topLayoutGuideLength - CGRectGetHeight(_toolbar.frame));
+                      CGRectGetHeight(self.frame) - CGRectGetHeight(_toolbar.frame));
 }
 
 #pragma mark UIScrollViewDelegate
