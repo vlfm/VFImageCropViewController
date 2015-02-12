@@ -42,20 +42,7 @@
 }
 
 - (CGRect)cropRect {
-    float zoomScale = 1.0 / [_scrollView zoomScale];
-    
-    CGRect cropRect;
-    
-    CGFloat dx = CGRectGetMinX(_cropAreaView.cropAreaRect);
-    CGFloat dy = CGRectGetMinY(_cropAreaView.cropAreaRect);
-    
-    cropRect.origin.x = ([_scrollView contentOffset].x + dx) * zoomScale;
-    cropRect.origin.y = ([_scrollView contentOffset].y + dy) * zoomScale;
-    
-    cropRect.size.width = CGRectGetWidth(_cropAreaView.cropAreaRect) * zoomScale;
-    cropRect.size.height = CGRectGetHeight(_cropAreaView.cropAreaRect) * zoomScale;
-    
-    return cropRect;
+    return [_cropAreaView cropRectWithImageScrollView:_scrollView];
 }
 
 - (void)setAspectRatio:(VFAspectRatio *)aspectRatio {
@@ -148,11 +135,11 @@
                                          areaSize.width,
                                          areaSize.height);
         
-        CGFloat minimumZoomScale = CGRectGetWidth(_cropAreaView.cropAreaRect) / _image.size.width;
+        CGFloat minimumZoomScale = [_cropAreaView minimumZoomScaleWithImage:_image];
         
         _scrollView.contentSize = _imageView.frame.size;
         _scrollView.minimumZoomScale = minimumZoomScale;
-        _scrollView.contentInset = [self calculateContentInset];
+        _scrollView.contentInset = [_cropAreaView contentInsetsForImageScrollView:_scrollView];
         
         if (_needsUpdateZoomScaleNextLayout) {
             _scrollView.zoomScale = minimumZoomScale;
@@ -165,17 +152,6 @@
         
         _scrollView.contentOffset = [self calculateCenterContentOffsetWithContentInset:_scrollView.contentInset];
     }
-}
-
-- (UIEdgeInsets)calculateContentInset {
-    CGFloat w = MAX(0, (CGRectGetWidth(_cropAreaView.cropAreaRect) - _scrollView.contentSize.width) / 2);
-    CGFloat h = MAX(0, (CGRectGetHeight(_cropAreaView.cropAreaRect) - _scrollView.contentSize.height) / 2);
-    
-    CGFloat top = CGRectGetMinY(_cropAreaView.frame) + h;
-    CGFloat leftRight = (CGRectGetWidth(self.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0 + w;
-    CGFloat bottom = CGRectGetHeight(self.frame) - CGRectGetMaxY(_cropAreaView.frame) + h;
-    
-    return UIEdgeInsetsMake(top, leftRight, bottom, leftRight);
 }
 
 - (CGPoint)calculateCenterContentOffsetWithContentInset:(UIEdgeInsets)contentInset {
@@ -203,7 +179,7 @@
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     _imageView.center = CGPointMake(scrollView.contentSize.width / 2,
                                     scrollView.contentSize.height / 2);
-    _scrollView.contentInset = [self calculateContentInset];
+    _scrollView.contentInset = [_cropAreaView contentInsetsForImageScrollView:scrollView];
 }
 
 #pragma mark tap aspect ratio

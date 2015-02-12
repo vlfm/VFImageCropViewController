@@ -2,6 +2,8 @@
 
 @interface VFCropAreaView : UIView
 
-- (CGRect)cropAreaRect;
+- (UIEdgeInsets)contentInsetsForImageScrollView:(UIScrollView *)scrollView;
+- (CGRect)cropRectWithImageScrollView:(UIScrollView *)scrollView;
+- (CGFloat)minimumZoomScaleWithImage:(UIImage *)image;
 
 @end
