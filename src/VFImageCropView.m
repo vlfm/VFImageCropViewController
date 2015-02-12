@@ -16,13 +16,14 @@
  
  */
 
+#import "VFCropAreaView.h"
 #import "VFImageCropView.h"
 #import "VFAspectRatio.h"
 
 @implementation VFImageCropView {
     UIScrollView *_scrollView;
     UIImageView *_imageView;
-    UIView *_cropAreaView;
+    VFCropAreaView *_cropAreaView;
     UIToolbar *_toolbar;
     
     BOOL _needsUpdateZoomScaleNextLayout;
@@ -45,14 +46,14 @@
     
     CGRect cropRect;
     
-    CGFloat dx = CGRectGetMinX(_cropAreaView.frame);
-    CGFloat dy = CGRectGetMinY(_cropAreaView.frame);
+    CGFloat dx = CGRectGetMinX(_cropAreaView.cropAreaRect);
+    CGFloat dy = CGRectGetMinY(_cropAreaView.cropAreaRect);
     
     cropRect.origin.x = ([_scrollView contentOffset].x + dx) * zoomScale;
     cropRect.origin.y = ([_scrollView contentOffset].y + dy) * zoomScale;
     
-    cropRect.size.width = CGRectGetWidth(_cropAreaView.frame) * zoomScale;
-    cropRect.size.height = CGRectGetHeight(_cropAreaView.frame) * zoomScale;
+    cropRect.size.width = CGRectGetWidth(_cropAreaView.cropAreaRect) * zoomScale;
+    cropRect.size.height = CGRectGetHeight(_cropAreaView.cropAreaRect) * zoomScale;
     
     return cropRect;
 }
@@ -89,12 +90,7 @@
     }
     
     {
-        _cropAreaView = [UIView new];
-        _cropAreaView.userInteractionEnabled = NO;
-        
-        _cropAreaView.layer.borderColor = [UIColor whiteColor].CGColor;
-        _cropAreaView.layer.borderWidth = 1;
-        
+        _cropAreaView = [VFCropAreaView new];
         [self addSubview:_cropAreaView];
     }
     
@@ -152,7 +148,7 @@
                                          areaSize.width,
                                          areaSize.height);
         
-        CGFloat minimumZoomScale = CGRectGetWidth(_cropAreaView.frame) / _image.size.width;
+        CGFloat minimumZoomScale = CGRectGetWidth(_cropAreaView.cropAreaRect) / _image.size.width;
         
         _scrollView.contentSize = _imageView.frame.size;
         _scrollView.minimumZoomScale = minimumZoomScale;
@@ -172,8 +168,8 @@
 }
 
 - (UIEdgeInsets)calculateContentInset {
-    CGFloat w = MAX(0, (CGRectGetWidth(_cropAreaView.frame) - _scrollView.contentSize.width) / 2);
-    CGFloat h = MAX(0, (CGRectGetHeight(_cropAreaView.frame) - _scrollView.contentSize.height) / 2);
+    CGFloat w = MAX(0, (CGRectGetWidth(_cropAreaView.cropAreaRect) - _scrollView.contentSize.width) / 2);
+    CGFloat h = MAX(0, (CGRectGetHeight(_cropAreaView.cropAreaRect) - _scrollView.contentSize.height) / 2);
     
     CGFloat top = CGRectGetMinY(_cropAreaView.frame) + h;
     CGFloat leftRight = (CGRectGetWidth(self.frame) - CGRectGetWidth(_cropAreaView.frame)) / 2.0 + w;
