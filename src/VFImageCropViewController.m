@@ -94,16 +94,6 @@
     return NO;
 }
 
-#pragma mark Property
-
-- (CGFloat)cropFramePadding {
-    return _view.cropFramePadding;
-}
-
-- (void)setCropFramePadding:(CGFloat)cropFramePadding {
-    _view.cropFramePadding = cropFramePadding;
-}
-
 #pragma mark Actions
 
 - (void)cancel {

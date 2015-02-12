@@ -23,11 +23,6 @@
     [self setNeedsLayout];
 }
 
-- (void)setCropFramePadding:(CGFloat)cropFramePadding {
-    _cropFramePadding = cropFramePadding;
-    [self setNeedsLayout];
-}
-
 - (UIEdgeInsets)contentInsetsForImageScrollView:(UIScrollView *)scrollView {
     CGFloat w = MAX(0, (CGRectGetWidth([self cropAreaRect]) - scrollView.contentSize.width) / 2);
     CGFloat h = MAX(0, (CGRectGetHeight([self cropAreaRect]) - scrollView.contentSize.height) / 2);
@@ -78,7 +73,7 @@
 
 - (CGRect)cropAreaRect {
     CGSize areaSize = [_aspectRatio aspectSizeThatFits:self.bounds.size
-                                               padding:_cropFramePadding];
+                                               padding:60];
     
     
     return CGRectMake((CGRectGetWidth(self.bounds) - areaSize.width) / 2,

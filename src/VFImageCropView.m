@@ -36,12 +36,6 @@
     return self;
 }
 
-- (void)setCropFramePadding:(CGFloat)cropFramePadding {
-    _cropFramePadding = cropFramePadding;
-    _cropOverlayView.cropFramePadding = cropFramePadding;
-    [self setNeedsLayout];
-}
-
 - (void)setTopLayoutGuideLength:(CGFloat)topLayoutGuideLength {
     _topLayoutGuideLength = topLayoutGuideLength;
     _cropOverlayView.topLayoutGuideLength = topLayoutGuideLength;
@@ -86,7 +80,6 @@
     {
         _cropOverlayView = [VFCropOverlayView new];
         _cropOverlayView.aspectRatio = _aspectRatio;
-        _cropOverlayView.cropFramePadding = _cropFramePadding;
         _cropOverlayView.topLayoutGuideLength = _topLayoutGuideLength;
         [self addSubview:_cropOverlayView];
     }

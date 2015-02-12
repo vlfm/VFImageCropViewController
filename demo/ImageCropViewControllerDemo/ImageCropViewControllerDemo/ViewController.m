@@ -34,8 +34,6 @@
     VFAspectRatio *aspectRatio = VFAspectRatioMake(CGRectGetWidth(imageView.frame), CGRectGetHeight(imageView.frame));
     VFImageCropViewController *cropVC = [[VFImageCropViewController alloc] initWithImage:image aspectRatio:aspectRatio];
     
-    cropVC.cropFramePadding = 60;
-    
     cropVC.onCancelled = ^ {
         [picker dismissViewControllerAnimated:YES completion:nil];
     };

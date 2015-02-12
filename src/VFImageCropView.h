@@ -33,7 +33,6 @@
 @property (nonatomic, weak, readonly) id<VFImageCropViewDelegate> delegate;
 @property (nonatomic, readonly) CGRect cropRect;
 
-@property (nonatomic) CGFloat cropFramePadding;
 @property (nonatomic) CGFloat topLayoutGuideLength;
 
 @property (nonatomic) VFAspectRatio *aspectRatio;
