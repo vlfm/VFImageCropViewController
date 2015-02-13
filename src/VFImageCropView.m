@@ -49,6 +49,12 @@
     }];
 }
 
+- (void)setCropAreaMargins:(UIEdgeInsets)cropAreaMargins {
+    _cropAreaMargins = cropAreaMargins;
+    _cropOverlayView.cropAreaMargins = cropAreaMargins;
+    [self setNeedsLayout];
+}
+
 - (void)loadView {
     
     {
@@ -85,7 +91,7 @@
     }
     
     {
-        _cropOverlayView.frame = [self cropOverlayAvailableRect];
+        _cropOverlayView.frame = self.bounds;
         
         CGFloat minimumZoomScale = [_cropOverlayView minimumZoomScaleWithImage:_image];
         
@@ -104,15 +110,6 @@
         
         _scrollView.contentOffset = [_cropOverlayView centerContentOffsetForImageScrollView:_scrollView];
     }
-}
-
-#pragma mark Crop area available frame
-
-- (CGRect)cropOverlayAvailableRect {
-    return CGRectMake(0,
-                      0,
-                      CGRectGetWidth(self.frame),
-                      CGRectGetHeight(self.frame));
 }
 
 #pragma mark UIScrollViewDelegate

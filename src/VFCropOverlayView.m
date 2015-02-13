@@ -23,6 +23,11 @@
     [self setNeedsLayout];
 }
 
+- (void)setCropAreaMargins:(UIEdgeInsets)cropAreaMargins {
+    _cropAreaMargins = cropAreaMargins;
+    [self setNeedsLayout];
+}
+
 - (UIEdgeInsets)contentInsetsForImageScrollView:(UIScrollView *)scrollView {
     CGFloat w = MAX(0, (CGRectGetWidth([self cropAreaRect]) - scrollView.contentSize.width) / 2);
     CGFloat h = MAX(0, (CGRectGetHeight([self cropAreaRect]) - scrollView.contentSize.height) / 2);
@@ -72,14 +77,28 @@
 # pragma mark private
 
 - (CGRect)cropAreaRect {
-    CGSize areaSize = [_aspectRatio aspectSizeThatFits:self.bounds.size
-                                               padding:60];
+    CGRect cropAreaAvailableRect = [self cropAreaAvailableRect];
+    CGSize areaSize = [_aspectRatio aspectSizeThatFits:cropAreaAvailableRect.size
+                                               padding:10];
     
+    CGFloat dx = (CGRectGetWidth(cropAreaAvailableRect) - areaSize.width) / 2;
+    CGFloat dy = (CGRectGetHeight(cropAreaAvailableRect) - areaSize.height) / 2;
     
-    return CGRectMake((CGRectGetWidth(self.bounds) - areaSize.width) / 2,
-                      (CGRectGetHeight(self.bounds) - areaSize.height) / 2,
+    return CGRectMake(CGRectGetMinX(cropAreaAvailableRect) + dx,
+                      CGRectGetMinY(cropAreaAvailableRect) + dy,
                       areaSize.width,
                       areaSize.height);
+}
+
+- (CGRect)cropAreaAvailableRect {
+    CGFloat dx = _cropAreaMargins.left;
+    CGFloat dy = _cropAreaMargins.top;
+    CGFloat dw = -dx - _cropAreaMargins.right;
+    CGFloat dh = -dy - _cropAreaMargins.bottom;
+    return CGRectMake(CGRectGetMinX(self.bounds) + dx,
+                      CGRectGetMinY(self.bounds) + dy,
+                      CGRectGetWidth(self.bounds) + dw,
+                      CGRectGetHeight(self.bounds) + dh);
 }
 
 @end

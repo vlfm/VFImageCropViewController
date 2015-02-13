@@ -95,6 +95,8 @@
     CGRect frame = _toolbar.frame;
     frame.origin.y = CGRectGetHeight(self.view.bounds) - CGRectGetHeight(frame);
     _toolbar.frame = frame;
+    
+    _view.cropAreaMargins = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, CGRectGetHeight(_toolbar.frame), 0);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

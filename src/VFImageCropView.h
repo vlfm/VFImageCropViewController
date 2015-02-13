@@ -26,6 +26,7 @@
 @property (nonatomic, readonly) CGRect cropRect;
 
 @property (nonatomic) VFAspectRatio *aspectRatio;
+@property (nonatomic) UIEdgeInsets cropAreaMargins;
 
 - (instancetype)initWithImage:(UIImage *)image;
 
