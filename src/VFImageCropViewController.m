@@ -29,6 +29,7 @@
 @implementation VFImageCropViewController {
     NSArray *_aspectRatioList;
     VFImageCropView *_view;
+    UIToolbar *_toolbar;
     NSNumber *_savedStatusBarStyle;
 }
 
@@ -72,12 +73,28 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                               initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                               target:self action:@selector(done)];
+    
+    _toolbar = [UIToolbar new];
+    _toolbar.barStyle = UIBarStyleBlack;
+    _toolbar.items = [self toolbarApectRatioItems];
+    
+    [self.view addSubview:_toolbar];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     [self applyNewStatusBarStyle];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    [_toolbar sizeToFit];
+    
+    CGRect frame = _toolbar.frame;
+    frame.origin.y = CGRectGetHeight(self.view.bounds) - CGRectGetHeight(frame);
+    _toolbar.frame = frame;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -87,6 +104,38 @@
 
 - (BOOL)automaticallyAdjustsScrollViewInsets {
     return NO;
+}
+
+#pragma mark Tool bar
+
+- (NSArray *)toolbarApectRatioItems {
+    return @[
+             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+             
+             [[UIBarButtonItem alloc] initWithTitle:_view.aspectRatio.description
+                                              style:UIBarButtonItemStylePlain
+                                             target:self action:@selector(tapAspectRatioOption:)],
+             
+             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
+             ];
+}
+
+- (void)tapAspectRatioOption:(id)sender {
+    if (_standardAspectRatiosAvailable == NO) {
+        return;
+    }
+    
+    UIActionSheet *actioSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                   cancelButtonTitle:nil
+                                              destructiveButtonTitle:nil otherButtonTitles:nil];
+    
+    for (VFAspectRatio *aspectRatio in _aspectRatioList) {
+        [actioSheet addButtonWithTitle:aspectRatio.description];
+    }
+    
+    actioSheet.cancelButtonIndex = [actioSheet addButtonWithTitle:UIKitLocalizedString(@"Cancel")];
+    
+    [actioSheet showInView:_view];
 }
 
 #pragma mark Actions
@@ -152,6 +201,8 @@
     
     VFAspectRatio *aspectRatio = _aspectRatioList[buttonIndex];
     _view.aspectRatio = aspectRatio;
+    
+    _toolbar.items = [self toolbarApectRatioItems];
 }
 
 #pragma mark Crop Rect Transform

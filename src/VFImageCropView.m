@@ -24,7 +24,6 @@
     UIScrollView *_scrollView;
     UIImageView *_imageView;
     VFCropOverlayView *_cropOverlayView;
-    UIToolbar *_toolbar;
     
     BOOL _needsUpdateZoomScaleNextLayout;
 }
@@ -43,18 +42,12 @@
 - (void)setAspectRatio:(VFAspectRatio *)aspectRatio {
     _aspectRatio = aspectRatio;
     _cropOverlayView.aspectRatio = aspectRatio;
-    
-    BOOL isLoaded = (_toolbar != nil);
-    
-    if (isLoaded) {
-        _toolbar.items = [self toolbarApectRatioItems];
         
-        [self setNeedsLayout];
+    [self setNeedsLayout];
         
-        [UIView animateWithDuration:0.2 animations:^{
-            [self layoutIfNeeded];
-        }];
-    }
+    [UIView animateWithDuration:0.2 animations:^{
+        [self layoutIfNeeded];
+    }];
 }
 
 - (void)loadView {
@@ -78,29 +71,9 @@
         [self addSubview:_cropOverlayView];
     }
     
-    {
-        _toolbar = [UIToolbar new];
-        _toolbar.barStyle = UIBarStyleBlack;
-        _toolbar.items = [self toolbarApectRatioItems];
-        
-        [self addSubview:_toolbar];
-    }
-    
     self.backgroundColor = [UIColor blackColor];
     
     _needsUpdateZoomScaleNextLayout = YES;
-}
-
-- (NSArray *)toolbarApectRatioItems {
-    return @[
-             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-             
-             [[UIBarButtonItem alloc] initWithTitle:_aspectRatio.description
-                                              style:UIBarButtonItemStylePlain
-                                             target:self action:@selector(tapAspectRatioOption:)],
-             
-             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
-             ];
 }
 
 #pragma mark Layout
@@ -110,14 +83,6 @@
     
     {
         _scrollView.frame = self.bounds;
-    }
-    
-    {
-        [_toolbar sizeToFit];
-        
-        CGRect frame = _toolbar.frame;
-        frame.origin.y = CGRectGetHeight(self.bounds) - CGRectGetHeight(frame);
-        _toolbar.frame = frame;
     }
     
     {
@@ -148,7 +113,7 @@
     return CGRectMake(0,
                       0,
                       CGRectGetWidth(self.frame),
-                      CGRectGetHeight(self.frame) - CGRectGetHeight(_toolbar.frame));
+                      CGRectGetHeight(self.frame));
 }
 
 #pragma mark UIScrollViewDelegate
