@@ -23,7 +23,7 @@
 
 #define UIKitLocalizedString(key) [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:key value:@"" table:nil]
 
-@interface VFImageCropViewController () <VFImageCropViewDelegate, UIActionSheetDelegate>
+@interface VFImageCropViewController () <UIActionSheetDelegate>
 @end
 
 @implementation VFImageCropViewController {
@@ -52,7 +52,7 @@
 - (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
     self = [super init];
     _aspectRatioList = [[self class] aspectRatioListWithImageSize:image.size firstApectRatio:aspectRatio];
-    _view = [[VFImageCropView alloc] initWithImage:image delegate:self];
+    _view = [[VFImageCropView alloc] initWithImage:image];
     _view.aspectRatio = aspectRatio;
     _standardAspectRatiosAvailable = YES;
     return self;
@@ -170,26 +170,6 @@
 
 - (void)restorePreviousStatusBarStyle {
     [UIApplication sharedApplication].statusBarStyle = [_savedStatusBarStyle integerValue];
-}
-
-#pragma mark VFImageCropViewDelegate
-
-- (void)imageCropViewDidTapAspectRatioChangeOption:(VFImageCropView *)imageCropView {
-    if (_standardAspectRatiosAvailable == NO) {
-        return;
-    }
-    
-    UIActionSheet *actioSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                   cancelButtonTitle:nil
-                                              destructiveButtonTitle:nil otherButtonTitles:nil];
-    
-    for (VFAspectRatio *aspectRatio in _aspectRatioList) {
-        [actioSheet addButtonWithTitle:aspectRatio.description];
-    }
-    
-    actioSheet.cancelButtonIndex = [actioSheet addButtonWithTitle:UIKitLocalizedString(@"Cancel")];
-    
-    [actioSheet showInView:_view];
 }
 
 #pragma mark UIActionSheetDelegate

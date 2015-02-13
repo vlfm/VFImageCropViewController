@@ -28,10 +28,9 @@
     BOOL _needsUpdateZoomScaleNextLayout;
 }
 
-- (instancetype)initWithImage:(UIImage *)image delegate:(id<VFImageCropViewDelegate>)delegate {
+- (instancetype)initWithImage:(UIImage *)image {
     self = [super init];
     _image = image;
-    _delegate = delegate;
     return self;
 }
 
@@ -126,12 +125,6 @@
     _imageView.center = CGPointMake(scrollView.contentSize.width / 2,
                                     scrollView.contentSize.height / 2);
     _scrollView.contentInset = [_cropOverlayView contentInsetsForImageScrollView:scrollView];
-}
-
-#pragma mark tap aspect ratio
-
-- (void)tapAspectRatioOption:(id)sender {
-    [_delegate imageCropViewDidTapAspectRatioChangeOption:self];
 }
 
 @end
