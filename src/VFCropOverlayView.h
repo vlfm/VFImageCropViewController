@@ -19,11 +19,12 @@
 #import <UIKit/UIKit.h>
 
 @class VFAspectRatio;
+@protocol VFEdgeInsetsGenerator;
 
 @interface VFCropOverlayView : UIView
 
 @property (nonatomic) VFAspectRatio *aspectRatio;
-@property (nonatomic) UIEdgeInsets cropAreaMargins;
+@property (nonatomic, strong) id <VFEdgeInsetsGenerator> cropAreaMargins;
 
 - (UIEdgeInsets)contentInsetsForImageScrollView:(UIScrollView *)scrollView;
 - (CGPoint)centerContentOffsetForImageScrollView:(UIScrollView *)scrollView;

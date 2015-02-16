@@ -19,6 +19,7 @@
 #import <UIKit/UIKit.h>
 
 @class VFAspectRatio;
+@protocol VFEdgeInsetsGenerator;
 
 @interface VFImageCropView : UIView <UIScrollViewDelegate>
 
@@ -26,7 +27,7 @@
 @property (nonatomic, readonly) CGRect cropRect;
 
 @property (nonatomic) VFAspectRatio *aspectRatio;
-@property (nonatomic) UIEdgeInsets cropAreaMargins;
+@property (nonatomic, strong) id <VFEdgeInsetsGenerator> cropAreaMargins;
 
 - (instancetype)initWithImage:(UIImage *)image;
 

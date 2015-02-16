@@ -20,6 +20,7 @@
 
 #import "VFAspectRatio.h"
 #import "VFCropAreaView.h"
+#import "VFEdgeInsetsGenerator.h"
 
 @implementation VFCropOverlayView {
     VFCropAreaView *_cropAreaView;
@@ -41,7 +42,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setCropAreaMargins:(UIEdgeInsets)cropAreaMargins {
+- (void)setCropAreaMargins:(id<VFEdgeInsetsGenerator>)cropAreaMargins {
     _cropAreaMargins = cropAreaMargins;
     [self setNeedsLayout];
 }
@@ -109,10 +110,15 @@
 }
 
 - (CGRect)cropAreaAvailableRect {
-    CGFloat dx = _cropAreaMargins.left;
-    CGFloat dy = _cropAreaMargins.top;
-    CGFloat dw = -dx - _cropAreaMargins.right;
-    CGFloat dh = -dy - _cropAreaMargins.bottom;
+    UIEdgeInsets cropAreaMargins = UIEdgeInsetsZero;
+    if (self.cropAreaMargins) {
+        cropAreaMargins = [self.cropAreaMargins edgeInsetsWithBounds:self.bounds.size];
+    }
+    
+    CGFloat dx = cropAreaMargins.left;
+    CGFloat dy = cropAreaMargins.top;
+    CGFloat dw = -dx - cropAreaMargins.right;
+    CGFloat dh = -dy - cropAreaMargins.bottom;
     return CGRectMake(CGRectGetMinX(self.bounds) + dx,
                       CGRectGetMinY(self.bounds) + dy,
                       CGRectGetWidth(self.bounds) + dw,

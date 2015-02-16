@@ -49,9 +49,10 @@
     }];
 }
 
-- (void)setCropAreaMargins:(UIEdgeInsets)cropAreaMargins {
+- (void)setCropAreaMargins:(id<VFEdgeInsetsGenerator>)cropAreaMargins {
     _cropAreaMargins = cropAreaMargins;
     _cropOverlayView.cropAreaMargins = cropAreaMargins;
+    
     [self setNeedsLayout];
 }
 
@@ -73,6 +74,7 @@
     {
         _cropOverlayView = [VFCropOverlayView new];
         _cropOverlayView.aspectRatio = _aspectRatio;
+        _cropOverlayView.cropAreaMargins = _cropAreaMargins;
         [self addSubview:_cropOverlayView];
     }
     

@@ -19,12 +19,15 @@
 #import <UIKit/UIKit.h>
 
 @class VFAspectRatio;
+@protocol VFEdgeInsetsGenerator;
 
 @interface VFImageCropViewController : UIViewController
 
 @property (nonatomic, copy) NSNumber *restoreStatusBarStyle;
 
 @property (nonatomic) BOOL standardAspectRatiosAvailable;
+
+@property (nonatomic, strong) id <VFEdgeInsetsGenerator> cropAreaMargins;
 
 - (instancetype)initWithImage:(UIImage *)image
                   widthFactor:(NSInteger)widthFactor

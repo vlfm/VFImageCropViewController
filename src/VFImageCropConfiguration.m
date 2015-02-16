@@ -18,7 +18,36 @@
 
 #import "VFImageCropConfiguration.h"
 
+#import "VFEdgeInsetsGenerator.h"
 #import "VFImageCropViewController.h"
+
+@interface VFLayoutGuideEdgeInsetsGenerator : NSObject <VFEdgeInsetsGenerator>
+
+- (instancetype)initWithViewController:(UIViewController *)vc margin:(CGFloat)margin;
+
+@end
+
+@implementation VFLayoutGuideEdgeInsetsGenerator {
+    __weak UIViewController *_vc;
+    CGFloat _margin;
+}
+
+- (instancetype)initWithViewController:(UIViewController *)vc margin:(CGFloat)margin {
+    self = [super init];
+    _vc = vc;
+    _margin = margin;
+    return self;
+}
+
+- (UIEdgeInsets)edgeInsetsWithBounds:(CGSize)bounds {
+    CGFloat top = _vc.topLayoutGuide.length + _margin;
+    CGFloat bottom = _vc.bottomLayoutGuide.length + _margin;
+    return UIEdgeInsetsMake(top, _margin, bottom, _margin);
+}
+
+@end
+
+
 
 @implementation VFImageCropConfiguration
 
@@ -30,6 +59,8 @@
     vc.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                             initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                             target:vc action:@selector(cropImageAction)];
+    
+    vc.cropAreaMargins = [[VFLayoutGuideEdgeInsetsGenerator alloc] initWithViewController:vc margin:0];
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     

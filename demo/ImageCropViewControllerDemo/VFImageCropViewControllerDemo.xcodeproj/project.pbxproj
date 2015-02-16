@@ -48,6 +48,7 @@
 		76D13EC11A8CBB4400C06CEA /* VFCropAreaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFCropAreaView.m; sourceTree = "<group>"; };
 		76D13F0C1A921BCD00C06CEA /* VFImageCropConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFImageCropConfiguration.h; sourceTree = "<group>"; };
 		76D13F0D1A921BCD00C06CEA /* VFImageCropConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFImageCropConfiguration.m; sourceTree = "<group>"; };
+		76D13F0F1A92238500C06CEA /* VFEdgeInsetsGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFEdgeInsetsGenerator.h; sourceTree = "<group>"; };
 		76E85BD319ACD5DB000F376A /* VFImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFImageCropView.h; sourceTree = "<group>"; };
 		76E85BD419ACD5DB000F376A /* VFImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFImageCropView.m; sourceTree = "<group>"; };
 		76E85BD619ACDB39000F376A /* VFAspectRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFAspectRatio.h; sourceTree = "<group>"; };
@@ -189,6 +190,7 @@
 				76D13EC11A8CBB4400C06CEA /* VFCropAreaView.m */,
 				76D13EBD1A8C8E1300C06CEA /* VFCropOverlayView.h */,
 				76D13EBE1A8C8E1300C06CEA /* VFCropOverlayView.m */,
+				76D13F0F1A92238500C06CEA /* VFEdgeInsetsGenerator.h */,
 				76D13F0C1A921BCD00C06CEA /* VFImageCropConfiguration.h */,
 				76D13F0D1A921BCD00C06CEA /* VFImageCropConfiguration.m */,
 				76E85BD319ACD5DB000F376A /* VFImageCropView.h */,

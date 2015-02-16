@@ -75,6 +75,11 @@
     return self;
 }
 
+- (void)setCropAreaMargins:(id<VFEdgeInsetsGenerator>)cropAreaMargins {
+    _cropAreaMargins = cropAreaMargins;
+    _view.cropAreaMargins = cropAreaMargins;
+}
+
 - (void)loadView {
     [_view loadView];
     self.view = _view;
@@ -82,6 +87,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _view.cropAreaMargins = _cropAreaMargins;
     
     _toolbar = [UIToolbar new];
     _toolbar.barStyle = UIBarStyleBlack;
@@ -105,7 +112,7 @@
     frame.origin.y = CGRectGetHeight(self.view.bounds) - CGRectGetHeight(frame);
     _toolbar.frame = frame;
     
-    _view.cropAreaMargins = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, CGRectGetHeight(_toolbar.frame), 0);
+    //_view.cropAreaMargins = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, CGRectGetHeight(_toolbar.frame), 0);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
