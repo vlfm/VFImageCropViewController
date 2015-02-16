@@ -34,13 +34,13 @@
     VFAspectRatio *aspectRatio = VFAspectRatioMake(CGRectGetWidth(imageView.frame), CGRectGetHeight(imageView.frame));
     VFImageCropViewController *cropVC = [[VFImageCropViewController alloc] initWithImage:image aspectRatio:aspectRatio];
     
-    cropVC.onCancelled = ^ {
-        [picker dismissViewControllerAnimated:YES completion:nil];
-    };
-    
-    cropVC.onImageCropped = ^ (UIImage *image, CGRect rect) {
+    cropVC.cropImageActionHandler = ^(VFImageCropViewController *sender, UIImage *image, CGRect rect) {
         imageView.image = image;
         [self dismissViewControllerAnimated:YES completion:nil];
+    };
+    
+    cropVC.cancelActionHandler = ^(VFImageCropViewController *sender) {
+        [picker dismissViewControllerAnimated:YES completion:nil];
     };
     
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:cropVC];

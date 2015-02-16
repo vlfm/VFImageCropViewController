@@ -18,15 +18,9 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^ vf_OnImageCropped) (UIImage *image, CGRect cropRect);
-typedef void (^ vf_OnCancelled) ();
-
 @class VFAspectRatio;
 
 @interface VFImageCropViewController : UIViewController
-
-@property (nonatomic, copy) vf_OnImageCropped onImageCropped;
-@property (nonatomic, copy) vf_OnCancelled onCancelled;
 
 @property (nonatomic, copy) NSNumber *restoreStatusBarStyle;
 
@@ -39,5 +33,18 @@ typedef void (^ vf_OnCancelled) ();
 - (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio;
 
 + (UIImage *)cropImage:(UIImage *)image withRect:(CGRect)cropRect;
+
+#pragma mark Action
+
+- (void)cropImageAction;
+- (void)cancelAction;
+
+#pragma mark Action Callback
+
+typedef void (^ vf_CropImageActionHandler) (VFImageCropViewController *sender, UIImage *image, CGRect cropRect);
+typedef void (^ vf_CancelActionHandler) (VFImageCropViewController *sender);
+
+@property (nonatomic, copy) vf_CropImageActionHandler cropImageActionHandler;
+@property (nonatomic, copy) vf_CancelActionHandler cancelActionHandler;
 
 @end

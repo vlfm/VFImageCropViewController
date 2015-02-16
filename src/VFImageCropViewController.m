@@ -33,6 +33,23 @@
     NSNumber *_savedStatusBarStyle;
 }
 
+#pragma mark Action
+
+- (void)cropImageAction {
+    if (self.cropImageActionHandler) {
+        CGRect cropRect = _view.cropRect;
+        UIImage *cropped = [VFImageCropViewController cropImage:_view.image withRect:cropRect];
+        self.cropImageActionHandler(self, cropped, cropRect);
+    }
+}
+
+- (void)cancelAction {
+    if (self.cancelActionHandler) {
+        self.cancelActionHandler(self);
+    }
+}
+
+
 + (UIImage *)cropImage:(UIImage *)image withRect:(CGRect)cropRect {
     CGRect cropRectTransformed = [self transformRect:cropRect forImage:image];
 	CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRectTransformed);
@@ -68,11 +85,11 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
                                              initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                             target:self action:@selector(cancel)];
+                                             target:self action:@selector(cancelAction)];
         
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                               initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                              target:self action:@selector(done)];
+                                              target:self action:@selector(cropImageAction)];
     
     _toolbar = [UIToolbar new];
     _toolbar.barStyle = UIBarStyleBlack;
@@ -138,20 +155,6 @@
     actioSheet.cancelButtonIndex = [actioSheet addButtonWithTitle:UIKitLocalizedString(@"Cancel")];
     
     [actioSheet showInView:_view];
-}
-
-#pragma mark Actions
-
-- (void)cancel {
-    if (self.onCancelled) {self.onCancelled();}
-}
-
-- (void)done {
-    if (self.onImageCropped) {
-        CGRect cropRect = _view.cropRect;
-        UIImage *cropped = [VFImageCropViewController cropImage:_view.image withRect:cropRect];
-        self.onImageCropped(cropped, cropRect);
-    }
 }
 
 #pragma mark Status bar
