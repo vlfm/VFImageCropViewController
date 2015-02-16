@@ -25,6 +25,7 @@
 
 @property (nonatomic, copy) NSNumber *restoreStatusBarStyle;
 
+@property (nonatomic, readonly) VFAspectRatio *aspectRatio;
 @property (nonatomic) BOOL standardAspectRatiosAvailable;
 
 @property (nonatomic, strong) id <VFEdgeInsetsGenerator> cropAreaMargins;
@@ -41,13 +42,16 @@
 
 - (void)cropImageAction;
 - (void)cancelAction;
+- (void)selectAspectRatioAction;
 
 #pragma mark Action Callback
 
 typedef void (^ vf_CropImageActionHandler) (VFImageCropViewController *sender, UIImage *image, CGRect cropRect);
 typedef void (^ vf_CancelActionHandler) (VFImageCropViewController *sender);
+typedef void (^ vf_SelectAspectRatioHandler) (VFImageCropViewController *sender, VFAspectRatio *aspectRatio);
 
 @property (nonatomic, copy) vf_CropImageActionHandler cropImageActionHandler;
 @property (nonatomic, copy) vf_CancelActionHandler cancelActionHandler;
+@property (nonatomic, copy) vf_SelectAspectRatioHandler selectAspectRatioHandler;
 
 @end

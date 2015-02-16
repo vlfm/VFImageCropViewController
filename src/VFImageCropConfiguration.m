@@ -18,6 +18,7 @@
 
 #import "VFImageCropConfiguration.h"
 
+#import "VFAspectRatio.h"
 #import "VFEdgeInsetsGenerator.h"
 #import "VFImageCropViewController.h"
 
@@ -60,11 +61,30 @@
                                             initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                             target:vc action:@selector(cropImageAction)];
     
+    vc.toolbarItems = [self toolbarApectRatioItemsWithImageCropViewController:vc];
+    vc.selectAspectRatioHandler = ^(VFImageCropViewController *sender, VFAspectRatio *aspectRatio) {
+        sender.toolbarItems = [self toolbarApectRatioItemsWithImageCropViewController:sender];
+    };
+    
     vc.cropAreaMargins = [[VFLayoutGuideEdgeInsetsGenerator alloc] initWithViewController:vc margin:0];
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    nc.toolbarHidden = NO;
+    nc.toolbar.barStyle = UIBarStyleBlack;
     
     return nc;
+}
+
++ (NSArray *)toolbarApectRatioItemsWithImageCropViewController:(VFImageCropViewController *)vc {
+    return @[
+             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+             
+             [[UIBarButtonItem alloc] initWithTitle:vc.aspectRatio.description
+                                              style:UIBarButtonItemStylePlain
+                                             target:vc action:@selector(selectAspectRatioAction)],
+             
+             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
+             ];
 }
 
 @end
