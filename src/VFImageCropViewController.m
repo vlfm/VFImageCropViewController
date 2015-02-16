@@ -83,14 +83,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                                             initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                             target:self action:@selector(cancelAction)];
-        
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                              initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                              target:self action:@selector(cropImageAction)];
-    
     _toolbar = [UIToolbar new];
     _toolbar.barStyle = UIBarStyleBlack;
     _toolbar.items = [self toolbarApectRatioItems];

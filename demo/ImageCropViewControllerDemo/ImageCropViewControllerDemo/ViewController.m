@@ -1,5 +1,6 @@
 #import "ViewController.h"
 #import "VFAspectRatio.h"
+#import "VFImageCropConfiguration.h"
 #import "VFImageCropViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
@@ -43,7 +44,7 @@
         [picker dismissViewControllerAnimated:YES completion:nil];
     };
     
-    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:cropVC];
+    UINavigationController *navigationVC = [VFImageCropConfiguration imageCropViewControllerModalConfiguration:cropVC];
     [picker presentViewController:navigationVC animated:YES completion:nil];
 }
 
