@@ -99,6 +99,7 @@
         }
         
         self.frame = frame;
+        NSLog(@"frame: %@", NSStringFromCGRect(frame));
         
         _lastTranslationPoint = translationPoint;
     }

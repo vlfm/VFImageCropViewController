@@ -18,6 +18,8 @@
 
 #import "VFAspectRatio.h"
 
+CGFloat floorPoint(CGFloat value);
+
 @implementation VFAspectRatio
 
 - (instancetype)initWithWidth:(NSInteger)width height:(NSInteger)height {
@@ -47,7 +49,8 @@
     
     CGFloat overhead = MAX(wOverhead, hOverhead);
     
-    return CGSizeMake(w / overhead, h / overhead);
+    return CGSizeMake(floorPoint(w / overhead),
+                      floorPoint(h / overhead));
 }
 
 - (CGSize)aspectSizeThatFits:(CGSize)size translationPoint:(CGPoint)point {
@@ -61,13 +64,13 @@
 - (CGSize)aspectSizeWithFixedWidthThatFits:(CGSize)size {
     CGFloat w = size.width;
     CGFloat h = (w / _width) * _height;
-    return CGSizeMake(w, h);
+    return CGSizeMake(floorPoint(w), floorPoint(h));
 }
 
 - (CGSize)aspectSizeWithFixedHeightThatFits:(CGSize)size {
     CGFloat h = size.height;
     CGFloat w = (h / _height) * _width;
-    return CGSizeMake(w, h);
+    return CGSizeMake(floorPoint(w), floorPoint(h));
 }
 
 - (NSString *)description {
@@ -78,4 +81,8 @@
 
 VFAspectRatio * VFAspectRatioMake(NSInteger width, NSInteger height) {
     return [[VFAspectRatio alloc] initWithWidth:width height:height];
+}
+
+CGFloat floorPoint(CGFloat value) {
+    return floor(value * 2) / 2;
 }
