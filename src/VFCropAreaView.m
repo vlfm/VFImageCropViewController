@@ -18,6 +18,9 @@
 
 #import "VFCropAreaView.h"
 
+@interface VFCropAreaView() <VFInteractiveFrameViewDelegate>
+@end
+
 @implementation VFCropAreaView
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -25,7 +28,7 @@
     
     self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeRedraw;
-    self.userInteractionEnabled = NO;
+    self.delegate = self;
     
     return  self;
 }
@@ -36,7 +39,10 @@
     [super drawRect:rect];
     
     [self drawBorderWithLineWidth:1.0 color:[UIColor whiteColor]];
-    [self drawGridWithDimensionSize:4 insideBorderWithLineWidth:1.0 color:[UIColor whiteColor]];
+    
+    if (self.interactionHappensNow) {
+        [self drawGridWithDimensionSize:4 insideBorderWithLineWidth:1.0 color:[UIColor whiteColor]];
+    }
 }
 
 - (void)drawBorderWithLineWidth:(CGFloat)borderLineWidth color:(UIColor *)color {
@@ -142,6 +148,12 @@
     CGFloat width = round((CGRectGetWidth(self.bounds) - borderAndLinesSpace) / gridDimensionSize);
     CGFloat height = round((CGRectGetHeight(self.bounds) - borderAndLinesSpace) / gridDimensionSize);
     return CGSizeMake(width, height);
+}
+
+#pragma mark VFInteractiveFrameViewDelegate
+
+- (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView interactionHappensNowDidChange:(BOOL)value {
+    [self setNeedsDisplay];
 }
 
 @end

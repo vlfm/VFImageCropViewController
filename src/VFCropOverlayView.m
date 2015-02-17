@@ -29,8 +29,6 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
-    self.userInteractionEnabled = NO;
-    
     _cropAreaView = [VFCropAreaView new];
     [self addSubview:_cropAreaView];
     
@@ -39,6 +37,8 @@
 
 - (void)setAspectRatio:(VFAspectRatio *)aspectRatio {
     _aspectRatio = aspectRatio;
+    _cropAreaView.aspectRatio = aspectRatio;
+    
     [self setNeedsLayout];
 }
 
@@ -86,43 +86,42 @@
     return CGRectGetWidth([self cropAreaRect]) / image.size.width;
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    CGPoint convertedPoint = [self convertPoint:point toView:_cropAreaView];
+    return [_cropAreaView hitTest:convertedPoint withEvent:event];
+}
+
 #pragma mark layout
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
+    if (_cropAreaView.interactionHappensNow) {
+        return;
+    }
+    
+    UIEdgeInsets cropAreaMargins = UIEdgeInsetsZero;
+    if (self.cropAreaMargins) {
+        cropAreaMargins = [self.cropAreaMargins edgeInsetsWithBounds:self.bounds.size];
+    }
+    
+    _cropAreaView.insetsInSuperView = cropAreaMargins;
     _cropAreaView.frame = [self cropAreaRect];
 }
 
 # pragma mark private
 
 - (CGRect)cropAreaRect {
-    CGRect cropAreaAvailableRect = [self cropAreaAvailableRect];
-    CGSize areaSize = [_aspectRatio aspectSizeThatFits:cropAreaAvailableRect.size
-                                               padding:10];
+    CGRect maximumAvailableRect = _cropAreaView.maximumAvailableFrame;
+    CGSize areaSize = _cropAreaView.maximumAllowedFrame.size;
     
-    CGFloat dx = (CGRectGetWidth(cropAreaAvailableRect) - areaSize.width) / 2;
-    CGFloat dy = (CGRectGetHeight(cropAreaAvailableRect) - areaSize.height) / 2;
+    CGFloat dx = (CGRectGetWidth(maximumAvailableRect) - areaSize.width) / 2;
+    CGFloat dy = (CGRectGetHeight(maximumAvailableRect) - areaSize.height) / 2;
     
-    return CGRectMake(CGRectGetMinX(cropAreaAvailableRect) + dx,
-                      CGRectGetMinY(cropAreaAvailableRect) + dy,
+    return CGRectMake(CGRectGetMinX(maximumAvailableRect) + dx,
+                      CGRectGetMinY(maximumAvailableRect) + dy,
                       areaSize.width,
                       areaSize.height);
-}
-
-- (CGRect)cropAreaAvailableRect {
-    UIEdgeInsets cropAreaMargins = UIEdgeInsetsZero;
-    if (self.cropAreaMargins) {
-        cropAreaMargins = [self.cropAreaMargins edgeInsetsWithBounds:self.bounds.size];
-    }
-    
-    CGFloat dx = cropAreaMargins.left;
-    CGFloat dy = cropAreaMargins.top;
-    CGFloat dw = -dx - cropAreaMargins.right;
-    CGFloat dh = -dy - cropAreaMargins.bottom;
-    return CGRectMake(CGRectGetMinX(self.bounds) + dx,
-                      CGRectGetMinY(self.bounds) + dy,
-                      CGRectGetWidth(self.bounds) + dw,
-                      CGRectGetHeight(self.bounds) + dh);
 }
 
 @end

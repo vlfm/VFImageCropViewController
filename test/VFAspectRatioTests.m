@@ -64,7 +64,7 @@
 }
 
 - (void)testAspectSizeThatFits {
-    CGSize actualSize = [_aspectRatio aspectSizeThatFits:_inputSize padding:0];
+    CGSize actualSize = [_aspectRatio aspectSizeThatFits:_inputSize];
     XCTAssertTrue(CGSizeEqualToSize(actualSize, _expectedSize), @"%@ x %@ = %@, v %@",
                   _aspectRatio, NSStringFromCGSize(_inputSize), NSStringFromCGSize(actualSize), NSStringFromCGSize(_expectedSize));
 }

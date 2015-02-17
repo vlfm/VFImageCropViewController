@@ -16,7 +16,7 @@
  
  */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface VFAspectRatio : NSObject
 
@@ -25,8 +25,12 @@
 
 - (instancetype)initWithWidth:(NSInteger)width height:(NSInteger)height;
 
-/* internal */
-- (CGSize)aspectSizeThatFits:(CGSize)size padding:(CGFloat)padding;
+- (CGSize)aspectSizeThatFits:(CGSize)size;
+
+- (CGSize)aspectSizeThatFits:(CGSize)size translationPoint:(CGPoint)point;
+
+- (CGSize)aspectSizeWithFixedWidthThatFits:(CGSize)size;
+- (CGSize)aspectSizeWithFixedHeightThatFits:(CGSize)size;
 
 @end
 

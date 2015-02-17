@@ -18,6 +18,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VFCropAreaView : UIView
+#import "VFInteractiveFrameView.h"
+
+@interface VFCropAreaView : VFInteractiveFrameView
 
 @end

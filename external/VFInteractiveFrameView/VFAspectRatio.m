@@ -27,12 +27,6 @@
     return self;
 }
 
-- (CGSize)aspectSizeThatFits:(CGSize)size padding:(CGFloat)padding {
-    CGFloat cut = padding * 2;
-    CGSize paddedSize = CGSizeMake(size.width - cut, size.height - cut);
-    return [self aspectSizeThatFits:paddedSize];
-}
-
 - (CGSize)aspectSizeThatFits:(CGSize)size {
     CGFloat w = 0;
     CGFloat h = 0;
@@ -54,6 +48,26 @@
     CGFloat overhead = MAX(wOverhead, hOverhead);
     
     return CGSizeMake(w / overhead, h / overhead);
+}
+
+- (CGSize)aspectSizeThatFits:(CGSize)size translationPoint:(CGPoint)point {
+    if (fabs(point.x) > fabs(point.y)) {
+        return [self aspectSizeWithFixedWidthThatFits:size];
+    } else {
+        return [self aspectSizeWithFixedHeightThatFits:size];
+    }
+}
+
+- (CGSize)aspectSizeWithFixedWidthThatFits:(CGSize)size {
+    CGFloat w = size.width;
+    CGFloat h = (w / _width) * _height;
+    return CGSizeMake(w, h);
+}
+
+- (CGSize)aspectSizeWithFixedHeightThatFits:(CGSize)size {
+    CGFloat h = size.height;
+    CGFloat w = (h / _height) * _width;
+    return CGSizeMake(w, h);
 }
 
 - (NSString *)description {
