@@ -18,9 +18,6 @@
 
 #import "VFCropAreaView.h"
 
-@interface VFCropAreaView() <VFInteractiveFrameViewDelegate>
-@end
-
 @implementation VFCropAreaView
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -28,7 +25,6 @@
     
     self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeRedraw;
-    self.delegate = self;
     
     return  self;
 }
@@ -129,7 +125,8 @@
         lineSize = CGSizeMake(lineWidth, endPoint.y - startPoint.y);
     }
         
-    CGRect lineRect = CGRectMake(startPoint.x, startPoint.y, lineSize.width, lineSize.height);
+    CGRect lineRect = CGRectMake(startPoint.x, startPoint.y,
+                                 lineSize.width, lineSize.height);
         
     CGContextFillRect(context, lineRect);
 }
@@ -150,9 +147,9 @@
     return CGSizeMake(width, height);
 }
 
-#pragma mark VFInteractiveFrameViewDelegate
+#pragma mark subclass notification methods
 
-- (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView interactionHappensNowDidChange:(BOOL)value {
+- (void)interactionHappensNowDidChange:(BOOL)value {
     [self setNeedsDisplay];
 }
 

@@ -99,7 +99,6 @@
         }
         
         self.frame = frame;
-        NSLog(@"frame: %@", NSStringFromCGRect(frame));
         
         _lastTranslationPoint = translationPoint;
     }
@@ -141,6 +140,11 @@
     return [self isPointHitPanTouchAreas:point];
 }
 
+#pragma mark subclass notification methods
+
+- (void)interactionHappensNowDidChange:(BOOL)value {
+}
+
 #pragma mark delegate
 
 - (void)setIsInteractionHappensNowAndNotify:(BOOL)value {
@@ -149,6 +153,7 @@
     _interactionHappensNow = value;
     
     if (changed) {
+        [self interactionHappensNowDidChange:value];
         if ([self.delegate respondsToSelector:@selector(interactiveFrameView:interactionHappensNowDidChange:)]) {
             [self.delegate interactiveFrameView:self interactionHappensNowDidChange:value];
         }

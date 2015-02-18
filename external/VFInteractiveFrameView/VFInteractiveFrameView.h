@@ -16,6 +16,10 @@
 
 @property (nonatomic, weak) id<VFInteractiveFrameViewDelegate> delegate;
 
+#pragma mark subclass notification methods
+
+- (void)interactionHappensNowDidChange:(BOOL)value;
+
 @end
 
 
