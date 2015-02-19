@@ -135,6 +135,16 @@
     return nil;
 }
 
+#pragma mark grid
+
+- (void)showCropAreaGrid {
+    _cropAreaView.gridOn = YES;
+}
+
+- (void)hideCropAreaGrid {
+    [_cropAreaView setGridOn:NO delay:0.15];
+}
+
 #pragma mark UIScrollViewDelegate
 
 - (UIView *)viewForZoomingInScrollView: (UIScrollView *)scrollView {
@@ -142,7 +152,7 @@
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
-    _cropAreaView.gridOn = YES;
+    [self showCropAreaGrid];
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
@@ -150,21 +160,21 @@
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale {
-    _cropAreaView.gridOn = NO;
+    [self hideCropAreaGrid];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    _cropAreaView.gridOn = YES;
+    [self showCropAreaGrid];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (!decelerate) {
-        _cropAreaView.gridOn = NO;
+        [self hideCropAreaGrid];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    _cropAreaView.gridOn = NO;
+    [self hideCropAreaGrid];
 }
 
 #pragma mark VFInteractiveFrameViewDelegate
@@ -172,12 +182,12 @@
 - (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView interactionHappensNowDidChange:(BOOL)value {
     if (value) {
         _cropAreaView.minimumSize = [self minimumCropAreaSize];
-        _cropAreaView.gridOn = YES;
+        [self showCropAreaGrid];
     }
     
     if (value == NO) {
         [self animateZoomToCropRectWithCompletion:^(BOOL finished) {
-            _cropAreaView.gridOn = NO;
+            [self hideCropAreaGrid];
         }];
     }
 }

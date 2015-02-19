@@ -18,7 +18,6 @@
 
 #import "VFImageCropViewController.h"
 #import "VFImageCropView.h"
-#import <QuartzCore/QuartzCore.h>
 #import "VFAspectRatio.h"
 
 #define UIKitLocalizedString(key) [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:key value:@"" table:nil]
