@@ -22,4 +22,6 @@
 
 @interface VFCropAreaView : VFInteractiveFrameView
 
+@property (nonatomic) BOOL gridOn;
+
 @end

@@ -68,7 +68,6 @@
 }
 
 - (void)loadView {
-    
     {
         _imageView = [[UIImageView alloc] initWithImage:_image];
         _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
@@ -142,8 +141,30 @@
     return _imageView;
 }
 
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+    _cropAreaView.gridOn = YES;
+}
+
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     scrollView.contentInset = [self scrollViewContentInset];
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale {
+    _cropAreaView.gridOn = NO;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    _cropAreaView.gridOn = YES;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        _cropAreaView.gridOn = NO;
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    _cropAreaView.gridOn = NO;
 }
 
 #pragma mark VFInteractiveFrameViewDelegate
@@ -151,10 +172,13 @@
 - (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView interactionHappensNowDidChange:(BOOL)value {
     if (value) {
         _cropAreaView.minimumSize = [self minimumCropAreaSize];
+        _cropAreaView.gridOn = YES;
     }
     
     if (value == NO) {
-        [self animateZoomToCropRect];
+        [self animateZoomToCropRectWithCompletion:^(BOOL finished) {
+            _cropAreaView.gridOn = NO;
+        }];
     }
 }
 
@@ -205,18 +229,14 @@
 
 #pragma mark zoom to rect
 
-- (void)animateZoomToCropRect {
-    [UIView animateWithDuration:0.25 delay:0.25 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        [self zoomToCropRect];
-    } completion:nil];
-}
-
-- (void)zoomToCropRect {
-    CGRect rect = [self cropRect];
-    [_scrollView zoomToRect:rect animated:NO];
-    
-    _cropAreaView.frame = [self cropAreaRect];
+- (void)animateZoomToCropRectWithCompletion:(void(^)(BOOL finished))completion {
     _cropAreaView.minimumSize = CGSizeZero;
+    
+    [UIView animateWithDuration:0.25 delay:0.25 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        CGRect rect = [self cropRect];
+        [_scrollView zoomToRect:rect animated:NO];
+        _cropAreaView.frame = [self cropAreaRect];
+    } completion:completion];
 }
 
 @end

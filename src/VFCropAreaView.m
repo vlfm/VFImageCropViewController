@@ -29,6 +29,11 @@
     return  self;
 }
 
+- (void)setGridOn:(BOOL)gridOn {
+    _gridOn = gridOn;
+    [self setNeedsDisplay];
+}
+
 #pragma mark draw
 
 - (void)drawRect:(CGRect)rect {
@@ -36,8 +41,8 @@
     
     [self drawBorderWithLineWidth:1.0 color:[UIColor whiteColor]];
     
-    if (self.interactionHappensNow) {
-        [self drawGridWithDimensionSize:4 insideBorderWithLineWidth:1.0 color:[UIColor whiteColor]];
+    if (self.gridOn) {
+        [self drawGridWithDimensionSize:3 insideBorderWithLineWidth:1.0 color:[UIColor whiteColor]];
     }
 }
 
@@ -145,12 +150,6 @@
     CGFloat width = round((CGRectGetWidth(self.bounds) - borderAndLinesSpace) / gridDimensionSize);
     CGFloat height = round((CGRectGetHeight(self.bounds) - borderAndLinesSpace) / gridDimensionSize);
     return CGSizeMake(width, height);
-}
-
-#pragma mark subclass notification methods
-
-- (void)interactionHappensNowDidChange:(BOOL)value {
-    [self setNeedsDisplay];
 }
 
 @end
