@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		76A71E7A19B6248C00F6B35B /* VFAspectRatioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A71E7919B6248C00F6B35B /* VFAspectRatioTests.m */; };
-		76D13EBF1A8C8E1300C06CEA /* VFCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13EBE1A8C8E1300C06CEA /* VFCropOverlayView.m */; };
 		76D13EC21A8CBB4400C06CEA /* VFCropAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13EC11A8CBB4400C06CEA /* VFCropAreaView.m */; };
 		76D13F0E1A921BCD00C06CEA /* VFImageCropConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F0D1A921BCD00C06CEA /* VFImageCropConfiguration.m */; };
 		76D13F591A92D83C00C06CEA /* VFAspectRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F521A92D83C00C06CEA /* VFAspectRatio.m */; };
@@ -45,8 +44,6 @@
 		76A71E6A19B6101800F6B35B /* VFImageCropViewControllerDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VFImageCropViewControllerDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76A71E6D19B6101800F6B35B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76A71E7919B6248C00F6B35B /* VFAspectRatioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests.m; sourceTree = "<group>"; };
-		76D13EBD1A8C8E1300C06CEA /* VFCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFCropOverlayView.h; sourceTree = "<group>"; };
-		76D13EBE1A8C8E1300C06CEA /* VFCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFCropOverlayView.m; sourceTree = "<group>"; };
 		76D13EC01A8CBB4400C06CEA /* VFCropAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFCropAreaView.h; sourceTree = "<group>"; };
 		76D13EC11A8CBB4400C06CEA /* VFCropAreaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFCropAreaView.m; sourceTree = "<group>"; };
 		76D13F0C1A921BCD00C06CEA /* VFImageCropConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFImageCropConfiguration.h; sourceTree = "<group>"; };
@@ -220,8 +217,6 @@
 			children = (
 				76D13EC01A8CBB4400C06CEA /* VFCropAreaView.h */,
 				76D13EC11A8CBB4400C06CEA /* VFCropAreaView.m */,
-				76D13EBD1A8C8E1300C06CEA /* VFCropOverlayView.h */,
-				76D13EBE1A8C8E1300C06CEA /* VFCropOverlayView.m */,
 				76D13F0F1A92238500C06CEA /* VFEdgeInsetsGenerator.h */,
 				76D13F0C1A921BCD00C06CEA /* VFImageCropConfiguration.h */,
 				76D13F0D1A921BCD00C06CEA /* VFImageCropConfiguration.m */,
@@ -344,7 +339,6 @@
 				76D13F5B1A92D83C00C06CEA /* VFPanTouchArea.m in Sources */,
 				76E85BD519ACD5DB000F376A /* VFImageCropView.m in Sources */,
 				76D13F591A92D83C00C06CEA /* VFAspectRatio.m in Sources */,
-				76D13EBF1A8C8E1300C06CEA /* VFCropOverlayView.m in Sources */,
 				76D13F5A1A92D83C00C06CEA /* VFInteractiveFrameView.m in Sources */,
 				76FC679217AA55E3000160AE /* main.m in Sources */,
 				76FC679617AA55E3000160AE /* AppDelegate.m in Sources */,
