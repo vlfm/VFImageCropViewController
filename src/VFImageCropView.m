@@ -112,6 +112,30 @@
     _scrollView.contentOffset = [self scrollViewContentOffsetForZoomingViewCenter];
 }
 
+#pragma mark hit test
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    CGPoint p = [self convertPoint:point toView:_cropAreaView];
+    if ([_cropAreaView hitTest:p withEvent:event] != nil) {
+        return _cropAreaView;
+    }
+    
+    p = [self convertPoint:point toView:_scrollView];
+    if ([_scrollView hitTest:p withEvent:event] != nil) {
+        return _scrollView;
+    }
+    
+    UIView *zoomingView = [_scrollView.delegate viewForZoomingInScrollView:_scrollView];
+    
+    p = [self convertPoint:point toView:zoomingView];
+    CGPoint scaledPoint = CGPointMake(p.x * _scrollView.zoomScale, p.y * _scrollView.zoomScale);
+    if (CGRectContainsPoint(zoomingView.frame, scaledPoint)) {
+        return _scrollView;
+    }
+    
+    return nil;
+}
+
 #pragma mark UIScrollViewDelegate
 
 - (UIView *)viewForZoomingInScrollView: (UIScrollView *)scrollView {
