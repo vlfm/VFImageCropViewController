@@ -63,6 +63,7 @@
                        [VFPanTouchArea top],
                        [VFPanTouchArea left],
                        [VFPanTouchArea bottom],
+                       [VFPanTouchArea right],
                        [VFPanTouchArea topLeft],
                        [VFPanTouchArea topRight],
                        [VFPanTouchArea bottomLeft],
