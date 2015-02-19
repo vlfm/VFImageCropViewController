@@ -62,6 +62,7 @@
     _panTouchAreas = @[
                        [VFPanTouchArea top],
                        [VFPanTouchArea left],
+                       [VFPanTouchArea bottom],
                        [VFPanTouchArea topLeft],
                        [VFPanTouchArea topRight],
                        [VFPanTouchArea bottomLeft],

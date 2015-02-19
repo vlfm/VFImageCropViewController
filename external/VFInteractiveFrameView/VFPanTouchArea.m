@@ -11,6 +11,10 @@
 @end
 
 
+@interface VFPanTouchAreaBottom : VFPanTouchArea
+@end
+
+
 
 @interface VFPanTouchAreaTopLeft : VFPanTouchArea
 @end
@@ -40,6 +44,10 @@
 
 + (instancetype)left {
     return [[VFPanTouchAreaLeft alloc] initWithSize:[self standardSize]];
+}
+
++ (instancetype)bottom {
+    return [[VFPanTouchAreaBottom alloc] initWithSize:[self standardSize]];
 }
 
 + (instancetype)topLeft {
@@ -177,6 +185,31 @@
     
     CGSize translatedSize = size;
     translatedSize.width -= point.x;
+    return translatedSize;
+}
+
+@end
+
+
+
+@implementation VFPanTouchAreaBottom
+
+#pragma mark overridable
+
+- (CGRect)areaRectInParentBounds:(CGRect)bounds {
+    CGFloat dx = (CGRectGetWidth(bounds) - self.size.width) / 2;
+    return CGRectMake(dx,
+                      CGRectGetHeight(bounds) - self.size.height / 2,
+                      self.size.width,
+                      self.size.height);
+}
+
+
+- (CGSize)translateParentSize:(CGSize)size
+      withPanTranslationPoint:(CGPoint)point {
+    
+    CGSize translatedSize = size;
+    translatedSize.height += point.y;
     return translatedSize;
 }
 

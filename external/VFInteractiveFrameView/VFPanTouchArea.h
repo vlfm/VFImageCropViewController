@@ -9,6 +9,7 @@
 
 + (instancetype)top;
 + (instancetype)left;
++ (instancetype)bottom;
 
 + (instancetype)topLeft;
 + (instancetype)topRight;
