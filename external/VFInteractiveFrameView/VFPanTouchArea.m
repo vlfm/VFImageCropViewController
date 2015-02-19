@@ -3,6 +3,11 @@
 #import "VFAspectRatio.h"
 #import "VFRectConstraint.h"
 
+@interface VFPanTouchAreaTop : VFPanTouchArea
+@end
+
+
+
 @interface VFPanTouchAreaTopLeft : VFPanTouchArea
 @end
 
@@ -24,6 +29,10 @@
 
 
 @implementation VFPanTouchArea
+
++ (instancetype)top {
+    return [[VFPanTouchAreaTop alloc] initWithSize:[self standardSize]];
+}
 
 + (instancetype)topLeft {
     return [[VFPanTouchAreaTopLeft alloc] initWithSize:[self standardSize]];
@@ -103,6 +112,37 @@
 
 
 
+@implementation VFPanTouchAreaTop
+
+#pragma mark overridable
+
+- (CGRect)areaRectInParentBounds:(CGRect)bounds {
+    CGFloat dx = (CGRectGetWidth(bounds) - self.size.width) / 2;
+    return CGRectMake(dx,
+                      -self.size.height / 2,
+                      self.size.width,
+                      self.size.height);
+}
+
+- (CGPoint)translateParentOrigin:(CGPoint)origin
+         withPanTranslationPoint:(CGPoint)point {
+    
+    CGPoint translatedOrigin = origin;
+    translatedOrigin.y -= point.y;
+    return translatedOrigin;
+}
+
+- (CGSize)translateParentSize:(CGSize)size
+      withPanTranslationPoint:(CGPoint)point {
+    
+    CGSize translatedSize = size;
+    translatedSize.height -= point.y;
+    return translatedSize;
+}
+
+@end
+
+
 
 @implementation VFPanTouchAreaTopLeft
 
@@ -134,7 +174,6 @@
 }
 
 @end
-
 
 
 
@@ -170,7 +209,6 @@
 
 
 
-
 @implementation VFPanTouchAreaBottomLeft
 
 #pragma mark overridable
@@ -200,7 +238,6 @@
 }
 
 @end
-
 
 
 

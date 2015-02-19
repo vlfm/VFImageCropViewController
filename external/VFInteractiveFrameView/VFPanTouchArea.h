@@ -7,6 +7,8 @@
 
 @property (nonatomic, readonly) CGSize size;
 
++ (instancetype)top;
+
 + (instancetype)topLeft;
 + (instancetype)topRight;
 + (instancetype)bottomLeft;

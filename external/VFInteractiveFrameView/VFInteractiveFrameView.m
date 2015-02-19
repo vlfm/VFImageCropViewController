@@ -60,6 +60,7 @@
     [self addGestureRecognizer:recognizer];
     
     _panTouchAreas = @[
+                       [VFPanTouchArea top],
                        [VFPanTouchArea topLeft],
                        [VFPanTouchArea topRight],
                        [VFPanTouchArea bottomLeft],
