@@ -527,6 +527,7 @@
 				GCC_PREFIX_HEADER = "ImageCropViewControllerDemo/VFImageCropViewControllerDemo-Prefix.pch";
 				INFOPLIST_FILE = "ImageCropViewControllerDemo/VFImageCropViewControllerDemo-Info.plist";
 				PRODUCT_NAME = VFImageCropViewControllerDemo;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -538,6 +539,7 @@
 				GCC_PREFIX_HEADER = "ImageCropViewControllerDemo/VFImageCropViewControllerDemo-Prefix.pch";
 				INFOPLIST_FILE = "ImageCropViewControllerDemo/VFImageCropViewControllerDemo-Info.plist";
 				PRODUCT_NAME = VFImageCropViewControllerDemo;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

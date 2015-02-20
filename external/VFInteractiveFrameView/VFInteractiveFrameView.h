@@ -19,6 +19,7 @@
 #pragma mark subclass notification methods
 
 - (void)interactionHappensNowDidChange:(BOOL)value;
+- (void)frameDidChange:(CGRect)frame;
 
 @end
 
@@ -29,5 +30,6 @@
 @optional
 
 - (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView interactionHappensNowDidChange:(BOOL)value;
+- (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView didChangeFrame:(CGRect)frame;
 
 @end

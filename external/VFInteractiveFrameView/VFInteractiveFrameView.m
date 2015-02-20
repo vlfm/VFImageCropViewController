@@ -137,6 +137,18 @@
     return NO;
 }
 
+#pragma mark set frame
+
+- (void)setFrame:(CGRect)frame {
+    super.frame = frame;
+    
+    [self frameDidChange:frame];
+    
+    if ([self.delegate respondsToSelector:@selector(interactiveFrameView:didChangeFrame:)]) {
+        [self.delegate interactiveFrameView:self didChangeFrame:frame];
+    }
+}
+
 #pragma mark UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -149,15 +161,17 @@
 - (void)interactionHappensNowDidChange:(BOOL)value {
 }
 
+- (void)frameDidChange:(CGRect)frame {
+}
+
 #pragma mark delegate
 
 - (void)setIsInteractionHappensNowAndNotify:(BOOL)value {
-    BOOL changed = _interactionHappensNow != value;
-    
-    _interactionHappensNow = value;
-    
-    if (changed) {
+    if (_interactionHappensNow != value) {
+        _interactionHappensNow = value;
+        
         [self interactionHappensNowDidChange:value];
+        
         if ([self.delegate respondsToSelector:@selector(interactiveFrameView:interactionHappensNowDidChange:)]) {
             [self.delegate interactiveFrameView:self interactionHappensNowDidChange:value];
         }

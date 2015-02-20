@@ -202,6 +202,10 @@
     }
 }
 
+- (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView didChangeFrame:(CGRect)frame {
+    _cropOverlayController.cropAreaRect = frame;
+}
+
 #pragma mark crop area
 
 - (CGRect)cropAreaRect {
