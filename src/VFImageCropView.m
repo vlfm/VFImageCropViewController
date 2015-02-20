@@ -20,6 +20,7 @@
 #import "VFAspectRatio.h"
 #import "VFCropAreaView.h"
 #import "VFEdgeInsetsGenerator.h"
+#import "VFImageCropOverlayController.h"
 
 @interface VFImageCropView () <VFInteractiveFrameViewDelegate>
 
@@ -29,6 +30,7 @@
     UIScrollView *_scrollView;
     UIImageView *_imageView;
     VFCropAreaView *_cropAreaView;
+    VFImageCropOverlayController *_cropOverlayController;
 }
 
 - (instancetype)initWithImage:(UIImage *)image {
@@ -75,7 +77,6 @@
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        //_scrollView.maximumZoomScale = 4.0;
         _scrollView.clipsToBounds = NO;
         
         [_scrollView addSubview:_imageView];
@@ -87,6 +88,10 @@
         _cropAreaView.aspectRatio = _aspectRatio;
         _cropAreaView.delegate = self;
         [self addSubview:_cropAreaView];
+    }
+    
+    {
+        _cropOverlayController = [[VFImageCropOverlayController alloc] initWithTargetView:self];
     }
     
     self.backgroundColor = [UIColor blackColor];
@@ -103,6 +108,8 @@
     CGRect rect = [self cropAreaRect];
     _cropAreaView.frame = rect;
     _scrollView.frame = rect;
+    
+    _cropOverlayController.cropAreaRect = rect;
     
     CGFloat minimumZoomScale =  MAX(CGRectGetWidth(rect) / _imageView.image.size.width,
                                     CGRectGetHeight(rect) / _imageView.image.size.height);
@@ -245,10 +252,13 @@
 - (void)animateZoomToCropRectWithCompletion:(void(^)(BOOL finished))completion {
     _cropAreaView.minimumSize = CGSizeZero;
     
+    CGRect rect = [self cropRect];
+    CGRect cropAreaRect = [self cropAreaRect];
+    
     [UIView animateWithDuration:0.25 delay:0.25 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        CGRect rect = [self cropRect];
         [_scrollView zoomToRect:rect animated:NO];
-        _cropAreaView.frame = [self cropAreaRect];
+        _cropAreaView.frame = cropAreaRect;
+        _cropOverlayController.cropAreaRect = cropAreaRect;
     } completion:completion];
 }
 
