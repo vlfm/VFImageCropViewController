@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76A71E7A19B6248C00F6B35B /* VFAspectRatioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A71E7919B6248C00F6B35B /* VFAspectRatioTests.m */; };
+		76A71E7A19B6248C00F6B35B /* VFAspectRatioTests_aspectSizeThatFitsInside.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A71E7919B6248C00F6B35B /* VFAspectRatioTests_aspectSizeThatFitsInside.m */; };
 		76D13EC21A8CBB4400C06CEA /* VFCropAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13EC11A8CBB4400C06CEA /* VFCropAreaView.m */; };
 		76D13F0E1A921BCD00C06CEA /* VFImageCropConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F0D1A921BCD00C06CEA /* VFImageCropConfiguration.m */; };
 		76D13F591A92D83C00C06CEA /* VFAspectRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F521A92D83C00C06CEA /* VFAspectRatio.m */; };
 		76D13F5A1A92D83C00C06CEA /* VFInteractiveFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F541A92D83C00C06CEA /* VFInteractiveFrameView.m */; };
 		76D13F5B1A92D83C00C06CEA /* VFPanTouchArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F561A92D83C00C06CEA /* VFPanTouchArea.m */; };
 		76D13F5C1A92D83C00C06CEA /* VFRectConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F581A92D83C00C06CEA /* VFRectConstraint.m */; };
+		76D13F5E1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F5D1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m */; };
+		76D13F601A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F5F1A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m */; };
 		76E85BD519ACD5DB000F376A /* VFImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E85BD419ACD5DB000F376A /* VFImageCropView.m */; };
 		76FC678617AA55E3000160AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678517AA55E3000160AE /* UIKit.framework */; };
 		76FC678817AA55E3000160AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678717AA55E3000160AE /* Foundation.framework */; };
@@ -43,7 +45,7 @@
 /* Begin PBXFileReference section */
 		76A71E6A19B6101800F6B35B /* VFImageCropViewControllerDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VFImageCropViewControllerDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76A71E6D19B6101800F6B35B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		76A71E7919B6248C00F6B35B /* VFAspectRatioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests.m; sourceTree = "<group>"; };
+		76A71E7919B6248C00F6B35B /* VFAspectRatioTests_aspectSizeThatFitsInside.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests_aspectSizeThatFitsInside.m; sourceTree = "<group>"; };
 		76D13EC01A8CBB4400C06CEA /* VFCropAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFCropAreaView.h; sourceTree = "<group>"; };
 		76D13EC11A8CBB4400C06CEA /* VFCropAreaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFCropAreaView.m; sourceTree = "<group>"; };
 		76D13F0C1A921BCD00C06CEA /* VFImageCropConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFImageCropConfiguration.h; sourceTree = "<group>"; };
@@ -57,6 +59,8 @@
 		76D13F561A92D83C00C06CEA /* VFPanTouchArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFPanTouchArea.m; sourceTree = "<group>"; };
 		76D13F571A92D83C00C06CEA /* VFRectConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFRectConstraint.h; sourceTree = "<group>"; };
 		76D13F581A92D83C00C06CEA /* VFRectConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFRectConstraint.m; sourceTree = "<group>"; };
+		76D13F5D1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m; sourceTree = "<group>"; };
+		76D13F5F1A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m; sourceTree = "<group>"; };
 		76E85BD319ACD5DB000F376A /* VFImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFImageCropView.h; sourceTree = "<group>"; };
 		76E85BD419ACD5DB000F376A /* VFImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFImageCropView.m; sourceTree = "<group>"; };
 		76FC678217AA55E3000160AE /* VFImageCropViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFImageCropViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,7 +126,9 @@
 		76A71E7819B6248C00F6B35B /* test */ = {
 			isa = PBXGroup;
 			children = (
-				76A71E7919B6248C00F6B35B /* VFAspectRatioTests.m */,
+				76A71E7919B6248C00F6B35B /* VFAspectRatioTests_aspectSizeThatFitsInside.m */,
+				76D13F5F1A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m */,
+				76D13F5D1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m */,
 			);
 			name = test;
 			path = ../../../test;
@@ -327,7 +333,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76A71E7A19B6248C00F6B35B /* VFAspectRatioTests.m in Sources */,
+				76A71E7A19B6248C00F6B35B /* VFAspectRatioTests_aspectSizeThatFitsInside.m in Sources */,
+				76D13F601A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m in Sources */,
+				76D13F5E1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

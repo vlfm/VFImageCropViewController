@@ -29,7 +29,7 @@ CGFloat floorPoint(CGFloat value);
     return self;
 }
 
-- (CGSize)aspectSizeThatFits:(CGSize)size {
+- (CGSize)aspectSizeThatFitsInside:(CGSize)size {
     CGFloat w = 0;
     CGFloat h = 0;
     

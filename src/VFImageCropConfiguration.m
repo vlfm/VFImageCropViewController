@@ -66,7 +66,7 @@
         sender.toolbarItems = [self toolbarApectRatioItemsWithImageCropViewController:sender];
     };
     
-    vc.cropAreaMargins = [[VFLayoutGuideEdgeInsetsGenerator alloc] initWithViewController:vc margin:0];
+    vc.cropAreaMargins = [[VFLayoutGuideEdgeInsetsGenerator alloc] initWithViewController:vc margin:10];
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     nc.toolbarHidden = NO;

@@ -25,7 +25,7 @@
 
 - (instancetype)initWithWidth:(NSInteger)width height:(NSInteger)height;
 
-- (CGSize)aspectSizeThatFits:(CGSize)size;
+- (CGSize)aspectSizeThatFitsInside:(CGSize)size;
 
 - (CGSize)aspectSizeThatFits:(CGSize)size translationPoint:(CGPoint)point;
 

@@ -30,7 +30,7 @@
     CGSize size = rect.size;
     
     if (self.aspectRatio) {
-        size = [self.aspectRatio aspectSizeThatFits:size];
+        size = [self.aspectRatio aspectSizeThatFitsInside:size];
     }
     
     return CGRectMake(CGRectGetMinX(self.superview.bounds) + origin.x,

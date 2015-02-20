@@ -3,7 +3,7 @@
 
 #import "VFAspectRatio.h"
 
-@interface VFAspectRatioTests : XCTestCase
+@interface VFAspectRatioTests_aspectSizeWithFixedWidthThatFits : XCTestCase
 
 @property (nonatomic, readonly) VFAspectRatio *aspectRatio;
 @property (nonatomic, readonly) CGSize inputSize;
@@ -11,7 +11,7 @@
 
 @end
 
-@implementation VFAspectRatioTests
+@implementation VFAspectRatioTests_aspectSizeWithFixedWidthThatFits
 
 - (instancetype)initWithInvocation:(NSInvocation *)invocation
                        aspectRatio:(VFAspectRatio *)aspectRatio
@@ -30,11 +30,11 @@
     
     [self addTestWithAspectRatio:VFAspectRatioMake(1, 1) inputSize:CGSizeMake(100, 200) expectedSize:CGSizeMake(100, 100) testSuite:testSuite];
     [self addTestWithAspectRatio:VFAspectRatioMake(1, 1) inputSize:CGSizeMake(200, 200) expectedSize:CGSizeMake(200, 200) testSuite:testSuite];
-    [self addTestWithAspectRatio:VFAspectRatioMake(1, 1) inputSize:CGSizeMake(200, 100) expectedSize:CGSizeMake(100, 100) testSuite:testSuite];
+    [self addTestWithAspectRatio:VFAspectRatioMake(1, 1) inputSize:CGSizeMake(200, 100) expectedSize:CGSizeMake(200, 200) testSuite:testSuite];
     
     [self addTestWithAspectRatio:VFAspectRatioMake(1, 2) inputSize:CGSizeMake(100, 200) expectedSize:CGSizeMake(100, 200) testSuite:testSuite];
-    [self addTestWithAspectRatio:VFAspectRatioMake(1, 2) inputSize:CGSizeMake(200, 200) expectedSize:CGSizeMake(100, 200) testSuite:testSuite];
-    [self addTestWithAspectRatio:VFAspectRatioMake(1, 2) inputSize:CGSizeMake(200, 100) expectedSize:CGSizeMake(50, 100) testSuite:testSuite];
+    [self addTestWithAspectRatio:VFAspectRatioMake(1, 2) inputSize:CGSizeMake(200, 200) expectedSize:CGSizeMake(200, 400) testSuite:testSuite];
+    [self addTestWithAspectRatio:VFAspectRatioMake(1, 2) inputSize:CGSizeMake(200, 100) expectedSize:CGSizeMake(200, 400) testSuite:testSuite];
     
     [self addTestWithAspectRatio:VFAspectRatioMake(2, 1) inputSize:CGSizeMake(100, 200) expectedSize:CGSizeMake(100, 50) testSuite:testSuite];
     [self addTestWithAspectRatio:VFAspectRatioMake(2, 1) inputSize:CGSizeMake(200, 200) expectedSize:CGSizeMake(200, 100) testSuite:testSuite];
@@ -42,7 +42,7 @@
     
     [self addTestWithAspectRatio:VFAspectRatioMake(1, 2) inputSize:CGSizeMake(50, 200) expectedSize:CGSizeMake(50, 100) testSuite:testSuite];
     
-    [self addTestWithAspectRatio:VFAspectRatioMake(2, 1) inputSize:CGSizeMake(200, 50) expectedSize:CGSizeMake(100, 50) testSuite:testSuite];
+    [self addTestWithAspectRatio:VFAspectRatioMake(2, 1) inputSize:CGSizeMake(200, 50) expectedSize:CGSizeMake(200, 100) testSuite:testSuite];
     
     return testSuite;
 }
@@ -63,8 +63,8 @@
     }
 }
 
-- (void)testAspectSizeThatFits {
-    CGSize actualSize = [_aspectRatio aspectSizeThatFits:_inputSize];
+- (void)testAspectSizeThatFitsInside {
+    CGSize actualSize = [_aspectRatio aspectSizeWithFixedWidthThatFits:_inputSize];
     XCTAssertTrue(CGSizeEqualToSize(actualSize, _expectedSize), @"%@ x %@ = %@, v %@",
                   _aspectRatio, NSStringFromCGSize(_inputSize), NSStringFromCGSize(actualSize), NSStringFromCGSize(_expectedSize));
 }
