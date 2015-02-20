@@ -17,6 +17,7 @@
  */
 
 #import "VFAspectRatio.h"
+#import <AVFoundation/AVFoundation.h>
 
 CGFloat floorPoint(CGFloat value);
 
@@ -30,27 +31,9 @@ CGFloat floorPoint(CGFloat value);
 }
 
 - (CGSize)aspectSizeThatFitsInside:(CGSize)size {
-    CGFloat w = 0;
-    CGFloat h = 0;
-    
-    if (_width == _height) {
-        w = MIN(size.width, size.height);
-        h = w;
-    } else if (_width > _height) {
-        w = size.width;
-        h = (w / _width) * _height;
-    } else {
-        h = size.height;
-        w = (h / _height) * _width;
-    }
-    
-    CGFloat wOverhead = MAX(1, w / size.width);
-    CGFloat hOverhead = MAX(1, h / size.height);
-    
-    CGFloat overhead = MAX(wOverhead, hOverhead);
-    
-    return CGSizeMake(floorPoint(w / overhead),
-                      floorPoint(h / overhead));
+    CGRect boundingRect = CGRectMake(0, 0, size.width, size.height);
+    CGRect rect = AVMakeRectWithAspectRatioInsideRect(CGSizeMake(_width, _height), boundingRect);
+    return rect.size;
 }
 
 - (CGSize)aspectSizeThatFits:(CGSize)size translationPoint:(CGPoint)point {

@@ -17,6 +17,7 @@
 		76D13F5E1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F5D1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m */; };
 		76D13F601A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F5F1A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m */; };
 		76D13F621A97265900C06CEA /* VFAspectRatioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F611A97265900C06CEA /* VFAspectRatioTests.m */; };
+		76D13F651A97376400C06CEA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D13F641A97376300C06CEA /* AVFoundation.framework */; };
 		76E85BD519ACD5DB000F376A /* VFImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E85BD419ACD5DB000F376A /* VFImageCropView.m */; };
 		76FC678617AA55E3000160AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678517AA55E3000160AE /* UIKit.framework */; };
 		76FC678817AA55E3000160AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678717AA55E3000160AE /* Foundation.framework */; };
@@ -64,6 +65,7 @@
 		76D13F5F1A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m; sourceTree = "<group>"; };
 		76D13F611A97265900C06CEA /* VFAspectRatioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests.m; sourceTree = "<group>"; };
 		76D13F631A97266200C06CEA /* VFAspectRatioTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFAspectRatioTests.h; sourceTree = "<group>"; };
+		76D13F641A97376300C06CEA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		76E85BD319ACD5DB000F376A /* VFImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFImageCropView.h; sourceTree = "<group>"; };
 		76E85BD419ACD5DB000F376A /* VFImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFImageCropView.m; sourceTree = "<group>"; };
 		76FC678217AA55E3000160AE /* VFImageCropViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFImageCropViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76D13F651A97376400C06CEA /* AVFoundation.framework in Frameworks */,
 				76FC67AD17AA5E34000160AE /* MobileCoreServices.framework in Frameworks */,
 				76FC678617AA55E3000160AE /* UIKit.framework in Frameworks */,
 				76FC678817AA55E3000160AE /* Foundation.framework in Frameworks */,
@@ -185,6 +188,7 @@
 		76FC678417AA55E3000160AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				76D13F641A97376300C06CEA /* AVFoundation.framework */,
 				76FC67AC17AA5E34000160AE /* MobileCoreServices.framework */,
 				76FC678517AA55E3000160AE /* UIKit.framework */,
 				76FC678717AA55E3000160AE /* Foundation.framework */,
