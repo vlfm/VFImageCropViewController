@@ -212,7 +212,7 @@
 
 - (CGSize)minimumCropAreaSize {
     CGFloat scale = _scrollView.maximumZoomScale / _scrollView.zoomScale;
-    CGSize size = _cropAreaView.maximumAvailableFrame.size;
+    CGSize size = _cropAreaView.maximumAllowedFrame.size;
     return CGSizeMake(size.width / scale, size.height / scale);
 }
 
