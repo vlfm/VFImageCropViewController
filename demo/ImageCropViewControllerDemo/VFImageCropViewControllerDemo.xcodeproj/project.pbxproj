@@ -16,6 +16,7 @@
 		76D13F5C1A92D83C00C06CEA /* VFRectConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F581A92D83C00C06CEA /* VFRectConstraint.m */; };
 		76D13F5E1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F5D1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m */; };
 		76D13F601A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F5F1A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m */; };
+		76D13F621A97265900C06CEA /* VFAspectRatioTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D13F611A97265900C06CEA /* VFAspectRatioTests.m */; };
 		76E85BD519ACD5DB000F376A /* VFImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E85BD419ACD5DB000F376A /* VFImageCropView.m */; };
 		76FC678617AA55E3000160AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678517AA55E3000160AE /* UIKit.framework */; };
 		76FC678817AA55E3000160AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC678717AA55E3000160AE /* Foundation.framework */; };
@@ -61,6 +62,8 @@
 		76D13F581A92D83C00C06CEA /* VFRectConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFRectConstraint.m; sourceTree = "<group>"; };
 		76D13F5D1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m; sourceTree = "<group>"; };
 		76D13F5F1A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m; sourceTree = "<group>"; };
+		76D13F611A97265900C06CEA /* VFAspectRatioTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFAspectRatioTests.m; sourceTree = "<group>"; };
+		76D13F631A97266200C06CEA /* VFAspectRatioTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFAspectRatioTests.h; sourceTree = "<group>"; };
 		76E85BD319ACD5DB000F376A /* VFImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFImageCropView.h; sourceTree = "<group>"; };
 		76E85BD419ACD5DB000F376A /* VFImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFImageCropView.m; sourceTree = "<group>"; };
 		76FC678217AA55E3000160AE /* VFImageCropViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFImageCropViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +132,8 @@
 				76A71E7919B6248C00F6B35B /* VFAspectRatioTests_aspectSizeThatFitsInside.m */,
 				76D13F5F1A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m */,
 				76D13F5D1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m */,
+				76D13F631A97266200C06CEA /* VFAspectRatioTests.h */,
+				76D13F611A97265900C06CEA /* VFAspectRatioTests.m */,
 			);
 			name = test;
 			path = ../../../test;
@@ -334,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76A71E7A19B6248C00F6B35B /* VFAspectRatioTests_aspectSizeThatFitsInside.m in Sources */,
+				76D13F621A97265900C06CEA /* VFAspectRatioTests.m in Sources */,
 				76D13F601A97234C00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedHeightThatFits.m in Sources */,
 				76D13F5E1A97232B00C06CEA /* VFAspectRatioTests_aspectSizeWithFixedWidthThatFits.m in Sources */,
 			);
