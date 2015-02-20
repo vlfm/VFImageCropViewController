@@ -52,6 +52,10 @@ void doAfterDelay(NSTimeInterval delay, void(^task)());
     if (self.gridOn) {
         [self drawGridWithDimensionSize:3 insideBorderWithLineWidth:1.0 color:[UIColor whiteColor]];
     }
+    
+    if (!self.gridOn) {
+        [self drawEdgesWithColor:[[UIColor whiteColor] colorWithAlphaComponent:0.7] size:CGSizeMake(10, 10)];
+    }
 }
 
 - (void)drawBorderWithLineWidth:(CGFloat)borderLineWidth color:(UIColor *)color {
@@ -61,6 +65,7 @@ void doAfterDelay(NSTimeInterval delay, void(^task)());
         
         CGContextSetLineWidth(context, borderLineWidthInPixels);
         CGContextSetStrokeColorWithColor(context, color.CGColor);
+        CGContextSetAllowsAntialiasing(context, NO);
         CGContextStrokeRect(context, self.bounds);
     }];
 }
@@ -142,6 +147,39 @@ void doAfterDelay(NSTimeInterval delay, void(^task)());
                                  lineSize.width, lineSize.height);
         
     CGContextFillRect(context, lineRect);
+}
+
+- (void)drawEdgesWithColor:(UIColor *)color size:(CGSize)size {
+    [self drawWithContext:^(CGContextRef context) {
+        CGContextSetFillColorWithColor(context, [[UIColor whiteColor] colorWithAlphaComponent:0.7].CGColor);
+        
+        CGFloat w = size.width;
+        CGFloat h = size.height;
+        
+        CGRect top = CGRectMake(CGRectGetWidth(self.bounds) / 2 - w / 2, 0, w, h);
+        CGContextFillRect(context, top);
+        
+        CGRect left = CGRectMake(0, CGRectGetHeight(self.bounds) / 2 - h / 2, w, h);
+        CGContextFillRect(context, left);
+        
+        CGRect bottom = CGRectMake(CGRectGetWidth(self.bounds) / 2 - w / 2, CGRectGetMaxY(self.bounds) - h, w, h);
+        CGContextFillRect(context, bottom);
+        
+        CGRect right = CGRectMake(CGRectGetMaxX(self.bounds) - w, CGRectGetHeight(self.bounds) / 2 - h / 2, w, h);
+        CGContextFillRect(context, right);
+        
+        CGRect topLeft = CGRectMake(0, 0, w, h);
+        CGContextFillRect(context, topLeft);
+        
+        CGRect topRight = CGRectMake(CGRectGetMaxX(self.bounds) - w, 0, w, h);
+        CGContextFillRect(context, topRight);
+        
+        CGRect bottomLeft = CGRectMake(0, CGRectGetMaxY(self.bounds) - h, w, h);
+        CGContextFillRect(context, bottomLeft);
+        
+        CGRect bottomRight = CGRectMake(CGRectGetMaxX(self.bounds) - w, CGRectGetMaxY(self.bounds) - h, w, h);
+        CGContextFillRect(context, bottomRight);
+    }];
 }
 
 - (void)drawWithContext:(void(^)(CGContextRef context))drawBlock {

@@ -109,6 +109,7 @@
     _scrollView.zoomScale = minimumZoomScale;
     
     _scrollView.contentOffset = [self scrollViewContentOffsetForZoomingViewCenter];
+    _scrollView.contentInset = [self scrollViewContentInset];
 }
 
 #pragma mark hit test
