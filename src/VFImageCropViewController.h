@@ -30,10 +30,7 @@
 
 @property (nonatomic, strong) id <VFEdgeInsetsGenerator> cropAreaMargins;
 
-- (instancetype)initWithImage:(UIImage *)image
-                  widthFactor:(NSInteger)widthFactor
-                 heightFactor:(NSInteger)heightFactor DEPRECATED_ATTRIBUTE ;
-
+- (instancetype)initWithImage:(UIImage *)image;
 - (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio;
 
 + (UIImage *)cropImage:(UIImage *)image withRect:(CGRect)cropRect;

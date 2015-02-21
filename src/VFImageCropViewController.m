@@ -73,12 +73,9 @@
 	return cropped;
 }
 
-- (instancetype)initWithImage:(UIImage *)image
-                  widthFactor:(NSInteger)widthFactor
-                 heightFactor:(NSInteger)heightFactor {
-    
-    return [self initWithImage:image aspectRatio:[[VFAspectRatio alloc] initWithWidth:widthFactor
-                                                                               height:heightFactor]];
+- (instancetype)initWithImage:(UIImage *)image {
+    VFAspectRatio *aspectRatio = VFAspectRatioMake(image.size.width, image.size.height);
+    return [self initWithImage:image aspectRatio:aspectRatio];
 }
 
 - (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
