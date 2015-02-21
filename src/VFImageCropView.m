@@ -56,9 +56,9 @@
 - (void)setAspectRatio:(VFAspectRatio *)aspectRatio {
     _aspectRatio = aspectRatio;
     _cropAreaView.aspectRatio = aspectRatio;
-        
+    
     [self setNeedsLayout];
-        
+    
     [UIView animateWithDuration:0.2 animations:^{
         [self layoutIfNeeded];
     }];
@@ -86,6 +86,7 @@
     {
         _cropAreaView = [VFCropAreaView new];
         _cropAreaView.aspectRatio = _aspectRatio;
+        _cropAreaView.aspectRatioFixed = YES;
         _cropAreaView.delegate = self;
         [self addSubview:_cropAreaView];
     }

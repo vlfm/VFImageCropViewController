@@ -95,10 +95,12 @@
         
         CGRect frame = self.frame;
         
+        VFAspectRatio *translationAspectRatio = self.aspectRatioFixed ? self.aspectRatio : nil;
+        
         if (_currentPanTouchArea) {
             frame = [_currentPanTouchArea translateParentFrame:frame
                                        withPanTranslationPoint:CGPointMake(dx, dy)
-                                                   aspectRatio:self.aspectRatio
+                                                   aspectRatio:translationAspectRatio
                                                 rectConstraint:[self frameConstraint]];
         }
         
@@ -110,6 +112,17 @@
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         _currentPanTouchArea = nil;
         _lastTranslationPoint = CGPointZero;
+        
+        if (self.aspectRatioFixed == NO) {
+            NSInteger w = round(CGRectGetWidth(self.frame));
+            NSInteger h = round(CGRectGetHeight(self.frame));
+            self.aspectRatio = VFAspectRatioMake(w, h);
+            
+            CGRect frame = self.frame;
+            CGSize size = [self.aspectRatio aspectSizeThatFitsInside:frame.size];
+            frame.size = size;
+            self.frame = frame;
+        }
         
         [self notifyDidEndInteraction];
     }
@@ -184,17 +197,5 @@
         [self.delegate interactiveFrameView:self didEndInteractionWithFrame:self.frame aspectRatio:self.aspectRatio];
     }
 }
-
-/*- (void)setIsInteractionHappensNowAndNotify:(BOOL)value {
-    if (_interactionHappensNow != value) {
-        _interactionHappensNow = value;
-        
-        [self interactionHappensNowDidChange:value];
-        
-        if ([self.delegate respondsToSelector:@selector(interactiveFrameView:interactionHappensNowDidChange:)]) {
-            [self.delegate interactiveFrameView:self interactionHappensNowDidChange:value];
-        }
-    }
-}*/
 
 @end

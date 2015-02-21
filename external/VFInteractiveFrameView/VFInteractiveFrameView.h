@@ -6,6 +6,7 @@
 @interface VFInteractiveFrameView : UIView
 
 @property (nonatomic, strong) VFAspectRatio *aspectRatio;
+@property (nonatomic) BOOL aspectRatioFixed;
 
 @property (nonatomic) UIEdgeInsets insetsInSuperView;
 @property (nonatomic) CGSize minimumSize;
