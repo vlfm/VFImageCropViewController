@@ -189,21 +189,22 @@
 
 #pragma mark VFInteractiveFrameViewDelegate
 
-- (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView interactionHappensNowDidChange:(BOOL)value {
-    if (value) {
-        _cropAreaView.minimumSize = [self minimumCropAreaSize];
-        [self showCropAreaGrid];
-    }
-    
-    if (value == NO) {
-        [self animateZoomToCropRectWithCompletion:^(BOOL finished) {
-            [self hideCropAreaGrid];
-        }];
-    }
+- (void)interactiveFrameViewDidBeginInteraction:(VFInteractiveFrameView *)interactiveFrameView {
+    _cropAreaView.minimumSize = [self minimumCropAreaSize];
+    [self showCropAreaGrid];
 }
 
 - (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView didChangeFrame:(CGRect)frame {
     _cropOverlayController.cropAreaRect = frame;
+}
+
+- (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView
+  didEndInteractionWithFrame:(CGRect)frame
+                 aspectRatio:(VFAspectRatio *)aspectRatio {
+    
+    [self animateZoomToCropRectWithCompletion:^(BOOL finished) {
+        [self hideCropAreaGrid];
+    }];
 }
 
 #pragma mark crop area

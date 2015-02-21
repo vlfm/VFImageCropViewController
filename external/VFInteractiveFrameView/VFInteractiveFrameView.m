@@ -75,7 +75,7 @@
     CGPoint translationPoint = [recognizer translationInView:recognizer.view];
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        [self setIsInteractionHappensNowAndNotify:YES];
+        [self notifyDidBeginInteraction];
         
         CGPoint locationPoint = [recognizer locationInView:recognizer.view];
         
@@ -108,9 +108,10 @@
     }
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        [self setIsInteractionHappensNowAndNotify:NO];
         _currentPanTouchArea = nil;
         _lastTranslationPoint = CGPointZero;
+        
+        [self notifyDidEndInteraction];
     }
 }
 
@@ -141,12 +142,7 @@
 
 - (void)setFrame:(CGRect)frame {
     super.frame = frame;
-    
-    [self frameDidChange:frame];
-    
-    if ([self.delegate respondsToSelector:@selector(interactiveFrameView:didChangeFrame:)]) {
-        [self.delegate interactiveFrameView:self didChangeFrame:frame];
-    }
+    [self notifyDidChangeFrame];
 }
 
 #pragma mark UIGestureRecognizerDelegate
@@ -158,15 +154,38 @@
 
 #pragma mark subclass notification methods
 
-- (void)interactionHappensNowDidChange:(BOOL)value {
+- (void)didBeginInteraction {
 }
 
 - (void)frameDidChange:(CGRect)frame {
 }
 
+- (void)didEndInteraction {
+}
+
 #pragma mark delegate
 
-- (void)setIsInteractionHappensNowAndNotify:(BOOL)value {
+- (void)notifyDidBeginInteraction {
+    if ([self.delegate respondsToSelector:@selector(interactiveFrameViewDidBeginInteraction:)]) {
+        [self.delegate interactiveFrameViewDidBeginInteraction:self];
+    }
+}
+
+- (void)notifyDidChangeFrame {
+    [self frameDidChange:self.frame];
+    
+    if ([self.delegate respondsToSelector:@selector(interactiveFrameView:didChangeFrame:)]) {
+        [self.delegate interactiveFrameView:self didChangeFrame:self.frame];
+    }
+}
+
+- (void)notifyDidEndInteraction {
+    if ([self.delegate respondsToSelector:@selector(interactiveFrameView:didEndInteractionWithFrame:aspectRatio:)]) {
+        [self.delegate interactiveFrameView:self didEndInteractionWithFrame:self.frame aspectRatio:self.aspectRatio];
+    }
+}
+
+/*- (void)setIsInteractionHappensNowAndNotify:(BOOL)value {
     if (_interactionHappensNow != value) {
         _interactionHappensNow = value;
         
@@ -176,6 +195,6 @@
             [self.delegate interactiveFrameView:self interactionHappensNowDidChange:value];
         }
     }
-}
+}*/
 
 @end
