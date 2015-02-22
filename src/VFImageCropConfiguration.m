@@ -53,14 +53,6 @@
 @implementation VFImageCropConfiguration
 
 + (UINavigationController *)imageCropViewControllerModalConfiguration:(VFImageCropViewController *)vc {
-    vc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                                           initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                           target:vc action:@selector(cancelAction)];
-    
-    vc.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                            initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                            target:vc action:@selector(cropImageAction)];
-    
     vc.toolbarItems = [self toolbarApectRatioItemsWithImageCropViewController:vc];
     vc.selectAspectRatioHandler = ^(VFImageCropViewController *sender, VFAspectRatio *aspectRatio) {
         sender.toolbarItems = [self toolbarApectRatioItemsWithImageCropViewController:sender];
@@ -69,6 +61,7 @@
     vc.cropAreaMargins = [[VFLayoutGuideEdgeInsetsGenerator alloc] initWithViewController:vc margin:10];
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    nc.navigationBarHidden = YES;
     nc.toolbarHidden = NO;
     nc.toolbar.barStyle = UIBarStyleBlack;
     
@@ -77,13 +70,19 @@
 
 + (NSArray *)toolbarApectRatioItemsWithImageCropViewController:(VFImageCropViewController *)vc {
     return @[
+             [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                          target:vc action:@selector(cancelAction)],
+             
              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
              
              [[UIBarButtonItem alloc] initWithTitle:vc.aspectRatio.description
                                               style:UIBarButtonItemStylePlain
                                              target:vc action:@selector(selectAspectRatioAction)],
              
-             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
+             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+             
+             [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                          target:vc action:@selector(cropImageAction)]
              ];
 }
 
