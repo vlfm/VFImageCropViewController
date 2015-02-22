@@ -18,8 +18,6 @@
 
 #import "VFCropAreaView.h"
 
-void doAfterDelay(NSTimeInterval delay, void(^task)());
-
 @implementation VFCropAreaView
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -34,12 +32,6 @@ void doAfterDelay(NSTimeInterval delay, void(^task)());
 - (void)setGridOn:(BOOL)gridOn {
     _gridOn = gridOn;
     [self setNeedsDisplay];
-}
-
-- (void)setGridOn:(BOOL)gridOn delay:(NSTimeInterval)delay {
-    doAfterDelay(delay, ^{
-        self.gridOn = gridOn;
-    });
 }
 
 #pragma mark draw
@@ -199,11 +191,3 @@ void doAfterDelay(NSTimeInterval delay, void(^task)());
 }
 
 @end
-
-
-void doAfterDelay(NSTimeInterval delay, void(^task)()) {
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        task();
-    });
-}

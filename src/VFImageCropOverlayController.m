@@ -1,32 +1,52 @@
 #import "VFImageCropOverlayController.h"
 
 @implementation VFImageCropOverlayController {
-    UIView *_topView;
-    UIView *_leftView;
-    UIView *_bottomView;
-    UIView *_rightView;
+    UIView *_topColorOverlayView;
+    UIView *_leftColorOverlayView;
+    UIView *_bottomColorOverlayView;
+    UIView *_rightColorOverlayView;
+    
+    UIView *_topBlurOverlayView;
+    UIView *_leftBlurOverlayView;
+    UIView *_bottomBlurOverlayView;
+    UIView *_rightBlurOverlayView;
 }
 
 - (instancetype)initWithTargetView:(UIView *)targetView {
     self = [super init];
     _targetView = targetView;
     
-    _topView = [UIView new];
-    _leftView = [UIView new];
-    _bottomView = [UIView new];
-    _rightView = [UIView new];
+    _topColorOverlayView = [UIView new];
+    _leftColorOverlayView = [UIView new];
+    _bottomColorOverlayView = [UIView new];
+    _rightColorOverlayView = [UIView new];
     
-    [_targetView addSubview:_topView];
-    [_targetView addSubview:_leftView];
-    [_targetView addSubview:_bottomView];
-    [_targetView addSubview:_rightView];
+    [_targetView addSubview:_topColorOverlayView];
+    [_targetView addSubview:_leftColorOverlayView];
+    [_targetView addSubview:_bottomColorOverlayView];
+    [_targetView addSubview:_rightColorOverlayView];
     
     UIColor *backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
     
-    _topView.backgroundColor = backgroundColor;
-    _leftView.backgroundColor = backgroundColor;
-    _bottomView.backgroundColor = backgroundColor;
-    _rightView.backgroundColor = backgroundColor;
+    _topColorOverlayView.backgroundColor = backgroundColor;
+    _leftColorOverlayView.backgroundColor = backgroundColor;
+    _bottomColorOverlayView.backgroundColor = backgroundColor;
+    _rightColorOverlayView.backgroundColor = backgroundColor;
+    
+    if ([self blurEffectAvailable]) {
+        UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        _topBlurOverlayView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        _leftBlurOverlayView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        _bottomBlurOverlayView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        _rightBlurOverlayView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        
+        [_targetView addSubview:_topBlurOverlayView];
+        [_targetView addSubview:_leftBlurOverlayView];
+        [_targetView addSubview:_bottomBlurOverlayView];
+        [_targetView addSubview:_rightBlurOverlayView];
+        
+        self.blurEnabled = NO;
+    }
     
     return self;
 }
@@ -36,27 +56,70 @@
     [self layout];
 }
 
+- (void)setBlurEnabled:(BOOL)blurEnabled {
+    _blurEnabled = blurEnabled;
+    
+    if ([self blurEffectAvailable] == NO) {
+        return;
+    }
+    
+    _topColorOverlayView.hidden = _blurEnabled;
+    _leftColorOverlayView.hidden = _blurEnabled;
+    _bottomColorOverlayView.hidden = _blurEnabled;
+    _rightColorOverlayView.hidden = _blurEnabled;
+    
+    _topBlurOverlayView.hidden = !_blurEnabled;
+    _leftBlurOverlayView.hidden = !_blurEnabled;
+    _bottomBlurOverlayView.hidden = !_blurEnabled;
+    _rightBlurOverlayView.hidden = !_blurEnabled;
+}
+
 - (void)layout {
     CGRect bounds = _targetView.bounds;
     CGRect cropAreaFrame = self.cropAreaRect;
     
-    _topView.frame = CGRectMake(0, 0,
-                                CGRectGetWidth(bounds),
-                                CGRectGetMinY(cropAreaFrame));
-    
-    _leftView.frame = CGRectMake(0,
-                                 CGRectGetMinY(cropAreaFrame),
-                                 CGRectGetMinX(cropAreaFrame),
-                                 CGRectGetHeight(cropAreaFrame));
-    
-    _bottomView.frame = CGRectMake(0, CGRectGetMaxY(cropAreaFrame),
-                                   CGRectGetWidth(bounds),
-                                   CGRectGetHeight(bounds) - CGRectGetMaxY(cropAreaFrame));
-    
-    _rightView.frame = CGRectMake(CGRectGetMaxX(cropAreaFrame),
-                                  CGRectGetMinY(cropAreaFrame),
-                                  CGRectGetWidth(bounds) - CGRectGetMaxX(cropAreaFrame),
-                                  CGRectGetHeight(cropAreaFrame));
+    [self layoutTopOverlayWithBounds:bounds cropAreaFrame:cropAreaFrame];
+    [self layoutLeftOverlayWithBounds:bounds cropAreaFrame:cropAreaFrame];
+    [self layoutBottomOverlayWithBounds:bounds cropAreaFrame:cropAreaFrame];
+    [self layoutRightOverlayWithBounds:bounds cropAreaFrame:cropAreaFrame];
+}
+
+- (void)layoutTopOverlayWithBounds:(CGRect)bounds cropAreaFrame:(CGRect)cropAreaFrame {
+    CGRect frame = CGRectMake(0, 0,
+                              CGRectGetWidth(bounds),
+                              CGRectGetMinY(cropAreaFrame));
+    _topColorOverlayView.frame = frame;
+    _topBlurOverlayView.frame = frame;
+}
+
+- (void)layoutLeftOverlayWithBounds:(CGRect)bounds cropAreaFrame:(CGRect)cropAreaFrame {
+    CGRect frame = CGRectMake(0,
+                              CGRectGetMinY(cropAreaFrame),
+                              CGRectGetMinX(cropAreaFrame),
+                              CGRectGetHeight(cropAreaFrame));
+    _leftColorOverlayView.frame = frame;
+    _leftBlurOverlayView.frame = frame;
+}
+
+- (void)layoutBottomOverlayWithBounds:(CGRect)bounds cropAreaFrame:(CGRect)cropAreaFrame {
+    CGRect frame = CGRectMake(0, CGRectGetMaxY(cropAreaFrame),
+                              CGRectGetWidth(bounds),
+                              CGRectGetHeight(bounds) - CGRectGetMaxY(cropAreaFrame));
+    _bottomColorOverlayView.frame = frame;
+    _bottomBlurOverlayView.frame = frame;
+}
+
+- (void)layoutRightOverlayWithBounds:(CGRect)bounds cropAreaFrame:(CGRect)cropAreaFrame {
+    CGRect frame = CGRectMake(CGRectGetMaxX(cropAreaFrame),
+                              CGRectGetMinY(cropAreaFrame),
+                              CGRectGetWidth(bounds) - CGRectGetMaxX(cropAreaFrame),
+                              CGRectGetHeight(cropAreaFrame));
+    _rightColorOverlayView.frame = frame;
+    _rightBlurOverlayView.frame = frame;
+}
+
+- (BOOL)blurEffectAvailable {
+    return [UIVisualEffect class] != nil;
 }
 
 @end

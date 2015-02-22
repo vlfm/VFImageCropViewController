@@ -24,6 +24,4 @@
 
 @property (nonatomic) BOOL gridOn;
 
-- (void)setGridOn:(BOOL)gridOn delay:(NSTimeInterval)delay;
-
 @end

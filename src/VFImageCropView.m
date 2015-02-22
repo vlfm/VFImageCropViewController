@@ -22,6 +22,8 @@
 #import "VFEdgeInsetsGenerator.h"
 #import "VFImageCropOverlayController.h"
 
+void doAfterDelay(NSTimeInterval delay, void(^task)());
+
 @interface VFImageCropView () <VFInteractiveFrameViewDelegate>
 
 @end
@@ -92,6 +94,7 @@
     
     {
         _cropOverlayController = [[VFImageCropOverlayController alloc] initWithTargetView:self];
+        _cropOverlayController.blurEnabled = YES;
     }
     
     self.backgroundColor = [UIColor blackColor];
@@ -145,14 +148,19 @@
     return nil;
 }
 
-#pragma mark grid
+#pragma mark interaction dependent adjustments
 
-- (void)showCropAreaGrid {
-    _cropAreaView.gridOn = YES;
-}
-
-- (void)hideCropAreaGrid {
-    [_cropAreaView setGridOn:NO delay:0.15];
+- (void)updateDisplayPropertiesWithUserInteractionHappensNow:(BOOL)userInteractionHappensNow {
+    if (userInteractionHappensNow) {
+        _cropAreaView.gridOn = YES;
+        _cropOverlayController.blurEnabled = NO;
+    } else {
+        doAfterDelay(0.15, ^{
+            _cropAreaView.gridOn = NO;
+            _cropOverlayController.blurEnabled = YES;
+        });
+    }
+    
 }
 
 #pragma mark UIScrollViewDelegate
@@ -162,7 +170,7 @@
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
-    [self showCropAreaGrid];
+    [self updateDisplayPropertiesWithUserInteractionHappensNow:YES];
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
@@ -170,28 +178,28 @@
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale {
-    [self hideCropAreaGrid];
+    [self updateDisplayPropertiesWithUserInteractionHappensNow:NO];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    [self showCropAreaGrid];
+    [self updateDisplayPropertiesWithUserInteractionHappensNow:YES];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (!decelerate) {
-        [self hideCropAreaGrid];
+        [self updateDisplayPropertiesWithUserInteractionHappensNow:NO];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self hideCropAreaGrid];
+    [self updateDisplayPropertiesWithUserInteractionHappensNow:NO];
 }
 
 #pragma mark VFInteractiveFrameViewDelegate
 
 - (void)interactiveFrameViewDidBeginInteraction:(VFInteractiveFrameView *)interactiveFrameView {
     _cropAreaView.minimumSize = [self minimumCropAreaSize];
-    [self showCropAreaGrid];
+    [self updateDisplayPropertiesWithUserInteractionHappensNow:YES];
 }
 
 - (void)interactiveFrameView:(VFInteractiveFrameView *)interactiveFrameView didChangeFrame:(CGRect)frame {
@@ -203,7 +211,7 @@
                  aspectRatio:(VFAspectRatio *)aspectRatio {
     
     [self animateZoomToCropRectWithCompletion:^(BOOL finished) {
-        [self hideCropAreaGrid];
+        [self updateDisplayPropertiesWithUserInteractionHappensNow:NO];
     }];
 }
 
@@ -269,3 +277,10 @@
 }
 
 @end
+
+void doAfterDelay(NSTimeInterval delay, void(^task)()) {
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        task();
+    });
+}
