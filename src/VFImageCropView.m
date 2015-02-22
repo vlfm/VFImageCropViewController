@@ -86,7 +86,6 @@
     {
         _cropAreaView = [VFCropAreaView new];
         _cropAreaView.aspectRatio = _aspectRatio;
-        _cropAreaView.aspectRatioFixed = YES;
         _cropAreaView.delegate = self;
         [self addSubview:_cropAreaView];
     }
@@ -262,6 +261,7 @@
     CGRect cropAreaRect = [self cropAreaRect];
     
     [UIView animateWithDuration:0.25 delay:0.25 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        _scrollView.frame = cropAreaRect;
         [_scrollView zoomToRect:rect animated:NO];
         _cropAreaView.frame = cropAreaRect;
         _cropOverlayController.cropAreaRect = cropAreaRect;
