@@ -26,7 +26,6 @@
 @property (nonatomic, copy) NSNumber *restoreStatusBarStyle;
 
 @property (nonatomic, readonly) VFAspectRatio *aspectRatio;
-@property (nonatomic) BOOL standardAspectRatiosAvailable;
 
 @property (nonatomic, strong) id <VFEdgeInsetsGenerator> cropAreaMargins;
 
