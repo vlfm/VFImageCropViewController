@@ -9,16 +9,17 @@ VFImageCropViewController
 VFImageCropViewController *cropVC = [[VFImageCropViewController alloc]
                                       initWithImage:image aspectRatio:aspectRatio];
     
-    cropVC.cropImageActionHandler = ^(VFImageCropViewController *sender, UIImage *image, CGRect rect) {
-        myImageView.image = image;
-        [myViewController dismissViewControllerAnimated:YES completion:nil];
-    };
+cropVC.cropImageActionHandler = ^(VFImageCropViewController *sender, UIImage *image, CGRect rect) {
+    myImageView.image = image;
+    [sender dismissViewControllerAnimated:YES completion:nil];
+};
     
-    cropVC.cancelActionHandler = ^(VFImageCropViewController *sender) {
-        [myViewController dismissViewControllerAnimated:YES completion:nil];
-    };
+cropVC.cancelActionHandler = ^(VFImageCropViewController *sender) {
+    [sender dismissViewControllerAnimated:YES completion:nil];
+};
     
-    UINavigationController *navigationVC = [VFImageCropConfiguration imageCropViewControllerModalConfiguration:cropVC];
+UINavigationController *navigationVC = [VFImageCropConfiguration imageCropViewControllerModalConfiguration:cropVC];
+[myViewController presentViewController:navigationVC animated:YES completion:nil];
 ```
 
 Note ```VFImageCropConfiguration``` in the example above. ```VFImageCropViewController``` is not aware about its presentation context (whether it is presented with UINavigationController, etc). Presentation details must be configured explicitly by its client.
