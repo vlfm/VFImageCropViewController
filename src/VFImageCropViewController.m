@@ -86,19 +86,25 @@
     return _view.aspectRatio;
 }
 
+- (BOOL)aspectRatioFixed {
+    return _view.aspectRatioFixed;
+}
+
+- (void)setAspectRatioFixed:(BOOL)aspectRatioFixed {
+    _view.aspectRatioFixed = aspectRatioFixed;
+}
+
+- (id<VFEdgeInsetsGenerator>)cropAreaMargins {
+    return _view.cropAreaMargins;
+}
+
 - (void)setCropAreaMargins:(id<VFEdgeInsetsGenerator>)cropAreaMargins {
-    _cropAreaMargins = cropAreaMargins;
     _view.cropAreaMargins = cropAreaMargins;
 }
 
 - (void)loadView {
     [_view loadView];
     self.view = _view;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    _view.cropAreaMargins = _cropAreaMargins;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

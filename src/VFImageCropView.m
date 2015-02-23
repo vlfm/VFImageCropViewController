@@ -66,36 +66,37 @@ void doAfterDelay(NSTimeInterval delay, void(^task)());
     }];
 }
 
+- (void)setAspectRatioFixed:(BOOL)aspectRatioFixed {
+    _aspectRatioFixed = aspectRatioFixed;
+    _cropAreaView.aspectRatioFixed = aspectRatioFixed;
+}
+
 - (void)setCropAreaMargins:(id<VFEdgeInsetsGenerator>)cropAreaMargins {
     _cropAreaMargins = cropAreaMargins;
     [self setNeedsLayout];
 }
 
 - (void)loadView {
-    {
-        _imageView = [[UIImageView alloc] initWithImage:_image];
-        _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        _scrollView.delegate = self;
-        _scrollView.showsHorizontalScrollIndicator = NO;
-        _scrollView.showsVerticalScrollIndicator = NO;
-        _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _scrollView.clipsToBounds = NO;
+    _imageView = [[UIImageView alloc] initWithImage:_image];
+    
+    _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+    _scrollView.delegate = self;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _scrollView.clipsToBounds = NO;
         
-        [_scrollView addSubview:_imageView];
-        [self addSubview:_scrollView];
-    }
+    [_scrollView addSubview:_imageView];
+    [self addSubview:_scrollView];
     
-    {
-        _cropAreaView = [VFCropAreaView new];
-        _cropAreaView.aspectRatio = _aspectRatio;
-        _cropAreaView.delegate = self;
-        [self addSubview:_cropAreaView];
-    }
+    _cropAreaView = [VFCropAreaView new];
+    _cropAreaView.aspectRatio = _aspectRatio;
+    _cropAreaView.aspectRatioFixed = _aspectRatioFixed;
+    _cropAreaView.delegate = self;
+    [self addSubview:_cropAreaView];
     
-    {
-        _cropOverlayController = [[VFImageCropOverlayController alloc] initWithTargetView:self];
-        _cropOverlayController.blurEnabled = YES;
-    }
+    _cropOverlayController = [[VFImageCropOverlayController alloc] initWithTargetView:self];
+    _cropOverlayController.blurEnabled = YES;
     
     self.backgroundColor = [UIColor blackColor];
 }
