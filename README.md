@@ -1,37 +1,30 @@
 VFImageCropViewController
 =======================
 
-Lightweight crop view controller.
+* Interactive resizable crop frame
+* Fixed or not fixed aspect rario
+* Standard aspect ratios: choose from the list
 
 ```objective-c
 VFImageCropViewController *cropVC = [[VFImageCropViewController alloc]
-                                      initWithImage:image aspectRatio:VFAspectRatioMake(w, h)];
-    // set crop vc properties
-    cropVC.cropFramePadding = 60;
+                                      initWithImage:image aspectRatio:aspectRatio];
     
-    cropVC.onCancelled = ^ {
-        // ...
-        [myViewController dismissViewControllerAnimated:YES completion:nil];
-    };
-    
-    cropVC.onImageCropped = ^ (UIImage *image, CGRect rect) {
-        // ...
+    cropVC.cropImageActionHandler = ^(VFImageCropViewController *sender, UIImage *image, CGRect rect) {
         myImageView.image = image;
         [myViewController dismissViewControllerAnimated:YES completion:nil];
     };
     
-UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:cropVC];
-[myViewController presentViewController:navigationVC animated:YES completion:nil];
+    cropVC.cancelActionHandler = ^(VFImageCropViewController *sender) {
+        [myViewController dismissViewControllerAnimated:YES completion:nil];
+    };
+    
+    UINavigationController *navigationVC = [VFImageCropConfiguration imageCropViewControllerModalConfiguration:cropVC];
 ```
+
+Note ```VFImageCropConfiguration``` in the example above. ```VFImageCropViewController``` is not aware about its presentation context (whether it is presented with UINavigationController, etc). Presentation details must be configured explicitly by its client.
 
 ![Screenshot](https://raw.github.com/vlfm/ImageCropViewController/master/screenshots/s1.png "screenshot")
 
-Aspects (new in 2.1.0)
-==
-Choose crop aspect ratio from list with standard values. Initial (user provided) aspect ratio is on top.
-Available by default, can be disabled:
-```objective-c
-cropVC.standardAspectRatiosAvailable = NO;
-```
-
 ![Screenshot](https://raw.github.com/vlfm/ImageCropViewController/master/screenshots/s2.png "screenshot")
+
+![Screenshot](https://raw.github.com/vlfm/ImageCropViewController/master/screenshots/s3.png "screenshot")
