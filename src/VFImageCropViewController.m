@@ -76,6 +76,11 @@
 
 - (instancetype)initWithImage:(UIImage *)image aspectRatio:(VFAspectRatio *)aspectRatio {
     self = [super init];
+    
+    if (aspectRatio == nil) {
+        aspectRatio = VFAspectRatioMake(image.size.width, image.size.height);
+    }
+    
     _aspectRatioList = [[self class] aspectRatioListWithImageSize:image.size firstApectRatio:aspectRatio];
     _view = [[VFImageCropView alloc] initWithImage:image];
     _view.aspectRatio = aspectRatio;
