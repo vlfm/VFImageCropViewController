@@ -44,7 +44,8 @@
         [picker dismissViewControllerAnimated:YES completion:nil];
     };
     
-    UINavigationController *navigationVC = [VFImageCropConfiguration imageCropViewControllerModalConfiguration:cropVC];
+    VFImageCropConfiguration *configuration = [VFImageCropConfiguration new];
+    UINavigationController *navigationVC = [configuration imageCropViewControllerModalConfiguration:cropVC];
     [picker presentViewController:navigationVC animated:YES completion:nil];
 }
 

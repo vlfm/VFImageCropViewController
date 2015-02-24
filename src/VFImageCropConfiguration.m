@@ -52,7 +52,13 @@
 
 @implementation VFImageCropConfiguration
 
-+ (UINavigationController *)imageCropViewControllerModalConfiguration:(VFImageCropViewController *)vc {
+- (instancetype)init {
+    self = [super init];
+    self.selectAspectRatioActionAvailable = YES;
+    return self;
+}
+
+- (UINavigationController *)imageCropViewControllerModalConfiguration:(VFImageCropViewController *)vc {
     vc.toolbarItems = [self toolbarApectRatioItemsWithImageCropViewController:vc];
     vc.selectAspectRatioHandler = ^(VFImageCropViewController *sender, VFAspectRatio *aspectRatio) {
         sender.toolbarItems = [self toolbarApectRatioItemsWithImageCropViewController:sender];
@@ -68,22 +74,46 @@
     return nc;
 }
 
-+ (NSArray *)toolbarApectRatioItemsWithImageCropViewController:(VFImageCropViewController *)vc {
-    return @[
-             [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                          target:vc action:@selector(cancelAction)],
-             
-             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-             
-             [[UIBarButtonItem alloc] initWithTitle:vc.aspectRatio.description
-                                              style:UIBarButtonItemStylePlain
-                                             target:vc action:@selector(selectAspectRatioAction)],
-             
-             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-             
-             [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                          target:vc action:@selector(cropImageAction)]
-             ];
+- (NSArray *)toolbarApectRatioItemsWithImageCropViewController:(VFImageCropViewController *)vc {
+    UIBarButtonItem *cancelItem = [self cancelActionBarButtonItemWithImageCropViewController:vc];
+    UIBarButtonItem *cropImageItem = [self cropImageActionBarButtonItemWithImageCropViewController:vc];
+    UIBarButtonItem *selectAspectRatioItem = [self selectAspectRatioActionBarButtonItemWithImageCropViewController:vc];
+    
+    NSMutableArray *items = [NSMutableArray array];
+    
+    [items addObject:cancelItem];
+    [items addObject:[self flexibleSpaceBarButtonItem]];
+    
+    if (self.selectAspectRatioActionAvailable) {
+        [items addObject:selectAspectRatioItem];
+        [items addObject:[self flexibleSpaceBarButtonItem]];
+    }
+    
+    [items addObject:cropImageItem];
+    
+    return items;
+}
+
+#pragma mark bar button items
+
+- (UIBarButtonItem *)cancelActionBarButtonItemWithImageCropViewController:(VFImageCropViewController *)vc {
+    return [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                        target:vc action:@selector(cancelAction)];
+}
+
+- (UIBarButtonItem *)cropImageActionBarButtonItemWithImageCropViewController:(VFImageCropViewController *)vc {
+    return [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                        target:vc action:@selector(cropImageAction)];
+}
+
+- (UIBarButtonItem *)selectAspectRatioActionBarButtonItemWithImageCropViewController:(VFImageCropViewController *)vc {
+    return [[UIBarButtonItem alloc] initWithTitle:vc.aspectRatio.description
+                                            style:UIBarButtonItemStylePlain
+                                           target:vc action:@selector(selectAspectRatioAction)];
+}
+
+- (UIBarButtonItem *)flexibleSpaceBarButtonItem {
+    return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 }
 
 @end

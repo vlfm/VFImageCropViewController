@@ -22,6 +22,8 @@
 
 @interface VFImageCropConfiguration : NSObject
 
-+ (UINavigationController *)imageCropViewControllerModalConfiguration:(VFImageCropViewController *)vc;
+@property (nonatomic) BOOL selectAspectRatioActionAvailable;
+
+- (UINavigationController *)imageCropViewControllerModalConfiguration:(VFImageCropViewController *)vc;
 
 @end
